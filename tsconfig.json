@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+     "module": "commonjs",
+     "jsx": "react",
+     "experimentalDecorators": true,
+     "baseUrl": "./",
+     "paths": {
+        "assets": ["./assets"],
+        "src":["./src"]
+      }
+  },
+}

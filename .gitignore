@@ -1,0 +1,7 @@
+node_modules/
+dist/bundle.js
+.cache-loader/
+*.lock
+*.log
+.vscode/
+stats.json
