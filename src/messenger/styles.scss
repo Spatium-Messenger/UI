@@ -1,0 +1,7 @@
+.wrapper{
+  max-width: 720px;
+  margin: auto;
+  height: calc(100vh - 20px);
+  border: 1px solid $border-color;
+  display: flex;
+}

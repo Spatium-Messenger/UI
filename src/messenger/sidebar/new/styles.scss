@@ -1,0 +1,38 @@
+.sidebar__new-button {
+  margin: auto;
+  width: 50px;
+  border-radius: 50%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: linear-gradient(to right, #396afc, #2948ff);
+  box-shadow: 0 0px 14px 0 rgba(65, 132, 234, 0.75);
+  background-size: 300% 100%;
+  transition: 0.2s bottom ease-in-out;
+  position: relative;
+  bottom: 40px;
+}
+
+.sidebar__new-button>svg{
+  width: 25px;
+  transition: 0.2s transform ease-in-out;
+  height: 25px;
+}
+
+.sidebar__new-button:hover>svg{
+  transform: rotate(360deg);
+}
+
+.sidebar__new-button>svg>path{
+  fill: #ffffff;
+}
+
+.sidebar__new-button:hover{
+  bottom: 45px;
+}
+
+.sidebar__new-button:active{
+  box-shadow: 0 0px 14px 0 rgba(65, 132, 234, 0.3);
+}
