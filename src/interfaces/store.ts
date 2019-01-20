@@ -6,6 +6,7 @@ export interface IAppStore {
   chats: IChat[];
   currentChat: IChat;
   messages: {[key: string]: IMessage[]};
+  chooseChat: (chat: IChat) => void;
 }
 
 export interface IUser {

@@ -1,8 +1,7 @@
 .sidebar__new-button {
-  margin: auto;
-  width: 50px;
-  border-radius: 50%;
-  height: 50px;
+  width: 25px;
+  border-radius: 5px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,14 +10,12 @@
   box-shadow: 0 0px 14px 0 rgba(65, 132, 234, 0.75);
   background-size: 300% 100%;
   transition: 0.2s bottom ease-in-out;
-  position: relative;
-  bottom: 40px;
 }
 
 .sidebar__new-button>svg{
-  width: 25px;
+  width: 11px;
   transition: 0.2s transform ease-in-out;
-  height: 25px;
+  height: 11px;
 }
 
 .sidebar__new-button:hover>svg{

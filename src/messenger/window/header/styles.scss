@@ -1,0 +1,55 @@
+.window__header{
+  height: 40px;
+  background: $new_light_dark;
+  width: calc(100% - 20px);
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  // padding: 0px 10px;
+}
+
+
+.window__header__back,
+.window__header__more{
+  width: 20px;
+  height: 20px;
+  margin: 0px 10px;
+  cursor: pointer;
+}
+
+.window__header__back>svg,
+.window__header__more>svg{
+  fill: $dark;
+}
+
+.window__header__back:hover,
+.window__header__more:hover{
+  opacity: 0.8;
+}
+
+.window__header__name{
+  height: 25px;
+  font-size: 20px;
+  color: $dark;
+  display: flex;
+  color: #ffffff;
+  justify-content: center;
+  align-items: center;
+}
+
+.window__header__name>div:nth-child(1){
+  font-size: 10px;
+  background: $primary-color;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.window__header__name>div:nth-child(2){
+  margin-left: 10px;
+}

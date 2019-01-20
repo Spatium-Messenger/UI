@@ -1,19 +1,31 @@
 import * as React from "react";
 import { IChat } from "src/models/chat";
+import { IAppStore } from "src/interfaces/store";
 require("./styles.scss");
 
 interface ISideBarItemProps {
   chat: IChat;
+  active: boolean;
+  chooseChat: (chat: IChat) => void;
 }
 
 export default class SideBarItem extends React.Component<ISideBarItemProps> {
   constructor(props) {
     super(props);
+    this.click = this.click.bind(this);
   }
+
+  public click() {
+    this.props.chooseChat(this.props.chat);
+  }
+
   public render() {
     const curChat = this.props.chat;
     return(
-      <div className={(curChat.New > 0 ? "sidebar-item-active" : "sidebar-item")}>
+      <div
+        className={(this.props.active ? "sidebar-item-active" : "sidebar-item")}
+        onClick={this.click}
+      >
         <div className="sidebar-item__avatar">
           {curChat.LastMessage.Author_Name.substring(0, 2).toUpperCase()}
         </div>
@@ -52,14 +64,14 @@ export default class SideBarItem extends React.Component<ISideBarItemProps> {
     if (now.getDay() === then.getDay() &&
          now.getMonth() === then.getMonth() &&
          now.getFullYear() === then.getFullYear()) {
-    const minutes = (then.getMinutes() < 10) ? "0" + then.getMinutes() : then.getMinutes();
-    const hours = (then.getHours() < 10) ? "0" + then.getHours() : then.getHours();
-    final = hours + ":" + minutes;
-  } else if (now.getMonth() === then.getMonth() && now.getFullYear() === then.getFullYear()) {
-    final = then.getDate() + " " + monthNames[then.getMonth()];
-  } else {
-    final = "" + then.getFullYear();
-  }
+      const minutes = (then.getMinutes() < 10) ? "0" + then.getMinutes() : then.getMinutes();
+      const hours = (then.getHours() < 10) ? "0" + then.getHours() : then.getHours();
+      final = hours + ":" + minutes;
+    } else if (now.getMonth() === then.getMonth() && now.getFullYear() === then.getFullYear()) {
+      final = then.getDate() + " " + monthNames[then.getMonth()];
+    } else {
+      final = "" + then.getFullYear();
+    }
     return final;
-  }
+    }
 }

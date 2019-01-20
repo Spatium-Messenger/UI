@@ -1,0 +1,24 @@
+.message-input{
+  min-height: 33px;
+  max-height: 80px;
+  margin: 10px 0px;
+  padding-top: 10px;
+  padding-left: 5px;
+  font-family: Roboto;
+  // line-height: 24px;
+  resize: none;
+  // border-r
+  vertical-align: top;
+  width: calc(100% - 100px);
+  color: #ffffff;
+  background: lighten($new_light_dark, 5%);
+  // border-style:solid;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+
+
+  &:focus {
+    outline: none;
+  }
+}

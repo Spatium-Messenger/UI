@@ -1,0 +1,14 @@
+Window:
+  Input:
+    + Resize textarea
+    Attach documents
+    Voice records
+  Content:
+    Show messages
+    Partly load messages
+    Show documents
+    Play voice messages
+  Header:
+    Open settings sidebar
+  Chat settings:
+    Rename

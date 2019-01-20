@@ -25,12 +25,12 @@ export default class AppStoreModule implements IAppStore {
       New: 2,
     }];
     this.messages = {};
-    this.currentChat = null;
+    this.currentChat = this.chats[0];
   }
 
-  // @action
-  // public changeLeftBar() {
-  //   this.leftBarState = !this.leftBarState;
-  // }
+  @action
+  public chooseChat(chat: IChat) {
+    this.currentChat = chat;
+  }
 
 }

@@ -1,0 +1,17 @@
+.window{
+  width: calc(100% - 230px); 
+  background: $new_base_color;
+  display: flex;
+  flex-direction: column;
+}
+
+.window__empty{
+  width: 100%;
+  user-select: none;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: $new_base_color;
+  color: $passive-accent-color;
+}

@@ -1,17 +1,20 @@
 .sidebar-item,
 .sidebar-item-active{
+  // color:#ffffff;
   display: flex;
+  user-select: none;
   justify-content: space-between;
   align-items: center;
   height: 60px;
   cursor: pointer;
-  border-bottom: 1px solid  $border-color;
-  padding: 0px 5px;
+  // border-bottom: 1px solid  $border-color;
+  padding: 0px 10px;
   transition: 0.2s all ease-in-out;
 }
 
 .sidebar-item-active{
-  background: $border-color;
+  // background: $border-color;
+  background: $new_base_color;
 }
 
 .sidebar-item:hover,
@@ -35,24 +38,24 @@
 .sidebar-item__info{
   width: calc(100% - 80px);
   height: 50px;
-  margin-top: 10px;
+  margin-top: 12.5px;
   // align-items: center;
 }
 
 .sidebar-item__info__name{
   // font-weight: 600;
   
-  color:$black;
+  color:$border-color;
 }
 
 .sidebar-item__info__lastmessage{
   font-size: 10px;
   margin-top: 5px;
-  color: lighten($black, 10%);
+  color: darken($border-color, 25%);
 }
 
 .sidebar-item__additional__time{
-  color: lighten($black, 10%);
+  color: darken($border-color, 25%);
   font-size: 10px;
 }
 
