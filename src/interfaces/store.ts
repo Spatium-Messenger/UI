@@ -11,13 +11,15 @@ export interface IAppStore {
 }
 
 export interface IInputStore {
-  chatsInputData: {[key: number]: IInputData};
+  chatsInputData: Map<number, IInputData>;
+  // uploadingDocuments: Map<number, IDocumentUpload[]>;
   uploadDocuments: (docs: IDocumentUpload[]) => void;
 }
 
 export interface IInputData {
-  documents: IDocument[];
+  documents: IDocumentUpload[];
   text: string;
+  // updateKey: number;
 }
 
 export interface IUser {

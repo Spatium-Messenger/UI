@@ -4,6 +4,6 @@ export interface IAPIFile {
   Upload: (
     file: IDocumentUpload,
     answer: (file: IDocumentUpload, err: boolean) => void,
-    progress: (percentage: number) => void,
+    progress: (uploadedSize: number) => void,
   ) => void;
 }

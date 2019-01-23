@@ -8,4 +8,6 @@ export interface IAPI {
 export interface IAPIData {
   IP: string;
   Token: string;
+  Logs: boolean;
+  Imitation: boolean;
 }

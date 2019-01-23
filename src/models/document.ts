@@ -19,6 +19,8 @@ export interface IDocumentUpload {
   height: number;
   id: number;
   del: boolean;
+  key: string;
+  uploadedSize: number;
 }
 
 interface IDocumentSrc {

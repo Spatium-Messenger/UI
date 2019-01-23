@@ -45,6 +45,8 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
           height: 0,
           del: false,
           id: -1,
+          key: file.name + file.size,
+          uploadedSize: 0,
         };
         sendFiles.push(uploadFile);
       }
@@ -73,23 +75,24 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
       </div>
     );
   }
-  public async loadFiles(files: IDocumentUpload[]) {
+  public async loadFiles(files: IDocumentUpload[]): Promise<void> {
     const types = ["image/jpg", "image/jpeg", "image/png"];
-    files.forEach(async (v) => {
-      if (v.url === "" && types.indexOf(v.src.type) === -1) {
-        v.load = 1;
-        return;
+    // forEach doesn't work with async/await...
+    for (let i = 0; i < files.length; i++) {
+      if (types.indexOf(files[i].src.type) === -1) {
+        files[i].load = 1;
+        continue;
       }
-      v = await this.pFileReader(v);
-    });
+      files[i] = await this.pFileReader(files[i]);
+    }
     this.props.store.inputStore.uploadDocuments(files);
   }
 
   private async pFileReader(file: IDocumentUpload): Promise<IDocumentUpload> {
     return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onloadend = function() {
-        file = this.readImage(file, reader.result);
+      reader.onloadend = async function() {
+        file = await this.readImage(file, reader.result);
         resolve(file);
       }.bind(this);
       reader.readAsDataURL((file.src as any));
@@ -99,15 +102,15 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
 
   private readImage(file: IDocumentUpload, result: string | ArrayBuffer): Promise<IDocumentUpload> {
     return new Promise((resolve) => {
-    const img = new Image();
-    img.src = (result as any);
-    img.onload = function() {
-        file.load = 1;
-        file.url = (result as string);
-        file.width = img.width;
-        file.height = img.height;
-        resolve(file);
-      }.bind(this);
+      const img = new Image();
+      img.src = (result as any);
+      img.onload = function() {
+          file.load = 1;
+          file.url = (result as string);
+          file.width = img.width;
+          file.height = img.height;
+          resolve(file);
+        }.bind(this);
     });
   }
 }

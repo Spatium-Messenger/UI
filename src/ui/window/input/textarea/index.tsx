@@ -5,6 +5,7 @@ const autosie = require("autosize");
 const shift = false;
 
 interface ITextAreaProps {
+  //
 }
 
 interface ITextAreaState {

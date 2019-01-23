@@ -1,6 +1,7 @@
 {
   "extends": ["tslint:latest", "tslint-react"],
   "rules": {
+    "no-console": false,
     "only-arrow-functions": false,
     "jsx-wrap-multiline": false,
     "object-literal-sort-keys": false,
