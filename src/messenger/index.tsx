@@ -1,15 +1,18 @@
 import * as React from "react";
 import Store from "src/store";
-// import { IRootStore } from "src/store/interfeces";
 import SideBar from "./sidebar";
 import Window from "./window";
 import { Provider } from "mobx-react";
+import { IAPI } from "src/interfaces/api";
+import {IRootStore} from "src/store/interfeces";
+import { render } from "react-dom";
 
 require("./styles.scss");
+require("./main.scss");
 
-const store  = new Store();
+let store: IRootStore ;
 
-export default class Messenger extends React.Component<{}> {
+class Messenger extends React.Component<{}> {
   constructor(props) {
     super(props);
   }
@@ -24,3 +27,16 @@ export default class Messenger extends React.Component<{}> {
     );
   }
 }
+
+const CreateUI = function(remoteAPI: IAPI) {
+  store = new Store(remoteAPI);
+  render(
+    <main>
+      <Messenger />
+    </main>
+    ,
+    document.getElementById("root"),
+  );
+};
+
+export default CreateUI;
