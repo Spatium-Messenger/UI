@@ -1,5 +1,4 @@
 import * as React from "react";
-import { observer, inject } from "mobx-react";
 require("./styles.scss");
 
 const autosie = require("autosize");

@@ -1,14 +1,24 @@
-.window__input{
-  // min-height: 40px;
+.window__input__wrapper{
   background: $new_light_dark;
   width: calc(100% - 30px);
   border-radius: 5px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  // justify-content: space-between;
+  // align-items: center;
   margin: 10px;
   user-select: none;
   padding: 5px;
+}
+
+.window__input__main{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.window__input{
+  // min-height: 40px;
+  
   
 }
 
