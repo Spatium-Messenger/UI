@@ -6,4 +6,6 @@ export interface IAPIFile {
     answer: (file: IDocumentUpload, err: boolean) => void,
     progress: (uploadedSize: number) => void,
   ) => void;
+
+  Delete: (file: IDocumentUpload) => Promise<boolean>;
 }

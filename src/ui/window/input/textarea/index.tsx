@@ -1,17 +1,24 @@
 import * as React from "react";
+import { observer, inject } from "mobx-react";
+import { IAppStore, IInputStore } from "src/interfaces/store";
 require("./styles.scss");
 
 const autosie = require("autosize");
 const shift = false;
 
 interface ITextAreaProps {
-  //
+  store?: {
+    appStore: IAppStore;
+    inputStore: IInputStore;
+  };
 }
 
 interface ITextAreaState {
   message: string;
 }
 
+@inject("store")
+@observer
 export default class TextArea extends React.Component<ITextAreaProps, ITextAreaState> {
   private inputRef: React.RefObject<HTMLTextAreaElement>;
   constructor(props) {
@@ -46,12 +53,15 @@ export default class TextArea extends React.Component<ITextAreaProps, ITextAreaS
   }
 
   public handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    this.setState({
-      message: e.target.value,
-    });
+    this.props.store.inputStore.setTextInput(e.target.value);
+    // this.setState({
+    //   message: e.target.value,
+    // });
   }
 
   public render() {
+    const chatID = this.props.store.appStore.currentChat.ID;
+    const input = this.props.store.inputStore.chatsInputData.get(chatID).text;
     return(
       <textarea
         ref={this.inputRef}
@@ -59,12 +69,12 @@ export default class TextArea extends React.Component<ITextAreaProps, ITextAreaS
         className="message-input"
         placeholder="Message..."
         onChange={this.handleChange}
-        value={this.state.message}
-        id="inputTextArea"
+        value={input}
+        // id="inputTextArea"
         rows={1}
-        onKeyPress={this.handleKeyPress}
-        onKeyUp={this.handleKeyUp}
-        onKeyDown={this.handleKeyDown}
+        // onKeyPress={this.handleKeyPress}
+        // onKeyUp={this.handleKeyUp}
+        // onKeyDown={this.handleKeyDown}
         autoFocus={true}
       />
     );

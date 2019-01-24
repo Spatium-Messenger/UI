@@ -21,6 +21,8 @@ export interface IDocumentUpload {
   del: boolean;
   key: string;
   uploadedSize: number;
+  loadKey: string;
+  abortLoad: () => void;
 }
 
 interface IDocumentSrc {

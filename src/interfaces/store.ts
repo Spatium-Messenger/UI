@@ -11,9 +11,13 @@ export interface IAppStore {
 }
 
 export interface IInputStore {
+  voiseRecording: boolean;
+  changeRecording: (val: boolean) => void;
   chatsInputData: Map<number, IInputData>;
+  setTextInput: (text: string) => void;
   // uploadingDocuments: Map<number, IDocumentUpload[]>;
   uploadDocuments: (docs: IDocumentUpload[]) => void;
+  deleteDocument: (doc: IDocumentUpload) => void;
 }
 
 export interface IInputData {

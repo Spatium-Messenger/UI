@@ -1,0 +1,13 @@
+.voice-record__icon>svg{
+  width: 20px;
+  height: 20px;
+  fill:darken(#ffffff, 50%);
+}
+
+.voice-record__icon:hover>svg{
+  fill:darken(#ffffff, 30%);
+}
+
+.voice-record__icon:active>svg{
+  fill:darken(#ffffff, 60%);
+}

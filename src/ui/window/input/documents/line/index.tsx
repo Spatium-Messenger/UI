@@ -17,6 +17,11 @@ interface IDocumentsPanelProps {
 export default class DocumentsPanel extends React.Component<IDocumentsPanelProps> {
   constructor(props) {
     super(props);
+    this.deleteFile = this.deleteFile.bind(this);
+  }
+
+  public deleteFile(file: IDocumentUpload) {
+    this.props.store.inputStore.deleteDocument(file);
   }
 
   public render() {
@@ -26,7 +31,12 @@ export default class DocumentsPanel extends React.Component<IDocumentsPanelProps
     if (chatsInputData.has(chatID)) {
       documents = chatsInputData.get(chatID).documents;
     }
-    const docsLine = documents.map((v, i) => <Document key={v.key + v.uploadedSize} data={v}/>);
+    const docsLine = documents.map((v, i) =>
+     <Document
+      deleteFile={this.deleteFile}
+      key={v.key + v.uploadedSize}
+      data={v}
+     />);
     return(
       <div className="documents-line">
         {docsLine}

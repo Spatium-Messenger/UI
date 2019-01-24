@@ -3,9 +3,9 @@ import { observer, inject } from "mobx-react";
 import TextArea from "./textarea";
 import DocumentsPanel from "./documents/line";
 import DocumentUpload from "./documents/upload";
+import Voice from "./voice";
+import Send from "./send";
 require("./styles.scss");
-
-const micIcon: string = require("assets/microphone-black-shape.svg");
 
 const sendIcon: string = require("assets/email.svg");
 
@@ -26,14 +26,11 @@ export default class WindowInput extends React.Component<IWindowInputProps> {
         </div>
         <div className="window__input__main">
           <div className="window__input__buttons">
-            <div dangerouslySetInnerHTML={{__html: micIcon}}/>
             <DocumentUpload/>
           </div>
+          <Voice/>
           <TextArea/>
-          <div
-            className="window__input__send"
-            dangerouslySetInnerHTML={{__html: sendIcon}}
-          />
+          <Send/>
         </div>
       </div>
     );

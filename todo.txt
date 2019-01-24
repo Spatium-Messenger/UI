@@ -1,13 +1,15 @@
 Window:
   Input:
     + Resize textarea
-    Attach documents
+    + Attach documents
     Voice records
   Content:
+    Load meesages
     Show messages
     Partly load messages
     Show documents
     Play voice messages
+    Images cash
   Header:
     Open settings sidebar
   Chat settings:

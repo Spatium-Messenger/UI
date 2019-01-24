@@ -18,10 +18,12 @@ interface IDocumentsUploadProps {
 @observer
 export default class DocumentsUpload extends React.Component<IDocumentsUploadProps> {
   private inputRef: React.RefObject<HTMLInputElement>;
+  private formRef: React.RefObject<HTMLFormElement>;
 
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
+    this.formRef = React.createRef();
     this.click = this.click.bind(this);
     this.getFiles = this.getFiles.bind(this);
   }
@@ -33,11 +35,11 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
   public getFiles() {
     const inputFiles = this.inputRef.current.files;
     const sendFiles = [];
-
+    const chatID = this.props.store.appStore.currentChat.ID;
     for (const file of inputFiles) {
       if (file.size < Config.files.maxSize) {
         const uploadFile: IDocumentUpload = {
-          chatID: this.props.store.appStore.currentChat.ID,
+          chatID,
           load: 0,
           src: file,
           url: "",
@@ -47,10 +49,13 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
           id: -1,
           key: file.name + file.size,
           uploadedSize: 0,
+          loadKey: file.name + file.size + chatID + new Date().getTime(),
+          abortLoad() {/**/},
         };
         sendFiles.push(uploadFile);
       }
     }
+    this.formRef.current.reset();
     this.loadFiles(sendFiles);
   }
 
@@ -62,7 +67,7 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
           className="documents-upload__icon"
           dangerouslySetInnerHTML={{__html: attauchIcon}}
         />
-        <form name="upload" className="documents-upload__form">
+        <form name="upload" className="documents-upload__form" ref={this.formRef}>
           <input
             type="file"
             name="myfile"

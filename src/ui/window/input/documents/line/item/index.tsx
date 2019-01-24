@@ -9,20 +9,19 @@ const trashIcon: string = require("assets/trash.svg");
 
 interface IDocumentProps {
   data: IDocumentUpload;
+  deleteFile: (file: IDocumentUpload) => void;
 }
-
-const styles = (theme) => ({
-  circular: {
-    color: "#6798e5",
-    animationDuration: "550ms",
-  },
-});
 
 export default class Document extends React.Component<IDocumentProps> {
   constructor(props) {
     super(props);
-    // this.state
+    this.deleteClick = this.deleteClick.bind(this);
   }
+
+  public deleteClick() {
+    this.props.deleteFile(this.props.data);
+  }
+
   public render() {
     const imageOrDoc = (this.props.data.url.length > 0);
     const file = this.props.data;
@@ -34,27 +33,31 @@ export default class Document extends React.Component<IDocumentProps> {
     prewiev = (file.load === 1 ?
       <div dangerouslySetInnerHTML={{__html: icon}} className="document-preview-default"/> :
       prewiev);
+
     const overlay = (file.load === 2 ?
       <div/> :
       <div className="document-preview-loader">
         <CircularProgress
           variant="static"
           value={(file.uploadedSize / file.src.size) * 100}
-          // value={50}
           className="document-preview-loader__circular"
           size={46}
         />
       </div>
     );
+
     return(
       <div className="document">
-        {/* */}
         {overlay}
         {prewiev}
         <div className="document__info">
           <div>
             {this.props.data.src.name}
-            <div dangerouslySetInnerHTML={{__html: trashIcon}} className="document-delete"/>
+            <div
+              dangerouslySetInnerHTML={{__html: trashIcon}}
+              className="document-delete"
+              onClick={this.deleteClick}
+            />
           </div>
           <div className="document__info__load-progress">
             {this.size(this.props.data.uploadedSize, 2) + "/" + this.size(this.props.data.src.size, 2)}
