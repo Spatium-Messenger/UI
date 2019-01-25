@@ -11,7 +11,8 @@ export interface IAppStore {
 }
 
 export interface IInputStore {
-  voiseRecording: boolean;
+  voiceRecording: boolean;
+  voiceVolumes: number[];
   changeRecording: (val: boolean) => void;
   chatsInputData: Map<number, IInputData>;
   setTextInput: (text: string) => void;

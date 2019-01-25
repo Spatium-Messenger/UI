@@ -1,13 +1,64 @@
-.voice-record__icon>svg{
-  width: 20px;
-  height: 20px;
-  fill:darken(#ffffff, 50%);
+.voice-record{
+  display: none;
 }
 
-.voice-record__icon:hover>svg{
-  fill:darken(#ffffff, 30%);
+.voice-record-active{
+  height: 33px;
+  width: calc(100% - 70px);
+  display: flex;
+  background: lighten($new_light_dark, 5%);
+  border-radius: 20px;
+  align-items: center;
 }
 
-.voice-record__icon:active>svg{
-  fill:darken(#ffffff, 60%);
+.voice-record__stop{
+  cursor: pointer;
+  width: 24px;
+  margin-left: 6px;
+  height: 24px;
+  opacity: 0.8;
+  border-radius: 50%;
+  background: $border-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.voice-record__stop:hover{
+  opacity: 1;
+}
+
+.voice-record__stop:active{
+  opacity: 0.6;
+}
+
+.voice-record__stop>div{
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: $primary-color;
+}
+
+.voice-record__timeline{
+  width: calc(100% - 20px);
+  height: 33px;
+  // display: flex;
+  // align-items: center;
+  overflow: hidden;
+  // justify-content: flex-end;
+}
+
+.voice-record__timeline__item{
+  float: right;
+  display: flex;
+  align-items: center;
+  margin-right: 4px;
+  height: 33px;
+}
+
+.voice-record__timeline__item>div{
+  background: $border-color; 
+  width: 2.5px;
+  max-height: 20px;
+  border-radius: 1px;
 }

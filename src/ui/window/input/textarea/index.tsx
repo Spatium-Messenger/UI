@@ -62,11 +62,12 @@ export default class TextArea extends React.Component<ITextAreaProps, ITextAreaS
   public render() {
     const chatID = this.props.store.appStore.currentChat.ID;
     const input = this.props.store.inputStore.chatsInputData.get(chatID).text;
+    const voiceRecordingEnable = this.props.store.inputStore.voiceRecording;
     return(
       <textarea
         ref={this.inputRef}
         id="inputarea"
-        className="message-input"
+        className={"message-input" + (voiceRecordingEnable ? "-shadowed" : "")}
         placeholder="Message..."
         onChange={this.handleChange}
         value={input}

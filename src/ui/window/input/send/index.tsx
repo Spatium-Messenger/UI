@@ -31,10 +31,10 @@ export default class Send extends React.Component<ISendProps> {
   }
 
   public render() {
-    const voiseRecordingEnable = this.props.store.inputStore.voiseRecording ;
+    const voiseRecordingEnable = this.props.store.inputStore.voiceRecording ;
     const chatID = this.props.store.appStore.currentChat.ID;
     const textInput = this.props.store.inputStore.chatsInputData.get(chatID).text;
-    let button = (this.props.store.inputStore.voiseRecording ?
+    let button = (this.props.store.inputStore.voiceRecording ?
     <div
       className="window__input__send"
       dangerouslySetInnerHTML={{__html: sendIcon}}

@@ -16,17 +16,31 @@ interface IVoiceProps {
 export default class Voice extends React.Component<IVoiceProps> {
   constructor(props) {
     super(props);
-    this.iconClick = this.iconClick.bind(this);
+    this.stopRecording = this.stopRecording.bind(this);
   }
 
-  public iconClick() {
-    this.props.store.inputStore.changeRecording(true);
+  public stopRecording() {
+    this.props.store.inputStore.changeRecording(false);
   }
 
   public render() {
+    const voiceVolumes = this.props.store.inputStore.voiceVolumes;
+    const timeLine: JSX.Element[] = voiceVolumes.slice(0).reverse().map((v, i) =>
+      <div
+        key={i}
+        className="voice-record__timeline__item"
+      >
+        <div style={{height: (v + 1) + "px"}}/>
+      </div>,
+    );
     return(
-      <div className="voice-record">
-        {}
+      <div className={"voice-record" + (this.props.store.inputStore.voiceRecording ? "-active" : "")}>
+        <div className="voice-record__stop" onClick={this.stopRecording}>
+          <div/>
+        </div>
+        <div  className="voice-record__timeline">
+          {timeLine}
+        </div>
       </div>
     );
   }

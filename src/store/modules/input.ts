@@ -6,10 +6,13 @@ import { IDocumentUpload } from "src/models/document";
 import { IAPI } from "src/interfaces/api";
 import { IRootStore } from "../interfeces";
 
+import {startRecording, stopRecording} from "src/hard/voice-recording";
+
 export default class InputStoreModule implements IInputStore {
 
   @observable public chatsInputData: Map<number, IInputData>;
-  @observable public voiseRecording: boolean;
+  @observable public voiceRecording: boolean;
+  @observable public voiceVolumes: number[];
   private remoteApi: IAPI;
   private rootStore: IRootStore;
 
@@ -19,9 +22,10 @@ export default class InputStoreModule implements IInputStore {
     this.chatsInputData = new Map<number, IInputData>();
     this.chatsInputData.set(1, {
       documents: [],
-      text: "Hello",
+      text: "",
     });
-    this.voiseRecording = false;
+    this.voiceRecording = false;
+    this.voiceVolumes = [];
   }
 
   @action
@@ -96,7 +100,38 @@ export default class InputStoreModule implements IInputStore {
 
   @action
   public changeRecording(value: boolean) {
-    this.voiseRecording = value;
+    // from 0.1 to 0.9
+    const smooth = 0.5;
+    if (value) {
+      startRecording((progress: any) => {
+        const arr = [...this.voiceVolumes];
+        // Why render more then 200 sticks?
+        if (arr.length > 200) {
+          arr.splice(0, 1);
+        }
+
+        arr.push(progress);
+        // Because we can't. See below.
+        if (arr.length < 2) {
+          this.voiceVolumes = arr;
+          return;
+        }
+        arr[arr.length - 1] =
+        ((): number => {
+          const first = arr[arr.length - 2];
+          const sec = arr[arr.length - 1];
+          let delta = (first - sec) / 2;
+          delta = (delta > 0 ? delta : delta * -1);
+          const min = Math.min(first, sec);
+          return min + (delta * (1 + smooth));
+        })();
+        this.voiceVolumes = arr;
+      });
+    } else {
+      stopRecording();
+      this.voiceVolumes = [];
+    }
+    this.voiceRecording = value;
   }
 
   @action
@@ -106,6 +141,7 @@ export default class InputStoreModule implements IInputStore {
     data.text = text;
     this.chatsInputData.set(chatID, data);
   }
+
   private getUpdateKey(oldKey: number) {
     const newValue = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
     return (newValue === oldKey ? this.getUpdateKey(oldKey) : newValue);
