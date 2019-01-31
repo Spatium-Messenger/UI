@@ -106,6 +106,7 @@ export default class InputStoreModule implements IInputStore {
     const smooth = 0.5;
     if (value) {
       startRecording((progress: any) => {
+        if (!this.voiceRecording) {return; }
         const arr = [...this.voiceVolumes];
         // Why render more then 200 sticks?
         if (arr.length > 200) {
@@ -144,7 +145,6 @@ export default class InputStoreModule implements IInputStore {
       src: data,
       load: 0,
     });
-    console.log(data);
   }
 
   @action
@@ -160,9 +160,17 @@ export default class InputStoreModule implements IInputStore {
     this.chatsInputData.set(chatID, data);
   }
 
+  @action
+  public cancelVoiceRecording() {
+    this.voiceVolumes = [];
+    this.voiceMessages.delete(this.rootStore.appStore.currentChat.ID);
+    this.voiceRecording = false;
+  }
+
   private getUpdateKey(oldKey: number) {
     const newValue = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
     return (newValue === oldKey ? this.getUpdateKey(oldKey) : newValue);
   }
+
 
 }

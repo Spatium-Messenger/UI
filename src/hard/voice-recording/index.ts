@@ -1,7 +1,7 @@
 import {IRecorder, Recorder} from "./recorder";
 
 const constraints: { audio: boolean} = { audio: true};
-let recorder: IRecorder;
+let recorder: IRecorder = null;
 
 interface INode {
   buf: ArrayBuffer;
@@ -10,9 +10,11 @@ interface INode {
 }
 
 const startRecording = async function(progress: (ampls: number) => void) {
-  const stream = await navigator.mediaDevices.getUserMedia(constraints);
-  const input = new AudioContext().createMediaStreamSource(stream);
-  recorder = new Recorder(input, progress);
+  if (!recorder) {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    const input = new AudioContext().createMediaStreamSource(stream);
+    recorder = new Recorder(input, progress);
+  }
   recorder.record();
 };
 

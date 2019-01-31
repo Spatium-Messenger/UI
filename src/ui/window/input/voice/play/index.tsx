@@ -1,6 +1,4 @@
 import * as React from "react";
-import { observer, inject } from "mobx-react";
-import { IInputData, IInputStore } from "src/interfaces/store";
 import { IAudioMessage } from "src/models/audio";
 require("./styles.scss");
 
@@ -85,7 +83,7 @@ export default class PlayVoiceMessage extends React.Component<IPlayVoiceMessageP
 
   private formatTime(duration: number): string {
     const minutes = Math.round(duration / 60);
-    const seconds = Math.round(duration);
+    const seconds = Math.round(duration % 60);
     return minutes + ":" + (seconds > 9 ? seconds : "0" + seconds);
   }
 

@@ -6,6 +6,7 @@ import { IAppStore, IInputStore } from "src/interfaces/store";
 require("./styles.scss");
 
 const attauchIcon: string = require("assets/clip.svg");
+const voiceCloseIcon: string = require("assets/cancel.svg");
 
 interface IDocumentsUploadProps {
   store?: {
@@ -26,10 +27,15 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
     this.formRef = React.createRef();
     this.click = this.click.bind(this);
     this.getFiles = this.getFiles.bind(this);
+    this.voiceRecordingClose = this.voiceRecordingClose.bind(this);
   }
 
   public click() {
     this.inputRef.current.click();
+  }
+
+  public voiceRecordingClose() {
+    this.props.store.inputStore.cancelVoiceRecording();
   }
 
   public getFiles() {
@@ -60,13 +66,21 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
   }
 
   public render() {
-    return(
-      <div>
-        <div
+    const button = (!this.props.store.inputStore.voiceRecording ?
+      <div
           onClick={this.click}
           className="documents-upload__icon"
           dangerouslySetInnerHTML={{__html: attauchIcon}}
-        />
+      /> :
+      <div
+          onClick={this.voiceRecordingClose}
+          className="documents-upload__voice-close"
+          dangerouslySetInnerHTML={{__html: voiceCloseIcon}}
+      />);
+
+    return(
+      <div>
+        {button}
         <form name="upload" className="documents-upload__form" ref={this.formRef}>
           <input
             type="file"

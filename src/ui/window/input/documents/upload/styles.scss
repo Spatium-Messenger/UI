@@ -4,11 +4,19 @@
   fill:darken(#ffffff, 50%);
 }
 
-.documents-upload__icon:hover>svg{
+.documents-upload__voice-close>svg{
+  width: 15px;
+  height: 15px;
+  fill:darken(#ffffff, 50%);
+}
+
+.documents-upload__icon:hover>svg,
+.documents-upload__voice-close:hover>svg{
   fill:darken(#ffffff, 30%);
 }
 
-.documents-upload__icon:active>svg{
+.documents-upload__icon:active>svg,
+.documents-upload__voice-close:active>svg{
   fill:darken(#ffffff, 60%);
 }
 
