@@ -52,7 +52,7 @@ export default class Document extends React.Component<IDocumentProps> {
         {prewiev}
         <div className="document__info">
           <div>
-            {this.props.data.src.name}
+            <div className="document__info__name">{this.props.data.src.name}</div>
             <div
               dangerouslySetInnerHTML={{__html: trashIcon}}
               className="document-delete"

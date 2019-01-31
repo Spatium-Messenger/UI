@@ -1,18 +1,19 @@
 import { observable, action, reaction} from "mobx";
 // import { IAppStoreModule, IUser } from "../../../interfaces/app_state";
 import {IInputStore, IUser, IInputData} from "src/interfaces/store";
-import { IChat } from "src/models/chat";
+// import { IChat } from "src/models/chat";
 import { IDocumentUpload } from "src/models/document";
 import { IAPI } from "src/interfaces/api";
 import { IRootStore } from "../interfeces";
 
-import {startRecording, stopRecording} from "src/hard/voice-recording";
+import {startRecording, stopRecording, doneRecording} from "src/hard/voice-recording";
+import { IAudioMessage } from "src/models/audio";
 
 export default class InputStoreModule implements IInputStore {
-
   @observable public chatsInputData: Map<number, IInputData>;
   @observable public voiceRecording: boolean;
   @observable public voiceVolumes: number[];
+  @observable public voiceMessages: Map<number, IAudioMessage>;
   private remoteApi: IAPI;
   private rootStore: IRootStore;
 
@@ -26,6 +27,7 @@ export default class InputStoreModule implements IInputStore {
     });
     this.voiceRecording = false;
     this.voiceVolumes = [];
+    this.voiceMessages = new Map<number, IAudioMessage>();
   }
 
   @action
@@ -129,9 +131,25 @@ export default class InputStoreModule implements IInputStore {
       });
     } else {
       stopRecording();
-      this.voiceVolumes = [];
+      return;
     }
     this.voiceRecording = value;
+  }
+
+  public AudioRendered(data: {blob: Blob, duration: number}) {
+    this.voiceVolumes = [];
+    // this.voiceRecording = false;
+    this.voiceMessages.set(this.rootStore.appStore.currentChat.ID, {
+      chatID: this.rootStore.appStore.currentChat.ID,
+      src: data,
+      load: 0,
+    });
+    console.log(data);
+  }
+
+  @action
+  public doneRecording() {
+    doneRecording(this.AudioRendered.bind(this));
   }
 
   @action

@@ -17,6 +17,13 @@
   align-items: center;
 }
 
+.document__info__name{
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .document__info__load-progress{
   font-size: 12px;
   color: $alternative-font;

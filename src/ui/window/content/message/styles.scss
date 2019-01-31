@@ -1,0 +1,28 @@
+.message_my,
+.message_alien{
+  margin: 0px 10px;
+  max-width: 70%;
+  // width
+  display: inline-block;
+  padding: 10px;
+  color: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.message_my{
+  float: right;
+  background: $primary-color;
+}
+
+.message_my>.message__content::selection{
+  background: $purple;
+}
+
+.message_alien{
+  background: $ultra_active;
+}
+
+.message__author{
+  font-weight: 600;
+}

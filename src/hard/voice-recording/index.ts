@@ -18,7 +18,10 @@ const startRecording = async function(progress: (ampls: number) => void) {
 
 const stopRecording = function() {
   recorder.stop();
-
 };
 
-export {startRecording, stopRecording};
+const doneRecording = function(blobCallback: (data: Blob) => void) {
+  recorder.done(blobCallback);
+};
+
+export {startRecording, stopRecording, doneRecording};

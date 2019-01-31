@@ -1,12 +1,12 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { IInputStore } from "src/interfaces/store";
+import { IInputStore, IAppStore } from "src/interfaces/store";
+import PlayVoiceMessage from "./play";
 require("./styles.scss");
-
-const micIcon: string = require("assets/microphone-black-shape.svg");
 
 interface IVoiceProps {
   store?: {
+    appStore: IAppStore;
     inputStore: IInputStore;
   };
 }
@@ -20,7 +20,8 @@ export default class Voice extends React.Component<IVoiceProps> {
   }
 
   public stopRecording() {
-    this.props.store.inputStore.changeRecording(false);
+    // this.props.store.inputStore.changeRecording(false);
+    this.props.store.inputStore.doneRecording();
   }
 
   public render() {
@@ -33,6 +34,10 @@ export default class Voice extends React.Component<IVoiceProps> {
         <div style={{height: (v + 1) + "px"}}/>
       </div>,
     );
+    const chatID = this.props.store.appStore.currentChat.ID;
+    if (this.props.store.inputStore.voiceMessages.get(chatID)) {
+      return(<PlayVoiceMessage data={this.props.store.inputStore.voiceMessages.get(chatID)}/>);
+    }
     return(
       <div className={"voice-record" + (this.props.store.inputStore.voiceRecording ? "-active" : "")}>
         <div className="voice-record__stop" onClick={this.stopRecording}>

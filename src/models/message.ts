@@ -1,8 +1,8 @@
 export interface IMessage {
-  chatId: number;
+  chatID: number;
   Content: IMessageContent;
-  Author_Name: string;
-  Author_ID: string;
+  AuthorName: string;
+  AuthorID: number;
   Time: number;
 }
 

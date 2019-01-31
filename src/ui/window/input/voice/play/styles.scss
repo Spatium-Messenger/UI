@@ -1,0 +1,62 @@
+
+
+.voice-record-play__button{
+  cursor: pointer;
+  width: 24px;
+  margin-left: 6px;
+  height: 24px;
+  opacity: 0.8;
+  border-radius: 50%;
+  background: $border-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.voice-record-play__button:hover{
+  opacity: 1;
+}
+
+.voice-record-play__button:active{
+  opacity: 0.6;
+}
+
+.voice-record-play__stop{
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: $red;
+}
+
+.voice-record-play__play{
+  width: 10px;
+  height: 10px;
+}
+
+.voice-record-play__play>svg{
+  // width: 10px;
+  // height: 10px;
+  fill: $primary-color;
+  width: 12px;
+  height: 10px;
+}
+
+.voice-record__play-timeline{
+  cursor: pointer;
+  width: calc(100% - 120px);
+  height: 4px;
+  background: $new_light_dark;
+}
+
+.voice-record__play-timeline__inner{
+  height: 4px;
+  width: 20%;
+  background: $new_base_color;
+}
+
+.voice-recoed-play__duration{
+  color: #ffffff;
+  font-size: 12px;
+  width: 55px;
+  margin-right: 10px;
+}
