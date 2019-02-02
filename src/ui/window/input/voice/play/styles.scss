@@ -7,7 +7,7 @@
   height: 24px;
   opacity: 0.8;
   border-radius: 50%;
-  background: $border-color;
+  background: $white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,11 +51,11 @@
 .voice-record__play-timeline__inner{
   height: 4px;
   width: 20%;
-  background: $new_base_color;
+  background: $primary-color;
 }
 
 .voice-recoed-play__duration{
-  color: #ffffff;
+  color: $font_gray;
   font-size: 12px;
   width: 55px;
   margin-right: 10px;

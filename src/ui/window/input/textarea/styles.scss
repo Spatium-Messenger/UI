@@ -10,8 +10,8 @@
   // border-r
   vertical-align: top;
   width: calc(100% - 70px);
-  color: #ffffff;
-  background: lighten($new_light_dark, 5%);
+  color: $font-gray;
+  background: $middle_gray;
   // border-style:solid;
   border: none;
   border-radius: 5px;

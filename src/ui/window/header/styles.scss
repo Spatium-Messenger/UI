@@ -1,27 +1,28 @@
 .window__header{
-  height: 40px;
-  background: $new_light_dark;
-  width: calc(100% - 20px);
-  border-radius: 5px;
+  min-height: 40px;
+  background: $white;
+  width: 100%;
+  //border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px;
-  padding: 5px 0px;
+  //margin: 10px;
+  //padding: 5px 0px;
+  border-bottom: 1px solid $middle-gray;
 }
 
 
 .window__header__back,
 .window__header__more{
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   margin: 0px 10px;
   cursor: pointer;
 }
 
 .window__header__back>svg,
 .window__header__more>svg{
-  fill: $dark;
+  fill: $dark_gray;
 }
 
 .window__header__back:hover,
@@ -31,21 +32,23 @@
 
 .window__header__name{
   height: 25px;
-  font-size: 20px;
-  color: $dark;
+  font-size: 12px;
+  color: $font_gray;
   display: flex;
-  color: #ffffff;
+  //color: #ffffff;
   justify-content: center;
   align-items: center;
 }
 
 .window__header__name>div:nth-child(1){
-  font-size: 10px;
+  font-size: 9px;
   background: $primary-color;
   width: 20px;
   height: 20px;
+  color: $white;
   border-radius: 5px;
   display: flex;
+  font-weight: 600;
   align-items: center;
   justify-content: center;
 }

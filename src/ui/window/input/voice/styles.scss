@@ -6,7 +6,7 @@
   height: 33px;
   width: calc(100% - 70px);
   display: flex;
-  background: lighten($new_light_dark, 5%);
+  background: $middle_gray;
   border-radius: 20px;
   align-items: center;
   justify-content: space-between;
@@ -19,7 +19,7 @@
   height: 24px;
   opacity: 0.8;
   border-radius: 50%;
-  background: $border-color;
+  background: $white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,7 +58,7 @@
 }
 
 .voice-record__timeline__item>div{
-  background: $border-color; 
+  background: $primary-color; 
   opacity: 0.6;
   width: 2.5px;
   max-height: 20px;

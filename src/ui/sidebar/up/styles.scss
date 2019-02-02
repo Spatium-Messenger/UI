@@ -1,6 +1,6 @@
 .sidebar__search{
   height: 40px;
-  background: $new_light_dark;
+  background: $gray;
   display: flex;
   // align-content: center;
   padding: 0px 5px;
@@ -15,8 +15,8 @@
   height: 25px;
   border-radius: 2px;
   padding-left: 5px; 
-  background: $gray_middle;
-  color: #ffffff;
+  background: $middle_gray;
+  color: $font_gray;
   // border-radius: 5px;
   // margin: 5px;
   // margin-top: 7.5px;

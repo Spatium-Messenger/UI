@@ -31,15 +31,9 @@ export default class SideBarItem extends React.Component<ISideBarItemProps> {
         </div>
         <div className="sidebar-item__info">
           <div className="sidebar-item__info__name">{curChat.Name}</div>
-          <div className="sidebar-item__info__lastmessage">
-            {curChat.LastMessage.AuthorName + ": " + curChat.LastMessage.Content.Message}
-          </div>
         </div>
-        <div className="sidebar-item__additional">
-          <div className="sidebar-item__additional__time">
-            {this.getTime(curChat.LastMessage.Time)}
-          </div>
-          {(curChat.New > 0 ? <div className="sidebar-item__additional__new">{curChat.New}</div> : <div/>)}
+        <div>
+        {(curChat.New > 0 ? <div className="sidebar-item__additional__new">{curChat.New}</div> : <div/>)}
         </div>
       </div>
     );
