@@ -31,6 +31,7 @@ export interface IInputStore {
   deleteDocument: (doc: IDocumentUpload) => void;
   voiceMessages: Map<number, IAudioMessage>;
   cancelVoiceRecording: () => void;
+  sendMessage: () => void;
 }
 
 export interface IInputData {

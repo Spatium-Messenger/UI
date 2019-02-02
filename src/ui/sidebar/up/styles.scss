@@ -13,9 +13,9 @@
 .sidebar__search>input{
   width: calc(100% - 50px);
   height: 25px;
-  border-radius: 10px;
+  border-radius: 2px;
   padding-left: 5px; 
-  background: #564D7C;
+  background: $gray_middle;
   color: #ffffff;
   // border-radius: 5px;
   // margin: 5px;

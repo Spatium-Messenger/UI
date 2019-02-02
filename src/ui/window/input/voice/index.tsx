@@ -31,7 +31,7 @@ export default class Voice extends React.Component<IVoiceProps> {
         key={i}
         className="voice-record__timeline__item"
       >
-        <div style={{height: (v + 1) + "px"}}/>
+        <div style={{height: (v + 3) + "px"}}/>
       </div>,
     );
     const chatID = this.props.store.appStore.currentChat.ID;

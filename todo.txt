@@ -18,7 +18,7 @@ Window:
 
 Current:
   + Voice record to document
-  Play yourself message
+  + Play yourself message
   Send voice message
   Load chats:
     Chats API

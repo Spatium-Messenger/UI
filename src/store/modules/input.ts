@@ -138,6 +138,7 @@ export default class InputStoreModule implements IInputStore {
   }
 
   public AudioRendered(data: {blob: Blob, duration: number}) {
+    if (!this.voiceRecording) {return; }
     this.voiceVolumes = [];
     // this.voiceRecording = false;
     this.voiceMessages.set(this.rootStore.appStore.currentChat.ID, {
@@ -167,10 +168,33 @@ export default class InputStoreModule implements IInputStore {
     this.voiceRecording = false;
   }
 
+  @action
+  public async sendMessage() {
+    if (this.voiceRecording) {
+      this.voiceRecording = false;
+      this.voiceVolumes = [];
+      const record: IAudioMessage = {
+        src: null,
+        chatID: this.rootStore.appStore.currentChat.ID,
+        load: 0,
+      };
+      if (!this.voiceMessages.has(this.rootStore.appStore.currentChat.ID)) {
+      record.src =  await new Promise((reject) => {
+          doneRecording((data: {blob: Blob, duration: number}) => {
+            reject(data);
+          });
+        });
+      } else {
+        record.src =  this.voiceMessages.get(this.rootStore.appStore.currentChat.ID).src;
+        this.voiceMessages.delete(this.rootStore.appStore.currentChat.ID);
+      }
+      this.remoteApi.audio.Upload(record, () => {}, () => {});
+    }
+  }
+
   private getUpdateKey(oldKey: number) {
     const newValue = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
     return (newValue === oldKey ? this.getUpdateKey(oldKey) : newValue);
   }
-
 
 }

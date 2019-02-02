@@ -1,9 +1,7 @@
 import {IAPIFile} from "src/interfaces/api/file";
 import { IDocumentUpload } from "src/models/document";
 import { IAPIData } from "src/interfaces/api";
-
-// Upload speed B/s
-const TESTUPLOADSPEED = 1024; // 56 Kb/s
+import {TESTUPLOADSPEED} from "./test.config";
 
 export default class APIFile implements IAPIFile {
 
@@ -26,16 +24,7 @@ export default class APIFile implements IAPIFile {
       progress: (uploadedSize: number) => void) {
 
       const xhr: XMLHttpRequest = new XMLHttpRequest();
-      const body = this.zipData(file, this.data.Token);
-      // xhr.abort();
-
-      // xhr.upload.addEventListener("progress", function(evt: ProgressEvent) {
-      //   progress(evt.loaded);
-      //   if (this.data.Logs) {
-      //     console.log("Uploading file: ", file.src.name + " is " + evt.loaded + "B/" + evt.total + "B");
-      //   }
-      // }.bind(this));
-
+      const body = this.pack(file, this.data.Token);
       xhr.upload.onprogress = (evt: ProgressEvent) => {
         progress(evt.loaded);
         if (this.data.Logs) {
@@ -64,21 +53,6 @@ export default class APIFile implements IAPIFile {
               console.log("Uploading file: " + file.src.name + " failed ");
           }
         };
-        // xhr.onreadystatechange = function() {
-        //   if (xhr.readyState !== 4) { return; }
-        //   if (xhr.status === 200) {
-        //     const data: {FileId: number, result: string} = JSON.parse(xhr.responseText);
-        //     if (data.result !== "Error") {
-        //       file.id = data.FileId;
-        //       if (file.del) {answer(file, true); }
-        //       answer(file, false);
-        //     }
-        //   } else {
-        //     if (this.data.Logs) {
-        //       console.log("Uploading file: " + file.src.name + " failed ");
-        //     }
-        //   }
-        // }.bind(this);
       });
 
       answer(file, true);
@@ -127,7 +101,7 @@ export default class APIFile implements IAPIFile {
     return true;
   }
 
-  private zipData(file: IDocumentUpload, token: string): FormData {
+  private pack(file: IDocumentUpload, token: string): FormData {
       const formData = new FormData();
       formData.append("uploadfile", (file.src as any), file.src.name);
       formData.append("fileName", file.src.name);

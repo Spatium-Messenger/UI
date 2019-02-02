@@ -1,0 +1,3 @@
+const TESTUPLOADSPEED = 1024; // B/s
+
+export {TESTUPLOADSPEED};

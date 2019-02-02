@@ -22,7 +22,7 @@ const stopRecording = function() {
   recorder.stop();
 };
 
-const doneRecording = function(blobCallback: (data: Blob) => void) {
+const doneRecording = function(blobCallback: (data: {blob: Blob, duration: number}) => void) {
   recorder.done(blobCallback);
 };
 

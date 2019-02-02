@@ -9,7 +9,7 @@ interface IRecorderConfig {
 export interface IRecorder {
   record: () => void;
   stop: () => void;
-  done: (blobCallback: (data: Blob) => void) => void;
+  done: (blobCallback: (data: {blob: Blob, duration: number}) => void) => void;
 }
 
 const average = (arr) => arr.reduce((p, c) => p + c, 0) / arr.length;
@@ -102,7 +102,7 @@ export class Recorder implements IRecorder {
     this.recording = false;
   }
 
-  public done(blobCallback: (data: Blob) => void) {
+  public done(blobCallback: (data: {blob: Blob, duration: number}) => void) {
     this.callbacks.exportWAV.push(blobCallback);
     if (this.audiosourcenode.mediaStream.stop) {
       this.audiosourcenode.mediaStream.stop();
