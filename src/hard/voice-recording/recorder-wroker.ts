@@ -19,9 +19,6 @@ function worker(self: any) {
         case "getBuffer":
             getBuffer();
             break;
-        case "test":
-            compressionTest(e.data.data);
-            break;
         case "clear":
             clear();
             break;
@@ -42,7 +39,7 @@ function worker(self: any) {
   }
 
   function compressionTest(buf: ArrayBuffer) {
-    console.log("Test", buf);
+    // console.log("Test", buf);
 
   }
 

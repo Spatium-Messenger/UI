@@ -1,19 +1,15 @@
 .sidebar-item,
 .sidebar-item-active{
-  // color:#ffffff;
   display: flex;
   user-select: none;
-  //justify-content: space-between;
   align-items: center;
   height: 35px;
   cursor: pointer;
-  // border-bottom: 1px solid  $border-color;
   padding: 0px 10px;
   transition: 0.2s all ease-in-out;
 }
 
 .sidebar-item-active{
-  // background: $border-color;
   background: $middle_gray;
 }
 
@@ -32,7 +28,6 @@
   align-items: center;
   justify-content: space-around;
   background: $primary-color;
-  font-weight: 600;
   color: #ffffff;
 }
 
@@ -43,28 +38,11 @@
   justify-content: center;
   align-items: center;
   margin-left: 10px;
-  // align-items: center;
 }
 
 .sidebar-item__info__name{
-  // font-weight: 600;
   font-size: 12px;
-  //color:$border-color;
 }
-
-//.sidebar-item__info__lastmessage{
-//  font-size: 10px;
-//  margin-top: 5px;
-//  color: darken($border-color, 25%);
-//  white-space: nowrap;
-//  overflow: hidden;
-//  text-overflow: ellipsis;
-//}
-//
-//.sidebar-item__additional__time{
-//  color: darken($border-color, 25%);
-//  font-size: 10px;
-//}
 
 .sidebar-item__additional__new{
   background: $dark_gray;
@@ -76,6 +54,4 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  //margin-top: 5px;
-
 }

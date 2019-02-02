@@ -1,6 +1,7 @@
 
 
 .voice-record-play__button{
+  border: 2px solid $middle_gray;
   cursor: pointer;
   width: 24px;
   margin-left: 6px;
@@ -45,7 +46,7 @@
   cursor: pointer;
   width: calc(100% - 120px);
   height: 4px;
-  background: $new_light_dark;
+  background: $middle_gray;
 }
 
 .voice-record__play-timeline__inner{

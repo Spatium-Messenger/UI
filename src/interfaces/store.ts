@@ -24,7 +24,7 @@ export interface IInputStore {
   voiceRecording: boolean;
   voiceVolumes: number[];
   changeRecording: (val: boolean) => void;
-  doneRecording: () => void;
+  StopRecording: () => void;
   chatsInputData: Map<number, IInputData>;
   setTextInput: (text: string) => void;
   uploadDocuments: (docs: IDocumentUpload[]) => void;

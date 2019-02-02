@@ -41,14 +41,14 @@ export default class Document extends React.Component<IDocumentProps> {
           variant="static"
           value={(file.uploadedSize / file.src.size) * 100}
           className="document-preview-loader__circular"
-          size={46}
+          size={43}
         />
       </div>
     );
 
     return(
       <div className="document">
-        {overlay}
+        <div className="document__overaly">{overlay}</div>
         {prewiev}
         <div className="document__info">
           <div>

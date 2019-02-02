@@ -71,6 +71,7 @@ export default class APIFile implements IAPIFile {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         progress(i);
       }
+      if (breakLoad) { return; }
       file.id = Math.floor(Math.random() * (999 - 1 + 1)) + 1;
       answer(file, false);
     }

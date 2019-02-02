@@ -8,7 +8,7 @@
 }
 
 .document__info{
-  color: $primary-font;
+  color: $font_gray;
   margin-left: 10px;
 }
 
@@ -26,7 +26,7 @@
 
 .document__info__load-progress{
   font-size: 12px;
-  color: $alternative-font;
+  color: lighten($font_gray, 5%);
   margin-top: 5px;
 }
 
@@ -53,9 +53,10 @@
 }
 
 .document-preview-loader{
+ 
   position: absolute;
-  margin-top: -3px;
-  margin-left: -4px;
+  margin-top: -1px;
+  margin-left: -1px;
 }
 
 .document-preview-loader__circular>svg{
@@ -71,7 +72,7 @@
   align-items: center;
   justify-content: center;
   margin-left: 10px;
-  background: $opacity;
+  background: $dark_gray;
   border-radius: 50%;
 
   svg{

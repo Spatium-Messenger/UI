@@ -36,27 +36,21 @@ export default class PlayVoiceMessage extends React.Component<IPlayVoiceMessageP
 
   public changeListen() {
     if (this.state.listen) {
-      // console.log("Stop");
       this.audio.pause();
       this.setState({listen: false});
     } else {
-      // console.log("Play");
       this.audio.play();
       this.setState({listen: true});
     }
   }
 
   public rewind(e: React.MouseEvent) {
-    //
     const x = e.clientX - this.timelineRef.current.offsetLeft;
     const pos =  x / this.timelineRef.current.offsetWidth;
     this.audio.currentTime = pos * this.audio.duration;
-    console.log(pos, pos * this.audio.duration);
     this.setState({
       current: this.audio.currentTime,
     });
-
-    // console.log(e.clientX);
   }
 
   public render() {
@@ -93,9 +87,8 @@ export default class PlayVoiceMessage extends React.Component<IPlayVoiceMessageP
         current: this.audio.currentTime,
         listen: this.state.listen,
       };
-      console.log(this.audio.currentTime, this.state.duration);
+      // console.log(this.audio.currentTime, this.state.duration);
       if (data.current.toFixed(1) === this.state.duration.toFixed(1)) {
-        // data.current = this.state.duration;
         data.listen = false;
         this.audio.pause();
       }

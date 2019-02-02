@@ -32,7 +32,7 @@ export default class InputStoreModule implements IInputStore {
 
   @action
   public uploadDocuments(docs: IDocumentUpload[]): void {
-    console.log("Upload:", docs);
+    // console.log("Upload:", docs);
     if (docs.length === 0) {return; }
     const chatID = docs[0].chatID;
     const inputData: IInputData = this.chatsInputData.get(chatID);
@@ -140,16 +140,27 @@ export default class InputStoreModule implements IInputStore {
   public AudioRendered(data: {blob: Blob, duration: number}) {
     if (!this.voiceRecording) {return; }
     this.voiceVolumes = [];
-    // this.voiceRecording = false;
-    this.voiceMessages.set(this.rootStore.appStore.currentChat.ID, {
-      chatID: this.rootStore.appStore.currentChat.ID,
-      src: data,
-      load: 0,
-    });
+    const chatID = this.rootStore.appStore.currentChat.ID;
+    let message: IAudioMessage = this.voiceMessages.get(chatID);
+    if (!message) {
+      message = {
+        src: data,
+        chatID,
+        load: 0,
+        abortLoad: () => {
+          //
+        },
+        del: false,
+        uploaded: 0,
+        fileID: -1,
+      };
+    }
+    if (message.load === 1) {return; }
+    this.voiceMessages.set(chatID, message);
   }
 
   @action
-  public doneRecording() {
+  public StopRecording() {
     doneRecording(this.AudioRendered.bind(this));
   }
 
@@ -163,6 +174,11 @@ export default class InputStoreModule implements IInputStore {
 
   @action
   public cancelVoiceRecording() {
+    const chatID = this.rootStore.appStore.currentChat.ID;
+    const data: IAudioMessage = this.voiceMessages.get(chatID);
+    if (data.load === 1) {
+      data.abortLoad();
+    }
     this.voiceVolumes = [];
     this.voiceMessages.delete(this.rootStore.appStore.currentChat.ID);
     this.voiceRecording = false;
@@ -171,24 +187,48 @@ export default class InputStoreModule implements IInputStore {
   @action
   public async sendMessage() {
     if (this.voiceRecording) {
-      this.voiceRecording = false;
+      const chatID = this.rootStore.appStore.currentChat.ID;
       this.voiceVolumes = [];
-      const record: IAudioMessage = {
+
+      let record: IAudioMessage = {
         src: null,
-        chatID: this.rootStore.appStore.currentChat.ID,
+        chatID,
         load: 0,
+        abortLoad: () => {
+          //
+        },
+        del: false,
+        uploaded: 0,
+        fileID: -1,
       };
-      if (!this.voiceMessages.has(this.rootStore.appStore.currentChat.ID)) {
-      record.src =  await new Promise((reject) => {
+
+      if (!this.voiceMessages.has(chatID)) {
+        record.src =  await new Promise((reject) => {
           doneRecording((data: {blob: Blob, duration: number}) => {
             reject(data);
           });
         });
       } else {
-        record.src =  this.voiceMessages.get(this.rootStore.appStore.currentChat.ID).src;
-        this.voiceMessages.delete(this.rootStore.appStore.currentChat.ID);
+        if (this.voiceMessages.get(chatID).load === 1) { return; }
+        record =  this.voiceMessages.get(chatID);
       }
-      this.remoteApi.audio.Upload(record, () => {}, () => {});
+
+      this.remoteApi.audio.Upload(
+        record,
+        this.rootStore.appStore.user.ID,
+        function() {
+          this.voiceMessages.delete(chatID);
+          this.voiceRecording = false;
+        }.bind(this),
+        function(bytes: number) {
+          const nowRecord: IAudioMessage = this.voiceMessages.get(chatID);
+          if (!nowRecord) {return; }
+          nowRecord.uploaded = bytes;
+          this.voiceMessages.set(chatID, nowRecord);
+        }.bind(this));
+
+      record.load = 1;
+      this.voiceMessages.set(chatID, record);
     }
   }
 

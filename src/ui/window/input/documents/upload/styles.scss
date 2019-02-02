@@ -1,23 +1,23 @@
 .documents-upload__icon>svg{
   width: 20px;
   height: 20px;
-  fill:darken(#ffffff, 50%);
+  fill:$dark_gray;
 }
 
 .documents-upload__voice-close>svg{
   width: 15px;
   height: 15px;
-  fill:darken(#ffffff, 50%);
+  fill:$dark_gray;
 }
 
 .documents-upload__icon:hover>svg,
 .documents-upload__voice-close:hover>svg{
-  fill:darken(#ffffff, 30%);
+  fill:darken($dark_gray, 30%);
 }
 
 .documents-upload__icon:active>svg,
 .documents-upload__voice-close:active>svg{
-  fill:darken(#ffffff, 60%);
+  fill:darken($dark_gray, 60%);
 }
 
 .documents-upload__input,

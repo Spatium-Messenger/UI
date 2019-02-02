@@ -27,12 +27,6 @@ export default class Send extends React.Component<ISendProps> {
   }
 
   public sendClick() {
-    //
-    if (this.props.store.inputStore.voiceRecording) {
-      this.props.store.inputStore.doneRecording();
-    } else {
-      //
-    }
     this.props.store.inputStore.sendMessage();
   }
 
