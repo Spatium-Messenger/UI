@@ -17,8 +17,8 @@ export default class APIData implements IAPIData {
   set Token(newToken: string) {
     this.token = newToken;
   }
-  public Logs: boolean;
-  public Imitation: boolean;
+  public readonly Logs: boolean;
+  public readonly Imitation: boolean;
   private _IP: string;
   private token: string;
   constructor(
@@ -26,8 +26,8 @@ export default class APIData implements IAPIData {
     token: string,
     logs: boolean,
     imitation: boolean) {
-    this._IP = "";
-    this.token = "";
+    this._IP = ip;
+    this.token = token;
     this.Logs = logs;
     this.Imitation = imitation;
   }

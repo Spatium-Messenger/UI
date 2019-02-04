@@ -19,7 +19,9 @@ Window:
 Current:
   + Voice record to document
   + Play yourself message
-  Send voice message
+  + Send voice message
+  + Create API remote base class
+  
   Load chats:
     Chats API
     API Connect to Store

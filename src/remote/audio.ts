@@ -134,7 +134,6 @@ export default class APIAudio implements IAPIAudio {
   }
 
   private pack(file: IAudioMessage, token: string, userID: number): FormData {
-    // console.log(file);
     const fileName = file.src.blob.size + "_" + file.chatID + "_" + userID + ".wav";
     const formData = new FormData();
     formData.append("uploadfile", (file.src.blob as any), fileName);
@@ -143,7 +142,6 @@ export default class APIAudio implements IAPIAudio {
     formData.append("type", "audio/wav");
     formData.append("ratio_size", (0 as any));
     formData.append("chat_id", (file.chatID as any));
-    // console.log(formData.get("uploadfile"));
     return formData;
   }
 
