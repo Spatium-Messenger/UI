@@ -10,6 +10,7 @@ require("./styles.scss");
 const sendIcon: string = require("assets/email.svg");
 
 interface IWindowInputProps {
+  
 }
 
 @inject("store")

@@ -2,7 +2,7 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import Config from "src/config";
 import { IDocumentUpload } from "src/models/document";
-import { IAppStore, IInputStore } from "src/interfaces/store";
+import { IAppStore, IInputStore, IChatStore } from "src/interfaces/store";
 require("./styles.scss");
 
 const attauchIcon: string = require("assets/clip.svg");
@@ -12,6 +12,7 @@ interface IDocumentsUploadProps {
   store?: {
     appStore: IAppStore;
     inputStore: IInputStore;
+    chatStore: IChatStore;
   };
 }
 
@@ -41,7 +42,7 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
   public getFiles() {
     const inputFiles = this.inputRef.current.files;
     const sendFiles = [];
-    const chatID = this.props.store.appStore.currentChat.ID;
+    const chatID = this.props.store.chatStore.currentChat.ID;
     for (const file of inputFiles) {
       if (file.size < Config.files.maxSize) {
         const uploadFile: IDocumentUpload = {

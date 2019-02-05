@@ -1,0 +1,33 @@
+.sign{
+  background: $white;
+  width: 100vw;
+  height: 100vh;
+}
+
+.shape-overlays {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0; 
+  left: 0;
+}
+
+.sign__canvas-wrapper{
+  width: 100vw;
+  overflow: hidden;
+  position: absolute;
+  bottom:0px;
+}
+
+.sign__canvas-wrapper>canvas{
+  width: 100vw;
+  height: 100vh;
+}
+
+.sign__block{
+  background: #363050;
+  height: 95vh;
+  width: 100vw;
+  position: absolute;
+  bottom: 0px;
+}

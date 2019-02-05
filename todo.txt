@@ -21,7 +21,8 @@ Current:
   + Play yourself message
   + Send voice message
   + Create API remote base class
-  
+  Sign page
+    Canvas curves
   Load chats:
     Chats API
     API Connect to Store

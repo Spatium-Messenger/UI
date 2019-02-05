@@ -5,6 +5,9 @@ import { IAudioMessage } from "src/models/audio";
 
 export interface IAppStore {
   user: IUser;
+}
+
+export interface IChatStore {
   chats: IChat[];
   currentChat: IChat;
   chooseChat: (chat: IChat) => void;

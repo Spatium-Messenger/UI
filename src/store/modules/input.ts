@@ -1,7 +1,5 @@
-import { observable, action, reaction} from "mobx";
-// import { IAppStoreModule, IUser } from "../../../interfaces/app_state";
-import {IInputStore, IUser, IInputData} from "src/interfaces/store";
-// import { IChat } from "src/models/chat";
+import { observable, action} from "mobx";
+import {IInputStore,  IInputData} from "src/interfaces/store";
 import { IDocumentUpload } from "src/models/document";
 import { IAPI } from "src/interfaces/api";
 import { IRootStore } from "../interfeces";
@@ -140,7 +138,7 @@ export default class InputStoreModule implements IInputStore {
   public AudioRendered(data: {blob: Blob, duration: number}) {
     if (!this.voiceRecording) {return; }
     this.voiceVolumes = [];
-    const chatID = this.rootStore.appStore.currentChat.ID;
+    const chatID = this.rootStore.chatStore.currentChat.ID;
     let message: IAudioMessage = this.voiceMessages.get(chatID);
     if (!message) {
       message = {
@@ -166,7 +164,7 @@ export default class InputStoreModule implements IInputStore {
 
   @action
   public setTextInput(text: string) {
-    const chatID = this.rootStore.appStore.currentChat.ID;
+    const chatID = this.rootStore.chatStore.currentChat.ID;
     const data: IInputData = this.chatsInputData.get(chatID);
     data.text = text;
     this.chatsInputData.set(chatID, data);
@@ -174,20 +172,20 @@ export default class InputStoreModule implements IInputStore {
 
   @action
   public cancelVoiceRecording() {
-    const chatID = this.rootStore.appStore.currentChat.ID;
+    const chatID = this.rootStore.chatStore.currentChat.ID;
     const data: IAudioMessage = this.voiceMessages.get(chatID);
     if (data.load === 1) {
       data.abortLoad();
     }
     this.voiceVolumes = [];
-    this.voiceMessages.delete(this.rootStore.appStore.currentChat.ID);
+    this.voiceMessages.delete(this.rootStore.chatStore.currentChat.ID);
     this.voiceRecording = false;
   }
 
   @action
   public async sendMessage() {
     if (this.voiceRecording) {
-      const chatID = this.rootStore.appStore.currentChat.ID;
+      const chatID = this.rootStore.chatStore.currentChat.ID;
       this.voiceVolumes = [];
 
       let record: IAudioMessage = {

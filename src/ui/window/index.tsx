@@ -3,12 +3,12 @@ import { observer, inject } from "mobx-react";
 import WindowsHeader from "./header";
 import WindowsContent from "./content";
 import WindowsInput from "./input";
-import { IAppStore } from "src/interfaces/store";
+import { IAppStore, IChatStore } from "src/interfaces/store";
 require("./styles.scss");
 
 interface IWindowProps {
   store?: {
-    appStore: IAppStore;
+    chatStore: IChatStore;
   };
 }
 
@@ -19,7 +19,7 @@ export default class Window extends React.Component<IWindowProps> {
     super(props);
   }
   public render() {
-    if (!this.props.store.appStore.currentChat) {
+    if (!this.props.store.chatStore.currentChat) {
       return (
         <div className="window">
           <div className="window__empty">Choose chat</div>

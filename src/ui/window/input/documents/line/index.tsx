@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { IAppStore, IInputData, IInputStore } from "src/interfaces/store";
+import { IAppStore, IInputData, IInputStore, IChatStore } from "src/interfaces/store";
 import {IDocument, IDocumentUpload} from "src/models/document";
 import Document from "./item";
 require("./styles.scss");
@@ -9,6 +9,7 @@ interface IDocumentsPanelProps {
   store?: {
     appStore: IAppStore;
     inputStore: IInputStore;
+    chatStore: IChatStore;
   };
 }
 
@@ -25,7 +26,7 @@ export default class DocumentsPanel extends React.Component<IDocumentsPanelProps
   }
 
   public render() {
-    const chatID = (this.props.store.appStore.currentChat ? this.props.store.appStore.currentChat.ID : -1);
+    const chatID = (this.props.store.chatStore.currentChat ? this.props.store.chatStore.currentChat.ID : -1);
     const chatsInputData = this.props.store.inputStore.chatsInputData;
     let documents: IDocumentUpload[] = [];
     if (chatsInputData.has(chatID)) {

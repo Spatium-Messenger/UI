@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { IInputStore, IAppStore } from "src/interfaces/store";
+import { IInputStore, IAppStore, IChatStore } from "src/interfaces/store";
 import PlayVoiceMessage from "./play";
 import VoiceLoading from "./load";
 import { IAudioMessage } from "src/models/audio";
@@ -10,6 +10,7 @@ interface IVoiceProps {
   store?: {
     appStore: IAppStore;
     inputStore: IInputStore;
+    chatStore: IChatStore;
   };
 }
 
@@ -22,7 +23,6 @@ export default class Voice extends React.Component<IVoiceProps> {
   }
 
   public stopRecording() {
-    // this.props.store.inputStore.changeRecording(false);
     this.props.store.inputStore.StopRecording();
   }
 
@@ -36,10 +36,9 @@ export default class Voice extends React.Component<IVoiceProps> {
         <div style={{height: (v + 3) + "px"}}/>
       </div>,
     );
-    const chatID = this.props.store.appStore.currentChat.ID;
+    const chatID = this.props.store.chatStore.currentChat.ID;
     const voiceMessage: IAudioMessage = this.props.store.inputStore.voiceMessages.get(chatID);
     if (voiceMessage) {
-      // console.log(voiceMessage.loaded, "load");
       if (voiceMessage.load === 1) {
         return(<VoiceLoading />);
       }

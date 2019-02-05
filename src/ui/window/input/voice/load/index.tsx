@@ -1,15 +1,17 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { IAudioMessage } from "src/models/audio";
-import { IInputData, IInputStore, IAppStore } from "src/interfaces/store";
+import { IInputData, IInputStore, IAppStore, IChatStore } from "src/interfaces/store";
 // tslint:disable-next-line
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { IChat } from "src/models/chat";
 require("./styles.scss");
 
 interface IVoiceLoadingProps {
   store?: {
     appStore: IAppStore,
     inputStore: IInputStore,
+    chatStore: IChatStore;
   };
 }
 
@@ -20,7 +22,7 @@ export default class VoiceLoading extends React.Component<IVoiceLoadingProps> {
     super(props);
   }
   public render() {
-    const chatID = this.props.store.appStore.currentChat.ID;
+    const chatID = this.props.store.chatStore.currentChat.ID;
     const message = this.props.store.inputStore.voiceMessages.get(chatID);
     return(
       <div className="voice-record-active">

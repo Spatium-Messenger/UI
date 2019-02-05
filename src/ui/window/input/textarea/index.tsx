@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { IAppStore, IInputStore } from "src/interfaces/store";
+import { IAppStore, IInputStore, IChatStore } from "src/interfaces/store";
 require("./styles.scss");
 
 const autosie = require("autosize");
@@ -10,6 +10,7 @@ interface ITextAreaProps {
   store?: {
     appStore: IAppStore;
     inputStore: IInputStore;
+    chatStore: IChatStore;
   };
 }
 
@@ -60,7 +61,7 @@ export default class TextArea extends React.Component<ITextAreaProps, ITextAreaS
   }
 
   public render() {
-    const chatID = this.props.store.appStore.currentChat.ID;
+    const chatID = this.props.store.chatStore.currentChat.ID;
     const input = this.props.store.inputStore.chatsInputData.get(chatID).text;
     const voiceRecordingEnable = this.props.store.inputStore.voiceRecording;
     return(

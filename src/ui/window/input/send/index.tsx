@@ -1,6 +1,7 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { IInputStore, IAppStore } from "src/interfaces/store";
+import { IInputStore, IAppStore, IChatStore } from "src/interfaces/store";
+import { IChat } from "src/models/chat";
 require("./styles.scss");
 
 const micIcon: string = require("assets/microphone-black-shape.svg");
@@ -10,6 +11,7 @@ interface ISendProps {
   store?: {
     appStore: IAppStore;
     inputStore: IInputStore;
+    chatStore: IChatStore;
   };
 }
 
@@ -32,7 +34,7 @@ export default class Send extends React.Component<ISendProps> {
 
   public render() {
     const voiseRecordingEnable = this.props.store.inputStore.voiceRecording ;
-    const chatID = this.props.store.appStore.currentChat.ID;
+    const chatID = this.props.store.chatStore.currentChat.ID;
     const textInput = this.props.store.inputStore.chatsInputData.get(chatID).text;
     let button = (this.props.store.inputStore.voiceRecording ?
     <div

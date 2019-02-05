@@ -6,6 +6,7 @@ import { Provider } from "mobx-react";
 import { IAPI } from "src/interfaces/api";
 import {IRootStore} from "src/store/interfeces";
 import { render } from "react-dom";
+import Sign from "./sign";
 
 require("./styles.scss");
 require("./main.scss");
@@ -17,12 +18,15 @@ class Messenger extends React.Component<{}> {
     super(props);
   }
   public render() {
+    const content = (store.appStore.user.token === "" ?
+      <Sign/> :
+      <div className="wrapper">
+        <SideBar/>
+        <Window/>
+      </div>);
     return(
       <Provider store={store}>
-        <div className="wrapper">
-          <SideBar/>
-          <Window/>
-        </div>
+        {content}
       </Provider>
     );
   }
