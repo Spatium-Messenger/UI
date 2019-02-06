@@ -20,14 +20,45 @@
 }
 
 .sign__canvas-wrapper>canvas{
-  width: 100vw;
   height: 100vh;
 }
 
 .sign__block{
   background: #363050;
+  // background: #36393f;
   height: 95vh;
   width: 100vw;
   position: absolute;
   bottom: 0px;
+}
+
+.sign__logo{
+  position: fixed;
+  width: 150px;
+  top: 20px;
+  left: 20px;
+}
+
+.sign__form{
+  position: fixed;
+  top: calc(50vh - 75px);
+  left: calc(50vw - 150px);
+  height: 150px;
+  border-radius: 5px;
+  width: 300px;
+  background: rgba(0,0,0,0);
+}
+
+.sign__form-input{
+  width: calc(100% - 20px);
+  margin: 10px;
+  // border-radius: 5px;
+  // border: 1px solid  #36393f;
+  height: 30px;
+  font-size: 16px;
+  padding-left: 5px;
+  color: $white;
+  border: none;
+  // border-bottom: 1px solid $white;
+  background: #28243d;
 }
