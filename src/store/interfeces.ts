@@ -1,4 +1,4 @@
-import {IAppStore, IInputStore, IMessagesStore, IChatStore} from "src/interfaces/store";
+import {IAppStore, IInputStore, IMessagesStore, IChatStore, IUserStore} from "src/interfaces/store";
 // import {IPopularPageStoreModule} from "./modules/popular_page/interfaces";
 
 export interface IRootStore {
@@ -6,5 +6,6 @@ export interface IRootStore {
   inputStore: IInputStore;
   messagesStore: IMessagesStore;
   chatStore: IChatStore;
+  userStore: IUserStore;
   // popularStore: IPopularPageStoreModule;
 }

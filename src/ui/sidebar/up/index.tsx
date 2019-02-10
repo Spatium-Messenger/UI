@@ -23,7 +23,7 @@ export default class SideBarSearch extends React.Component<ISideBarSearchProps> 
     return(
       <div className="sidebar__search">
         <input onChange={this.change} placeholder="Search..."/>
-        <NewButton onClick={() => {}}/>
+        <NewButton onClick={() => {/* */}}/>
       </div>
     );
   }

@@ -15,27 +15,35 @@ export default class APIClass {
   private config: IAPIConfig;
   constructor(data: IAPIData) {
     this.netData = data;
-    this.config.timeout = 5000;
+    this.config = {
+      timeout: 5000,
+    };
   }
 
   public Send(data: IAPIClassCallProps): Promise<any> {
     const xhr: XMLHttpRequest = new XMLHttpRequest();
-    xhr.open(data.type, this.netData.IP + data.uri, true);
+    // console.log("http://" + this.netData.IP + data.uri);
+    try {
+      xhr.open(data.type, this.netData.IP + data.uri, true);
+    } catch (e) {
+      // console.log("hello");
+      return ({result: "Error", type: e} as any);
+    }
     xhr.send(JSON.stringify(data.payload));
-    return new Promise((reolve) => {
+    return new Promise((resolve) => {
       const timeout =
-      setTimeout(() => {xhr.abort(); reolve({result: "Error", type: "Timeout"}); }, this.config.timeout);
+      setTimeout(() => {xhr.abort(); resolve({result: "Error", type: "Timeout"}); }, this.config.timeout);
       xhr.onreadystatechange = () => {
       if (xhr.readyState !== 4) { return; }
       if (xhr.status === 200) {
         if (xhr.responseText === "null") {
           clearTimeout(timeout);
-          reolve(null);
+          resolve(null);
           return;
         }
         clearTimeout(timeout);
         const answer = JSON.parse(xhr.responseText);
-        reolve(answer);
+        resolve(answer);
       }
     };
     });

@@ -18,8 +18,8 @@ export class APIChat extends APIClass implements IAPIChat {
   constructor(data: IAPIData) {
     super(data);
     const p: string = "/api/chat/";
-    this.createChatURL = "/api/user/createDialog";
-    this.getChatsURL = p + "create";
+    this.getChatsURL = "/api/user/getMyChats";
+    this.createChatURL = p + "create";
     this.addUsersURL = p + "addUsersInChat";
     this.getUsersURL = p + "getUsers";
     this.deleteUsersURL = p + "deleteUsers";
@@ -33,10 +33,18 @@ export class APIChat extends APIClass implements IAPIChat {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
     message.uri = this.getChatsURL;
     const chats = await super.Send(message);
+    return chats;
   }
 
-  public async Create(type: string) {
-    //
+  public async Create(type: string, name: string) {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.createChatURL;
+    message.payload = {
+      type,
+      name,
+    };
+    const answer = await super.Send(message);
+    return answer;
   }
 
   public async AddUsers(IDs: number[], chatID: number): Promise<void> {

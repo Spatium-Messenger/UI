@@ -49,6 +49,53 @@
   background: rgba(0,0,0,0);
 }
 
+.sign__form-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.sign__form-header>div:nth-child(1){
+  // padding: 10px;
+  font-size: 24px;
+  font-weight: 600;
+  color: $white;
+}
+
+.sign__form-header>div:nth-child(2){
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  background: $dark_gray;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  // padding: 2px;
+  svg{
+    position: relative;
+    top: 2px;
+    fill: $white;
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.sign__form-header>div:nth-child(2):hover{
+  &::after{
+    content: "Enter as anonymus";
+    background-color: rgba(0,0,0,0.4);
+    color: $white;
+    font-size: 12px;
+    position: absolute;
+    // bottom: 50px;
+    padding: 10px;
+    margin-top: -50px;
+    // margin-left: -50px;
+    height: 25px;
+  }
+}
+
 .sign__form-input{
   width: calc(100% - 20px);
   margin: 10px;
@@ -61,4 +108,47 @@
   border: none;
   // border-bottom: 1px solid $white;
   background: #28243d;
+}
+
+.sign__form-bottom{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.sign__form-bottom-signup{
+  cursor: pointer;
+  font-size: 12px;
+  // text-decoration: underline;
+  user-select: none;
+  color: darken($white, 25%);
+}
+
+.sign__form-bottom-signup:hover{
+  color: darken($white, 15%);
+  text-decoration: underline;
+}
+
+.sign__form-bottom-button{
+  color: darken($white, 10%);
+  cursor: pointer;
+  text-decoration: none;
+  padding: .5em 2em;
+  outline: none;
+  font-size: 14px;
+  border-width: 2px 0;
+  border-style: solid none;
+  border-color: #FDBE33 #000 #D77206;
+  border-radius: 6px;
+  background: linear-gradient(#F3AE0F, #E38916) #E38916;
+  transition: 0.2s;
+}
+
+.sign__form-bottom-button:hover{
+  ackground: linear-gradient(#f5ae00, #f59500) #f5ae00;
+}
+
+.sign__form-bottom-button:active{
+  background: linear-gradient(#f59500, #f5ae00) #f59500;
 }

@@ -4,13 +4,20 @@ import { IDocument, IDocumentUpload } from "src/models/document";
 import { IAudioMessage } from "src/models/audio";
 
 export interface IAppStore {
-  user: IUser;
+  // user: IUser;
 }
 
 export interface IChatStore {
   chats: IChat[];
   currentChat: IChat;
   chooseChat: (chat: IChat) => void;
+}
+
+export interface IUserStore {
+  data: IUser;
+  enter: (login: string, pass: string) => void;
+  create: (login: string, pass: string) => void;
+  enterAsAnonymus: () => void;
 }
 
 export interface IMessagesStore {
