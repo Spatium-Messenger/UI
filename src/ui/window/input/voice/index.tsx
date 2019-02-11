@@ -23,7 +23,7 @@ export default class Voice extends React.Component<IVoiceProps> {
   }
 
   public stopRecording() {
-    this.props.store.inputStore.StopRecording();
+    this.props.store.inputStore.stopRecording();
   }
 
   public render() {

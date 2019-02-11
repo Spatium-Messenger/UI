@@ -8,6 +8,7 @@ import { render } from "react-dom";
 import { observer, inject, Provider } from "mobx-react";
 import Sign from "./sign";
 import { IUserStore } from "src/interfaces/store";
+import { ICookie } from "src/interfaces/cookie";
 
 require("./styles.scss");
 require("./main.scss");
@@ -39,8 +40,8 @@ class Messenger extends React.Component<IMessngerProps> {
   }
 }
 
-const CreateUI = function(remoteAPI: IAPI) {
-  store = new Store(remoteAPI);
+const CreateUI = function(remoteAPI: IAPI, cookieController: ICookie) {
+  store = new Store(remoteAPI, cookieController);
   render(
     <main>
        <Provider store={store}>

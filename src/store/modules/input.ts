@@ -158,7 +158,7 @@ export default class InputStoreModule implements IInputStore {
   }
 
   @action
-  public StopRecording() {
+  public stopRecording() {
     doneRecording(this.AudioRendered.bind(this));
   }
 
@@ -213,7 +213,7 @@ export default class InputStoreModule implements IInputStore {
 
       this.remoteApi.audio.Upload(
         record,
-        this.rootStore.appStore.user.ID,
+        this.rootStore.userStore.data.ID,
         function() {
           this.voiceMessages.delete(chatID);
           this.voiceRecording = false;

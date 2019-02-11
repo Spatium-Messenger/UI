@@ -41,6 +41,11 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
     this.waves = new WavesDraw(this.canvas.current);
   }
 
+  public async componentWillMount() {
+    const u = await this.props.store.userStore.checkUserWasSignIn();
+    console.log(u);
+  }
+
   public ButtonClick() {
     if (!this.state.InOrUp) {
       this.props.store.userStore.enter(this.state.login, this.state.pass);

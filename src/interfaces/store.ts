@@ -11,12 +11,14 @@ export interface IChatStore {
   chats: IChat[];
   currentChat: IChat;
   chooseChat: (chat: IChat) => void;
+  loadChats: () => void;
 }
 
 export interface IUserStore {
   data: IUser;
   enter: (login: string, pass: string) => void;
   create: (login: string, pass: string) => void;
+  checkUserWasSignIn: () => Promise<boolean>;
   enterAsAnonymus: () => void;
 }
 
@@ -33,15 +35,15 @@ export interface IChatsMessages {
 export interface IInputStore {
   voiceRecording: boolean;
   voiceVolumes: number[];
-  changeRecording: (val: boolean) => void;
-  StopRecording: () => void;
+  voiceMessages: Map<number, IAudioMessage>;
   chatsInputData: Map<number, IInputData>;
   setTextInput: (text: string) => void;
   uploadDocuments: (docs: IDocumentUpload[]) => void;
   deleteDocument: (doc: IDocumentUpload) => void;
-  voiceMessages: Map<number, IAudioMessage>;
   cancelVoiceRecording: () => void;
   sendMessage: () => void;
+  changeRecording: (val: boolean) => void;
+  stopRecording: () => void;
 }
 
 export interface IInputData {

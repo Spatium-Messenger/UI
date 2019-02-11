@@ -1,6 +1,7 @@
-import { IAPIChat } from "src/interfaces/api/chat";
+import { IAPIChat, IAnswerError } from "src/interfaces/api/chat";
 import { IAPIData } from "src/interfaces/api";
 import APIClass, { IAPIClassCallProps } from "./remote.api.base";
+import { IChat } from "src/models/chat";
 
 export class APIChat extends APIClass implements IAPIChat {
   private getChatsURL: string;
@@ -29,7 +30,7 @@ export class APIChat extends APIClass implements IAPIChat {
     this.deleteChatFromList = p + "deleteFromList";
   }
 
-  public async Get(): Promise<void> {
+  public async Get(): Promise<IAnswerError | IChat[]> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
     message.uri = this.getChatsURL;
     const chats = await super.Send(message);

@@ -32,7 +32,6 @@ export default class TextArea extends React.Component<ITextAreaProps, ITextAreaS
   }
 
   public componentDidMount() {
-    // let elem = getElem("inputTextArea");
     const el = this.inputRef.current;
     autosie(el);
     el.addEventListener("autosize:resized", () => {

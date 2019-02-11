@@ -6,6 +6,7 @@ import MessagesStore from "./modules/messages";
 import { IAPI } from "src/interfaces/api";
 import ChatStoreModule from "./modules/chat";
 import UserStoreModule from "./modules/user";
+import { ICookie } from "src/interfaces/cookie";
 
 export default class RootStore implements IRootStore {
   public appStore: IAppStore;
@@ -14,13 +15,15 @@ export default class RootStore implements IRootStore {
   public chatStore: IChatStore;
   public userStore: IUserStore;
   private remoteAPI: IAPI;
+  private cookie: ICookie;
 
-  constructor(remoteAPI: IAPI) {
+  constructor(remoteAPI: IAPI, cookieController: ICookie) {
     this.remoteAPI = remoteAPI;
+    this.cookie = cookieController;
     this.appStore = new AppStoreModule(this);
     this.inputStore = new InputStoreModule(this, this.remoteAPI);
     this.messagesStore = new MessagesStore(this, this.remoteAPI);
     this.chatStore = new ChatStoreModule(this, this.remoteAPI);
-    this.userStore = new UserStoreModule(this, this.remoteAPI);
+    this.userStore = new UserStoreModule(this, this.remoteAPI, this.cookie);
   }
 }
