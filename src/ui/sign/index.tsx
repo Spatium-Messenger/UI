@@ -41,7 +41,6 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
 
   public async componentWillMount() {
     const u = await this.props.store.userStore.checkUserWasSignIn();
-    console.log(u);
   }
 
   public ButtonClick() {

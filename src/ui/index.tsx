@@ -10,6 +10,7 @@ import Sign from "./sign";
 import { IUserStore } from "src/interfaces/store";
 import { ICookie } from "src/interfaces/cookie";
 import Modals from "./modals";
+import { IWebSocket } from "src/interfaces/web-socket";
 
 require("./styles.scss");
 require("./main.scss");
@@ -40,8 +41,8 @@ class Messenger extends React.Component<IMessngerProps> {
   }
 }
 
-const CreateUI = function(remoteAPI: IAPI, cookieController: ICookie) {
-  store = new Store(remoteAPI, cookieController);
+const CreateUI = function(remoteAPI: IAPI, cookieController: ICookie, websocket: IWebSocket) {
+  store = new Store(remoteAPI, cookieController, websocket);
   render(
     <main>
        <Provider store={store}>

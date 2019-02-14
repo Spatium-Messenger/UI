@@ -3,12 +3,16 @@ import RemoteAPI from "./remote";
 import CreateUI from "./ui";
 import Cookie from "./hard/cookie";
 import { ICookie } from "./interfaces/cookie";
+import WebSocketAPI from "./hard/web-socket";
+import { IWebSocket } from "./interfaces/web-socket";
 
-const IP = "http://192.168.56.1:1234";
+const URL = "http://192.168.56.1:1234";
 const LOGS = true;
 const IMITATION = true;
 
-const cookie: ICookie = new Cookie(document.cookie);
-const rempoteAPIConfig = new APIData(IP, "", LOGS, IMITATION);
+const cookie: ICookie = new Cookie();
+const rempoteAPIConfig = new APIData(URL, "", LOGS, IMITATION);
+const webSocketSystem: IWebSocket = new WebSocketAPI(rempoteAPIConfig);
 const remoteAPI = new RemoteAPI(rempoteAPIConfig);
-const UI = CreateUI(remoteAPI, cookie);
+const UI = CreateUI(remoteAPI, cookie, webSocketSystem);
+webSocketSystem.CreateConnection();

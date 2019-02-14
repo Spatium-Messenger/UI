@@ -24,7 +24,7 @@ export default class APIClass {
     const xhr: XMLHttpRequest = new XMLHttpRequest();
     // console.log("http://" + this.netData.IP + data.uri);
     try {
-      xhr.open(data.type, this.netData.IP + data.uri, true);
+      xhr.open(data.type, this.netData.URL + data.uri, true);
     } catch (e) {
       // console.log("hello");
       return ({result: "Error", type: e} as any);

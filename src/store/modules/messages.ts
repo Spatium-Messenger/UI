@@ -3,15 +3,19 @@ import {IMessagesStore, IChatsMessages} from "src/interfaces/store";
 import { IRootStore } from "../interfeces";
 import { IAPI, IAnswerError } from "src/interfaces/api";
 import { IMessage } from "src/models/message";
+import { IWebSocket } from "src/interfaces/web-socket";
 
 export default class MessagesStore implements IMessagesStore {
   @observable public messages: Map<number, IChatsMessages>;
   private rootStore: IRootStore;
   private remoteApi: IAPI;
+  private webSocketConnect: IWebSocket;
 
-  constructor(rootStore: IRootStore, remoteAPI: IAPI) {
+  constructor(rootStore: IRootStore, remoteAPI: IAPI, websocket: IWebSocket) {
     this.rootStore = rootStore;
     this.remoteApi = remoteAPI;
+    this.webSocketConnect = websocket;
+    this.webSocketConnect.OnMessage = this.newMessage.bind(this);
     this.messages = new Map<number, IChatsMessages>();
     this.messages.set(1, {
       messages: [
@@ -65,5 +69,9 @@ export default class MessagesStore implements IMessagesStore {
     } else {
       console.log("Error", newMessages);
     }
+  }
+
+  private newMessage(data: any) {
+    console.log(data);
   }
 }

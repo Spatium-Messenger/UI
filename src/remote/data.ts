@@ -2,12 +2,12 @@ import { IAPIData } from "src/interfaces/api";
 
 export default class APIData implements IAPIData {
 
-  get IP(): string {
-    return this._IP;
+  get URL(): string {
+    return this._URL;
   }
 
-  set IP(newIP: string) {
-    this._IP = newIP;
+  set URL(newURL: string) {
+    this._URL = newURL;
   }
 
   get Token(): string {
@@ -19,14 +19,14 @@ export default class APIData implements IAPIData {
   }
   public readonly Logs: boolean;
   public readonly Imitation: boolean;
-  private _IP: string;
+  private _URL: string;
   private token: string;
   constructor(
-    ip: string,
+    utl: string,
     token: string,
     logs: boolean,
     imitation: boolean) {
-    this._IP = ip;
+    this._URL = utl;
     this.token = token;
     this.Logs = logs;
     this.Imitation = imitation;

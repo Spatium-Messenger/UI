@@ -14,7 +14,6 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
   }
   public render() {
     const mess = this.props.data;
-    console.log({...mess}, this.props.userID);
     const authorsMessage = (mess.AuthorID === this.props.userID);
     if (mess.Content.Type === IMessageType.System) {
       return (

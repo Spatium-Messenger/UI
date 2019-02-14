@@ -19,7 +19,7 @@ export interface IAPI {
 }
 
 export interface IAPIData {
-  IP: string;
+  URL: string;
   Token: string;
   Logs: boolean;
   Imitation: boolean;

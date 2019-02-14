@@ -6,6 +6,7 @@ import { IRootStore } from "../interfeces";
 
 import {startRecording, stopRecording, doneRecording} from "src/hard/voice-recording";
 import { IAudioMessage } from "src/models/audio";
+import { IWebSocket } from "src/interfaces/web-socket";
 
 export default class InputStoreModule implements IInputStore {
   @observable public chatsInputData: Map<number, IInputData>;
@@ -14,10 +15,12 @@ export default class InputStoreModule implements IInputStore {
   @observable public voiceMessages: Map<number, IAudioMessage>;
   private remoteApi: IAPI;
   private rootStore: IRootStore;
+  private webSocketConnect: IWebSocket;
 
-  constructor(rootStore: IRootStore, remoteAPI: IAPI) {
+  constructor(rootStore: IRootStore, remoteAPI: IAPI, websocket: IWebSocket) {
     this.rootStore = rootStore;
     this.remoteApi = remoteAPI;
+    this.webSocketConnect = websocket;
     this.chatsInputData = new Map<number, IInputData>();
     this.chatsInputData.set(1, {
       documents: [],
