@@ -9,13 +9,11 @@ require("./styles.scss");
 
 const sendIcon: string = require("assets/email.svg");
 
-interface IWindowInputProps {
-  
-}
+// interface IWindowInputProps {
 
-@inject("store")
-@observer
-export default class WindowInput extends React.Component<IWindowInputProps> {
+// }
+
+export default class WindowInput extends React.Component<{}> {
   constructor(props) {
     super(props);
   }

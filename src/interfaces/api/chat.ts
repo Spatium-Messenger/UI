@@ -1,13 +1,14 @@
 import { IChat } from "src/models/chat";
+import { IAnswerError } from ".";
 
-export interface IAnswerError {
-  result: string;
-  type: string;
+export enum ChatsTypes {
+  Chat,
+  Channel,
 }
 
 export interface IAPIChat {
   Get: () => Promise<IAnswerError | IChat[]>;
-  Create: (type: string, name: string) => Promise<void>;
+  Create: (type: ChatsTypes, name: string) => Promise<IAnswerError>;
   AddUsers: (IDs: number[], chatID: number) => Promise<void>;
   GetUsers: (chatID: number) => Promise<void>;
   GetUsersForAdd: (chatID: number, name: string) => Promise<void>;

@@ -71,11 +71,11 @@ export default class UserStoreModule implements IUserStore {
     this.cookie.Set(TOKEN_COOKIE_NAME, token);
     this.cookie.Set(LOGIN_COOKIE_NAME, login);
     // console.log(document.cookie);
+    this.data.token = token;
+    this.data.login = login;
     this.remoteAPI.data.Token = token;
     await this.getUserID();
     await this.loadAllData();
-    this.data.token = token;
-    this.data.login = login;
   }
 
   private async loadAllData() {

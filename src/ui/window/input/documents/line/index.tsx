@@ -3,14 +3,11 @@ import { observer, inject } from "mobx-react";
 import { IAppStore, IInputData, IInputStore, IChatStore } from "src/interfaces/store";
 import {IDocument, IDocumentUpload} from "src/models/document";
 import Document from "./item";
+import { IRootStore } from "src/store/interfeces";
 require("./styles.scss");
 
 interface IDocumentsPanelProps {
-  store?: {
-    appStore: IAppStore;
-    inputStore: IInputStore;
-    chatStore: IChatStore;
-  };
+  store?: IRootStore;
 }
 
 @inject("store")

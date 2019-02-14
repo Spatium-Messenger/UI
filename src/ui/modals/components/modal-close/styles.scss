@@ -1,0 +1,13 @@
+.modal-close-wrapper{
+  width: 100%;
+  height: 10px;
+  justify-content: flex-end;
+  display: flex;
+  cursor: pointer;
+}
+
+.modal-close>svg{
+  width: 10px;
+  height: 10px;
+  fill: $passiv-primary-color;
+}

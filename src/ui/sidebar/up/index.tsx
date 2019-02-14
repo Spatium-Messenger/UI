@@ -5,10 +5,9 @@ require("./styles.scss");
 
 interface ISideBarSearchProps {
   onChange: (word: string) => void;
+  newChat: () => void;
 }
 
-@inject("store")
-@observer
 export default class SideBarSearch extends React.Component<ISideBarSearchProps> {
   constructor(props) {
     super(props);
@@ -23,7 +22,7 @@ export default class SideBarSearch extends React.Component<ISideBarSearchProps> 
     return(
       <div className="sidebar__search">
         <input onChange={this.change} placeholder="Search..."/>
-        <NewButton onClick={() => {/* */}}/>
+        <NewButton onClick={this.props.newChat}/>
       </div>
     );
   }

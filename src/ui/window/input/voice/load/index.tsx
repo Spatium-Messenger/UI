@@ -5,14 +5,12 @@ import { IInputData, IInputStore, IAppStore, IChatStore } from "src/interfaces/s
 // tslint:disable-next-line
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { IChat } from "src/models/chat";
+import { IRootStore } from "src/store/interfeces";
 require("./styles.scss");
 
 interface IVoiceLoadingProps {
-  store?: {
-    appStore: IAppStore,
-    inputStore: IInputStore,
-    chatStore: IChatStore;
-  };
+  store?: IRootStore;
+
 }
 
 @inject("store")

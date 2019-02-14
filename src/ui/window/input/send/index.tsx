@@ -2,17 +2,14 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { IInputStore, IAppStore, IChatStore } from "src/interfaces/store";
 import { IChat } from "src/models/chat";
+import { IRootStore } from "src/store/interfeces";
 require("./styles.scss");
 
 const micIcon: string = require("assets/microphone-black-shape.svg");
 const sendIcon: string = require("assets/email.svg");
 
 interface ISendProps {
-  store?: {
-    appStore: IAppStore;
-    inputStore: IInputStore;
-    chatStore: IChatStore;
-  };
+  store?: IRootStore;
 }
 
 @inject("store")

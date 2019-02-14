@@ -27,7 +27,7 @@ export default class SideBarItem extends React.Component<ISideBarItemProps> {
         onClick={this.click}
       >
         <div className="sidebar-item__avatar">
-          {curChat.LastMessage.AuthorName.substring(0, 2).toUpperCase()}
+          {curChat.Name.substring(0, 2).toUpperCase()}
         </div>
         <div className="sidebar-item__info">
           <div className="sidebar-item__info__name">{curChat.Name}</div>

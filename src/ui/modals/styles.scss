@@ -1,0 +1,34 @@
+.modal-wrapper{
+  position: fixed;
+  background: rgba(0,0,0,0.2);
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.modal{
+  background: $white;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.modal-header{
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  user-select: none;
+  // margin: auto;
+}
+
+.modal-text{
+  margin-top: 10px;
+  font-size: 14px;
+  // font-weight: 600;
+  color: $font_gray;
+  text-align: center;
+  user-select: none;
+}

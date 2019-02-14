@@ -9,6 +9,7 @@ import { observer, inject, Provider } from "mobx-react";
 import Sign from "./sign";
 import { IUserStore } from "src/interfaces/store";
 import { ICookie } from "src/interfaces/cookie";
+import Modals from "./modals";
 
 require("./styles.scss");
 require("./main.scss");
@@ -16,9 +17,7 @@ require("./main.scss");
 let store: IRootStore ;
 
 interface IMessngerProps {
-  store?: {
-    userStore: IUserStore;
-  };
+  store?: IRootStore;
 }
 
 @inject("store")
@@ -31,6 +30,7 @@ class Messenger extends React.Component<IMessngerProps> {
     const content = (this.props.store.userStore.data.token === "" ?
       <Sign/> :
       <div className="wrapper">
+        <Modals/>
         <SideBar/>
         <Window/>
       </div>);

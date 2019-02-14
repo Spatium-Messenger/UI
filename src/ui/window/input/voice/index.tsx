@@ -4,14 +4,11 @@ import { IInputStore, IAppStore, IChatStore } from "src/interfaces/store";
 import PlayVoiceMessage from "./play";
 import VoiceLoading from "./load";
 import { IAudioMessage } from "src/models/audio";
+import { IRootStore } from "src/store/interfeces";
 require("./styles.scss");
 
 interface IVoiceProps {
-  store?: {
-    appStore: IAppStore;
-    inputStore: IInputStore;
-    chatStore: IChatStore;
-  };
+  store?: IRootStore;
 }
 
 @inject("store")

@@ -1,5 +1,6 @@
 export interface IMessage {
-  chatID: number;
+  ID: number;
+  ChatID: number;
   Content: IMessageContent;
   AuthorName: string;
   AuthorID: number;
@@ -9,5 +10,10 @@ export interface IMessage {
 interface IMessageContent {
   Message: string;
   Documents: number[];
-  Type: string;
+  Type: IMessageType;
+}
+
+export enum IMessageType {
+  User,
+  System,
 }

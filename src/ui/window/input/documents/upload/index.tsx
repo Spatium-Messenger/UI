@@ -2,18 +2,14 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import Config from "src/config";
 import { IDocumentUpload } from "src/models/document";
-import { IAppStore, IInputStore, IChatStore } from "src/interfaces/store";
+import { IRootStore } from "src/store/interfeces";
 require("./styles.scss");
 
 const attauchIcon: string = require("assets/clip.svg");
 const voiceCloseIcon: string = require("assets/cancel.svg");
 
 interface IDocumentsUploadProps {
-  store?: {
-    appStore: IAppStore;
-    inputStore: IInputStore;
-    chatStore: IChatStore;
-  };
+  store?: IRootStore;
 }
 
 @inject("store")

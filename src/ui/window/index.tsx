@@ -4,12 +4,11 @@ import WindowsHeader from "./header";
 import WindowsContent from "./content";
 import WindowsInput from "./input";
 import { IAppStore, IChatStore } from "src/interfaces/store";
+import { IRootStore } from "src/store/interfeces";
 require("./styles.scss");
 
 interface IWindowProps {
-  store?: {
-    chatStore: IChatStore;
-  };
+  store?: IRootStore;
 }
 
 @inject("store")

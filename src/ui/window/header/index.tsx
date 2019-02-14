@@ -1,16 +1,14 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { IAppStore, IChatStore } from "src/interfaces/store";
+import { IRootStore } from "src/store/interfeces";
 require("./styles.scss");
 
 const backIcon = require("assets/left-arrow.svg");
 const moreIcon = require("assets/more.svg");
 
 interface IWindowHeaderProps {
-  store?: {
-    appStore: IAppStore;
-    chatStore: IChatStore;
-  };
+  store?: IRootStore;
 }
 
 @inject("store")

@@ -1,7 +1,8 @@
-import { IAPIChat, IAnswerError } from "src/interfaces/api/chat";
-import { IAPIData } from "src/interfaces/api";
+import { IAPIChat, ChatsTypes } from "src/interfaces/api/chat";
+import { IAPIData, IAnswerError } from "src/interfaces/api";
 import APIClass, { IAPIClassCallProps } from "./remote.api.base";
 import { IChat } from "src/models/chat";
+import { IChatServer } from "./interfaces";
 
 export class APIChat extends APIClass implements IAPIChat {
   private getChatsURL: string;
@@ -33,16 +34,41 @@ export class APIChat extends APIClass implements IAPIChat {
   public async Get(): Promise<IAnswerError | IChat[]> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
     message.uri = this.getChatsURL;
-    const chats = await super.Send(message);
-    return chats;
+    const chatsAnswer: IAnswerError | IChatServer[] = await super.Send(message);
+    const chats: IChat[] = [];
+    if ((chatsAnswer as IAnswerError).result !== "Error") {
+      (chatsAnswer as IChatServer[]).forEach((e: IChatServer) => {
+        chats.push({
+          ID: e.id,
+          Name: e.name,
+          New: e.view,
+          AdminID: e.admin_id,
+          Delete: e.delete,
+          Online: e.online,
+        });
+      });
+      return chats;
+    } else {
+      return (chatsAnswer as IAnswerError);
+    }
+
   }
 
-  public async Create(type: string, name: string) {
+  public async Create(type: ChatsTypes, name: string): Promise<IAnswerError> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
+    let typeVal: string = "";
+    switch (type) {
+      case ChatsTypes.Channel:
+        typeVal = "channel";
+        break;
+      case ChatsTypes.Chat:
+        typeVal = "chat";
+        break;
+    }
     message.uri = this.createChatURL;
-    message.payload = {
-      type,
-      name,
+    message.payload = {...message.payload,
+                       type: typeVal,
+                       name,
     };
     const answer = await super.Send(message);
     return answer;

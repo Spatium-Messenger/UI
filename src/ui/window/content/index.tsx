@@ -1,16 +1,11 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { IAppStore, IMessagesStore, IChatStore, IUserStore } from "src/interfaces/store";
 import IMessageUnit from "./message";
+import { IRootStore } from "src/store/interfeces";
 require("./styles.scss");
 
 interface IWindowContentProps {
-  store?: {
-    appStore: IAppStore;
-    messagesStore: IMessagesStore;
-    chatStore: IChatStore;
-    userStore: IUserStore;
-  };
+  store?: IRootStore;
 }
 
 @inject("store")
@@ -24,12 +19,11 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
     const chatID = this.props.store.chatStore.currentChat.ID;
     const messages = this.props.store.messagesStore.messages.get(chatID).messages;
     const userID = this.props.store.userStore.data.ID;
-    // console.log(messages);
     return(
       <div className="window__content">
-        <div>
+        {/* <div> */}
           {messages.map((v, i) => <IMessageUnit data={v} key={i} userID={userID}/>)}
-        </div>
+        {/* </div> */}
       </div>
     );
   }

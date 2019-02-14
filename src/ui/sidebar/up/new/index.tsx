@@ -15,7 +15,11 @@ export default class SideBarNewButton extends React.Component<ISideBarNewButtonP
   }
   public render() {
     return(
-        <div className="sidebar__new-button" dangerouslySetInnerHTML={{__html: icon}}/>
+        <div
+          className="sidebar__new-button"
+          dangerouslySetInnerHTML={{__html: icon}}
+          onClick={this.props.onClick}
+        />
     );
   }
 }

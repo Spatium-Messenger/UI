@@ -3,8 +3,11 @@ import { IMessage } from "src/models/message";
 import { IDocument, IDocumentUpload } from "src/models/document";
 import { IAudioMessage } from "src/models/audio";
 
+export enum MODALS_ID {CREATE_CHAT, NULL}
+
 export interface IAppStore {
-  // user: IUser;
+  modal: MODALS_ID;
+  changeModal: (type: MODALS_ID) => void;
 }
 
 export interface IChatStore {
@@ -12,6 +15,7 @@ export interface IChatStore {
   currentChat: IChat;
   chooseChat: (chat: IChat) => void;
   loadChats: () => void;
+  createChat: (name: string) => void;
 }
 
 export interface IUserStore {
@@ -24,12 +28,12 @@ export interface IUserStore {
 
 export interface IMessagesStore {
   messages: Map<number, IChatsMessages>;
+  loadMessages: (chatID: number) => void;
 }
 
 export interface IChatsMessages {
   messages: IMessage[];
   allLoaded: boolean;
-  unreaded: number;
 }
 
 export interface IInputStore {

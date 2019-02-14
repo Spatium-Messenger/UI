@@ -2,15 +2,13 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import WavesDraw, { IWavesDraw } from "./waves.draw";
 import { IAppStore, IUserStore } from "src/interfaces/store";
+import { IRootStore } from "src/store/interfeces";
 require("./styles.scss");
 
 const anonIcon = require("assets/user.svg");
 
 interface ISignProps {
-  store?: {
-    appStore: IAppStore;
-    userStore: IUserStore;
-  };
+  store?: IRootStore;
 }
 
 interface ISignState {

@@ -3,6 +3,8 @@ import { IMessage } from "./message";
 export interface IChat {
   ID: number;
   Name: string;
-  LastMessage: IMessage;
   New: number;
+  Online: number;
+  AdminID: number;
+  Delete: boolean;
 }

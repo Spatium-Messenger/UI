@@ -1,0 +1,45 @@
+.create-chat-modal{
+  width: 320px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.create-chat-modal__icon{
+  margin: auto;
+  width: 50px;
+  height: 50px;
+  background: $passiv-primary-color;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-chat-modal__icon>svg{
+  width: 30px;
+  height: 30px;
+  fill: $white;
+}
+
+.create-chat-modal__header{
+  margin-top: 0px !important;
+}
+
+.create-chat-modal__text{
+  margin-top: 5px !important;
+}
+
+.create-chat-modal__input{
+  width: 200px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.create-chat-modal__bottom{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}

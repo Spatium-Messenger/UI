@@ -1,17 +1,15 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import {IAppStore, IChatStore} from "src/interfaces/store";
+import {IAppStore, IChatStore, MODALS_ID} from "src/interfaces/store";
 import UpPanel from "./up";
 import SideBarItem from "./item";
 import { IChat } from "src/models/chat";
+import { IRootStore } from "src/store/interfeces";
 
 require("./styles.scss");
 
 interface ISideBarProps {
-  store?: {
-    appStore: IAppStore;
-    chatStore: IChatStore;
-  };
+  store?: IRootStore;
 }
 
 interface ISideBarState {
@@ -42,7 +40,8 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
   }
 
   public newChat() {
-    //
+    console.log("new chat");
+    this.props.store.appStore.changeModal(MODALS_ID.CREATE_CHAT);
   }
 
   public render() {
@@ -69,7 +68,7 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
 
     return(
       <div className="sidebar">
-          <UpPanel onChange={this.searchChange}/>
+          <UpPanel onChange={this.searchChange} newChat={this.newChat}/>
           <div className="sidebar__items">
             {chats}
             <div className="sidebar__items__notfound">
