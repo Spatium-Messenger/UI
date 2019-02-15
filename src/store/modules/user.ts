@@ -5,6 +5,7 @@ import { IAPI } from "src/interfaces/api";
 import { IRootStore } from "../interfeces";
 import { ICookie } from "src/interfaces/cookie";
 import Cookie from "src/hard/cookie";
+import { IWebSocket } from "src/interfaces/web-socket";
 
 const TOKEN_COOKIE_NAME = "token";
 const LOGIN_COOKIE_NAME = "login";
@@ -14,12 +15,14 @@ export default class UserStoreModule implements IUserStore {
   private remoteAPI: IAPI;
   private rootStore: IRootStore;
   private cookie: ICookie;
+  private webScoketConnection: IWebSocket;
 
-  constructor(rootStore: any, remote: IAPI, cookieControler: ICookie) {
+  constructor(rootStore: any, remote: IAPI, cookieControler: ICookie, websocket: IWebSocket) {
     this.remoteAPI = remote;
     this.data = {token: "", login: "", ID: -1};
     this.rootStore = rootStore;
     this.cookie = cookieControler;
+    this.webScoketConnection = websocket;
   }
 
   @action
@@ -76,6 +79,7 @@ export default class UserStoreModule implements IUserStore {
     this.remoteAPI.data.Token = token;
     await this.getUserID();
     await this.loadAllData();
+    this.webScoketConnection.Auth();
   }
 
   private async loadAllData() {

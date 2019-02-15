@@ -2,7 +2,11 @@ import { IWebSocket } from "src/interfaces/web-socket";
 import { IMessage } from "src/models/message";
 import { IAPIData } from "src/interfaces/api";
 
-const ERROR_CONNECTION_TIME_LIMIT: string = "WS Error connection limit";
+const ERROR_CONNECTION_TRY_LIMIT: string = "WS Error connection limit";
+const ERROR_AUTH_CONNECT_OR_TOKEN: string = "WS Error connection or token is undefined";
+
+const WS_SEND_LOG: string = "WS Sended message: ";
+const WS_RECIEVE_LOG: string = "WS Recieved message:";
 
 export default class WebSocketAPI implements IWebSocket {
   private data: IAPIData;
@@ -22,7 +26,11 @@ export default class WebSocketAPI implements IWebSocket {
 
   public SendMessage(message: IMessage) {
     if (this.connected) {
-      this.socket.send(JSON.stringify(message));
+      const serialMessage: string = JSON.stringify(message);
+      this.socket.send(serialMessage);
+      if (this.data.Logs) {
+        console.log(WS_SEND_LOG, serialMessage);
+      }
     }
   }
 
@@ -42,15 +50,36 @@ export default class WebSocketAPI implements IWebSocket {
       if (this.tryLimit > 0) {
         this.CreateConnection();
       } else {
-        throw Error(ERROR_CONNECTION_TIME_LIMIT);
+        throw Error(ERROR_CONNECTION_TRY_LIMIT);
       }
     };
 
     this.socket.onmessage = (event) => {
+      if (this.data.Logs) {
+        console.log(WS_RECIEVE_LOG, event.data);
+      }
       if (this.OnMessage) {
         this.OnMessage(JSON.parse(event.data));
       }
     };
+  }
+
+  public Auth() {
+    if (this.connected && this.data.Token !== "") {
+      const serialMessage: string = JSON.stringify({
+        type: "system",
+        Content: {
+          Type: "authoriz",
+          Token: this.data.Token,
+        },
+      });
+      this.socket.send(serialMessage);
+      if (this.data.Logs) {
+        console.log(WS_SEND_LOG, serialMessage);
+      }
+    } else {
+      throw Error(ERROR_AUTH_CONNECT_OR_TOKEN);
+    }
   }
 
   private push() {
