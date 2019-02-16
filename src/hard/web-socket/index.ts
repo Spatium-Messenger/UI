@@ -1,6 +1,10 @@
-import { IWebSocket } from "src/interfaces/web-socket";
-import { IMessage } from "src/models/message";
+import { IWebSocket,
+         IWebSocketUserMessage,
+         IWebSocketSystemMessage,
+         IWebSocketUserMessageSend } from "src/interfaces/web-socket";
+import { IMessage, IMessageType } from "src/models/message";
 import { IAPIData } from "src/interfaces/api";
+import { IDocumentUpload } from "src/models/document";
 
 const ERROR_CONNECTION_TRY_LIMIT: string = "WS Error connection limit";
 const ERROR_AUTH_CONNECT_OR_TOKEN: string = "WS Error connection or token is undefined";
@@ -11,7 +15,8 @@ const WS_RECIEVE_LOG: string = "WS Recieved message:";
 export default class WebSocketAPI implements IWebSocket {
   private data: IAPIData;
   private socket: WebSocket;
-  private onMessage: (data: any) => void;
+  private onMessage: (message: IMessage) => void;
+  private onAction: (data: any) => void;
   private connected: boolean;
   private tryLimit: number;
   constructor(data: IAPIData) {
@@ -24,9 +29,26 @@ export default class WebSocketAPI implements IWebSocket {
     this.onMessage = fn;
   }
 
+  set OnAction(fn: (data: any) => void) {
+    this.onAction = fn;
+  }
+
   public SendMessage(message: IMessage) {
     if (this.connected) {
-      const serialMessage: string = JSON.stringify(message);
+      const webSocketMessage: IWebSocketUserMessage = {
+        Type: "mes",
+        Content: {
+          Chat_Id: message.ChatID,
+          Content: {
+          content: message.Content.Message,
+          documents: message.Content.Documents,
+          type: "u_msg",
+        },
+          Token: this.data.Token,
+        },
+
+      };
+      const serialMessage: string = JSON.stringify(webSocketMessage);
       this.socket.send(serialMessage);
       if (this.data.Logs) {
         console.log(WS_SEND_LOG, serialMessage);
@@ -58,8 +80,16 @@ export default class WebSocketAPI implements IWebSocket {
       if (this.data.Logs) {
         console.log(WS_RECIEVE_LOG, event.data);
       }
-      if (this.OnMessage) {
-        this.OnMessage(JSON.parse(event.data));
+      if (this.onMessage &&  this.onAction) {
+        const message: IWebSocketSystemMessage | IWebSocketUserMessage = JSON.parse(event.data);
+        if ((message as IWebSocketSystemMessage).action) {
+          this.onAction(message);
+        } else {
+          console.log("Message", message);
+          // this.onMessage({
+          //   // AuthorID: (message as IWebSocketUserMessage)
+          // });
+        }
       }
     };
   }

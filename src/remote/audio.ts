@@ -38,7 +38,7 @@ export default class APIAudio implements IAPIAudio {
         }
       };
 
-      xhr.open("POST", this.data.IP + this.uploadPath, true);
+      xhr.open("POST", this.data.URL + this.uploadPath, true);
       xhr.send(body);
       file.abortLoad = function() {
         xhr.abort();
@@ -66,7 +66,7 @@ export default class APIAudio implements IAPIAudio {
 
   public async Delete(file: IAudioMessage): Promise<boolean> {
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", this.data.IP + this.deletePath, true);
+    xhr.open("POST", this.data.URL + this.deletePath, true);
     xhr.send(JSON.stringify({Token: this.data.Token, FileID: file.fileID, FileLoadingKey: -1}));
     const answer: {result: string} = await new Promise((resolve, reject) => {
         xhr.onreadystatechange = function() {

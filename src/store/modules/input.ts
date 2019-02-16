@@ -7,6 +7,7 @@ import { IRootStore } from "../interfeces";
 import {startRecording, stopRecording, doneRecording} from "src/hard/voice-recording";
 import { IAudioMessage } from "src/models/audio";
 import { IWebSocket } from "src/interfaces/web-socket";
+import { IMessage, IMessageType } from "src/models/message";
 
 export default class InputStoreModule implements IInputStore {
   @observable public chatsInputData: Map<number, IInputData>;
@@ -230,6 +231,36 @@ export default class InputStoreModule implements IInputStore {
 
       record.load = 1;
       this.voiceMessages.set(chatID, record);
+    } else {
+      const chatID = this.rootStore.chatStore.currentChat.ID;
+      const inputData: IInputData =  this.chatsInputData.get(chatID);
+      const docs: number[] = [];
+      try {
+        inputData.documents.forEach((v: IDocumentUpload) => {
+          if (v.del || v.load !== 2 || v.id === -1) {
+            throw new Error("");
+          } else {
+            docs.push(v.id);
+          }
+        });
+      } catch (e) {
+        return;
+      }
+
+      const message: IMessage = {
+        AuthorID: this.rootStore.userStore.data.ID,
+        AuthorName: this.rootStore.userStore.data.login,
+        ChatID: chatID,
+        Content: {
+          Type: IMessageType.User,
+          Documents: docs,
+          Message: inputData.text,
+        },
+        ID: -1,
+        Time: -1,
+      };
+
+      this.webSocketConnect.SendMessage(message);
     }
   }
 

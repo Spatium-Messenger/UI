@@ -6,9 +6,9 @@ import { ICookie } from "./interfaces/cookie";
 import WebSocketAPI from "./hard/web-socket";
 import { IWebSocket } from "./interfaces/web-socket";
 
-const URL = "http://192.168.1.39:1234";
+const URL = "http://192.168.1.38:1234";
 const LOGS = true;
-const IMITATION = true;
+const IMITATION = false;
 
 const cookie: ICookie = new Cookie();
 const rempoteAPIConfig = new APIData(URL, "", LOGS, IMITATION);

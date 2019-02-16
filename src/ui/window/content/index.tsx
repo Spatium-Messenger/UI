@@ -21,9 +21,9 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
     const userID = this.props.store.userStore.data.ID;
     return(
       <div className="window__content">
-        {/* <div> */}
+        <div>
           {messages.map((v, i) => <IMessageUnit data={v} key={i} userID={userID}/>)}
-        {/* </div> */}
+        </div>
       </div>
     );
   }
