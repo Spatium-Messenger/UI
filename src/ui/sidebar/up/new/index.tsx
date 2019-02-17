@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
 require("./styles.scss");
-const icon = require("assets/add.svg");
+const icon = require("assets/menu-button.svg");
 
 interface ISideBarNewButtonProps {
   onClick: () => void;

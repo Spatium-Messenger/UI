@@ -29,6 +29,7 @@ export default class WavesDraw implements IWavesDraw {
   }
 
   public Draw() {
+    this.resizeCanvas();
     this.ctx.clearRect(0, 0, this.cvs.width, this.cvs.height);
     this.ctx.fillStyle = this.color;
     this.ctx.fillRect(0, this.waveHeight, this.cvs.width, this.cvs.height);
@@ -47,8 +48,8 @@ export default class WavesDraw implements IWavesDraw {
   }
 
   private resizeCanvas() {
-    this.cvs.width = this.cvs.offsetWidth;
-    this.cvs.height = this.cvs.offsetHeight;
+    this.ctx.canvas.width = window.innerWidth;
+    this.ctx.canvas.height = window.innerHeight;
   }
 
 }

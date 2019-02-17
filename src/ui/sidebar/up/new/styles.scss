@@ -1,35 +1,37 @@
 .sidebar__new-button {
-  width: 25px;
-  border-radius: 5px;
+  width: 20px;
+  // border-radius: 5px;
   height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background: linear-gradient(to right, #396afc, #2948ff);
-  box-shadow: 0 0px 14px 0 rgba(65, 132, 234, 0.75);
-  background-size: 300% 100%;
+  // background: linear-gradient(to right, #396afc, #2948ff);
+  // box-shadow: 0 0px 14px 0 rgba(65, 132, 234, 0.75);
+  // background-size: 300% 100%;
   transition: 0.2s bottom ease-in-out;
 }
 
 .sidebar__new-button>svg{
-  width: 11px;
+  width: 20px;
   transition: 0.2s transform ease-in-out;
-  height: 11px;
+  height: 15px;
+  fill: $dark_gray;
 }
 
 .sidebar__new-button:hover>svg{
-  transform: rotate(360deg);
+  // transform: rotate(360deg);
 }
 
 .sidebar__new-button>svg>path{
-  fill: #ffffff;
+  // fill: #ffffff;
 }
 
 .sidebar__new-button:hover{
-  bottom: 45px;
+  // bottom: 45px;
+  opacity: 0.7;
 }
 
 .sidebar__new-button:active{
-  box-shadow: 0 0px 14px 0 rgba(65, 132, 234, 0.3);
+  // box-shadow: 0 0px 14px 0 rgba(65, 132, 234, 0.3);
 }

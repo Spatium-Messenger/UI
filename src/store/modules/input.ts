@@ -188,64 +188,10 @@ export default class InputStoreModule implements IInputStore {
 
   @action
   public async sendMessage() {
+    const chatID = this.rootStore.chatStore.currentChat.ID;
     if (this.voiceRecording) {
-      const chatID = this.rootStore.chatStore.currentChat.ID;
-      this.voiceVolumes = [];
-
-      let record: IAudioMessage = {
-        src: null,
-        chatID,
-        load: 0,
-        abortLoad: () => {
-          //
-        },
-        del: false,
-        uploaded: 0,
-        fileID: -1,
-      };
-
-      if (!this.voiceMessages.has(chatID)) {
-        record.src =  await new Promise((reject) => {
-          doneRecording((data: {blob: Blob, duration: number}) => {
-            reject(data);
-          });
-        });
-      } else {
-        if (this.voiceMessages.get(chatID).load === 1) { return; }
-        record =  this.voiceMessages.get(chatID);
-      }
-
-      this.remoteApi.audio.Upload(
-        record,
-        this.rootStore.userStore.data.ID,
-        function(file: IAudioMessage, err: boolean) {
-          const message: IMessageSend = {
-            AuthorID: this.rootStore.userStore.data.ID,
-            AuthorName: this.rootStore.userStore.data.login,
-            ChatID: file.chatID,
-            Content: {
-              Type: IMessageType.User,
-              Documents: [file.fileID],
-              Message: "",
-            },
-            ID: -1,
-            Time: -1,
-          };
-          this.webSocketConnect.SendMessage(message);
-          this.voiceMessages.delete(chatID);
-          this.voiceRecording = false;
-        }.bind(this),
-        function(bytes: number) {
-          const nowRecord: IAudioMessage = this.voiceMessages.get(chatID);
-          if (!nowRecord) {return; }
-          nowRecord.uploaded = bytes;
-          this.voiceMessages.set(chatID, nowRecord);
-        }.bind(this));
-
-      record.load = 1;
-      this.voiceMessages.set(chatID, record);
+      this.sendVoiceMessage(chatID);
     } else {
-      const chatID = this.rootStore.chatStore.currentChat.ID;
       const inputData: IInputData =  this.chatsInputData.get(chatID);
       const docs: number[] = [];
       try {
@@ -275,11 +221,72 @@ export default class InputStoreModule implements IInputStore {
 
       this.webSocketConnect.SendMessage(message);
     }
+    this.chatsInputData.set(chatID, {
+      documents: [],
+      text: "",
+    });
   }
 
   private getUpdateKey(oldKey: number) {
     const newValue = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
     return (newValue === oldKey ? this.getUpdateKey(oldKey) : newValue);
+  }
+
+  private async sendVoiceMessage(chatID: number) {
+      this.voiceVolumes = [];
+
+      let record: IAudioMessage = {
+        src: null,
+        chatID,
+        load: 0,
+        abortLoad: () => {
+          //
+        },
+        del: false,
+        uploaded: 0,
+        fileID: -1,
+      };
+
+      if (!this.voiceMessages.has(chatID)) {
+        record.src =  await new Promise((reject) => {
+          doneRecording((data: {blob: Blob, duration: number}) => {
+            reject(data);
+          });
+        });
+      } else {
+        if (this.voiceMessages.get(chatID).load === 1) { return; }
+        record =  this.voiceMessages.get(chatID);
+      }
+
+      this.remoteApi.audio.Upload(
+        record,
+        this.rootStore.userStore.data.ID,
+        (file: IAudioMessage, err: boolean) => {
+          const message: IMessageSend = {
+            AuthorID: this.rootStore.userStore.data.ID,
+            AuthorName: this.rootStore.userStore.data.login,
+            ChatID: file.chatID,
+            Content: {
+              Type: IMessageType.User,
+              Documents: [file.fileID],
+              Message: "",
+            },
+            ID: -1,
+            Time: -1,
+          };
+          this.webSocketConnect.SendMessage(message);
+          this.voiceMessages.delete(chatID);
+          this.voiceRecording = false;
+        },
+        (bytes: number) => {
+          const nowRecord: IAudioMessage = this.voiceMessages.get(chatID);
+          if (!nowRecord) {return; }
+          nowRecord.uploaded = bytes;
+          this.voiceMessages.set(chatID, nowRecord);
+        });
+
+      record.load = 1;
+      this.voiceMessages.set(chatID, record);
   }
 
 }
