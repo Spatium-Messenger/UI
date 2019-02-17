@@ -1,7 +1,15 @@
 export interface IMessageServer {
   content: string;
-  documents: number[];
+  documents: IMessageServerDoc[];
   type: string;
+}
+
+export interface IMessageServerDoc {
+  file_id: number;
+  name: string;
+  path: string;
+  ratio_size: 0;
+  size: number;
 }
 
 export interface IChatServer {

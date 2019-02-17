@@ -7,10 +7,31 @@ export interface IMessage {
   Time: number;
 }
 
+export interface IMessageSend {
+  ID: number;
+  ChatID: number;
+  Content: {
+    Message: string;
+    Documents: number[];
+    Type: IMessageType;
+  };
+  AuthorName: string;
+  AuthorID: number;
+  Time: number;
+}
+
 interface IMessageContent {
   Message: string;
-  Documents: number[];
+  Documents: IMessageContentDoc[];
   Type: IMessageType;
+}
+
+export interface IMessageContentDoc {
+  ID: number;
+  Name: string;
+  RatioSize: number;
+  Size: number;
+  Path: string;
 }
 
 export enum IMessageType {

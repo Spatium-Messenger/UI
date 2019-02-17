@@ -1,0 +1,51 @@
+.message-document{
+  padding: 10px;
+  background: $gray;
+  border-radius: 5px;
+  width: fit-content;
+  display: flex;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.message-document:hover{
+  .message-document__download{
+    background: lighten($primary-color, 5%);
+  }
+}
+
+.message-document>div:nth-child(2){
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.message-document__download{
+  user-select: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $primary-color;
+  border-radius: 50%;
+
+  svg{
+    fill: $white;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.message-document__name{
+  color: black;
+  font-size: 15px;
+  margin-top: 2.5px;
+}
+
+.message-document__size{
+  color: $font-gray;
+  font-size: 12px;
+  margin-top: 2.5px;
+}

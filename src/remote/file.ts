@@ -41,7 +41,7 @@ export default class APIFile implements IAPIFile {
           if (xhr.readyState !== 4) {return; }
           const data: {FileId: number, result: string} = JSON.parse(xhr.responseText);
           if (data.result !== "Error") {
-              file.id = data.FileId;
+              file.id = Number(data.FileId);
               if (file.del) {answer(file, true); }
               answer(file, false);
             }
@@ -104,7 +104,7 @@ export default class APIFile implements IAPIFile {
   private pack(file: IDocumentUpload, token: string): FormData {
       const formData = new FormData();
       formData.append("file", (file.src as any), file.src.name);
-      formData.append("fileName", file.src.name);
+      formData.append("name", file.src.name);
       formData.append("token", token);
       formData.append("type", file.src.type);
       formData.append("ratio_size", ((file.width / file.height as any) || 0));

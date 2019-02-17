@@ -26,7 +26,7 @@ export default class RootStore implements IRootStore {
     this.appStore = new AppStoreModule(this);
     this.inputStore = new InputStoreModule(this, this.remoteAPI, this.webScoketConnection);
     this.messagesStore = new MessagesStore(this, this.remoteAPI, this.webScoketConnection);
-    this.chatStore = new ChatStoreModule(this, this.remoteAPI);
+    this.chatStore = new ChatStoreModule(this, this.remoteAPI, this.webScoketConnection);
     this.userStore = new UserStoreModule(this, this.remoteAPI, this.cookie, this.webScoketConnection);
   }
 }

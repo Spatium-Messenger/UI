@@ -1,9 +1,9 @@
-import { IMessage } from "src/models/message";
+import { IMessage, IMessageSend } from "src/models/message";
 
 export interface IWebSocket {
-  SendMessage: (message: IMessage) => void;
-  OnMessage: (fn: (data: any) => void) => void;
-  OnAction: (fn: (data: any) => void) => void;
+  SendMessage: (message: IMessageSend) => void;
+  OnMessage: (data: IMessage) => void;
+  OnActionOnlineUser: (data: IServerActionOnlineUser) => void;
   CreateConnection: () => void;
   Auth: () => void;
 }
@@ -21,13 +21,19 @@ export interface IWebSocketUserMessage {
   };
 }
 
-export interface IWebSocketUserMessageSend {
-  type: string;
-  Content: {
+export interface IWebSocketUserMessageRecieve {
+  id: number;
+  chat_id: number;
+  message: {
     content: string;
     documents: number[];
     type: string;
   };
+  author_id: number;
+  author_name: string;
+  author_login: string;
+  time: number;
+  type: string;
 }
 
 export interface IWebSocketSystemMessage {
@@ -36,4 +42,29 @@ export interface IWebSocketSystemMessage {
   result?: string;
   chats?: number[];
   self?: boolean;
+}
+
+export interface IWebSocketSystemMessageAuth {
+  action: string;
+  result: string;
+  type_a: "system";
+}
+
+export interface IWebSocketSystemMessageOnline {
+  action: string;
+  chats: number[];
+  self: boolean;
+  type: string;
+  type_a: string;
+}
+
+export enum OnlineUserAction {
+  Reduce,
+  Increase,
+}
+
+export interface IServerActionOnlineUser {
+  Chats: number[];
+  Self: boolean;
+  Type: OnlineUserAction;
 }

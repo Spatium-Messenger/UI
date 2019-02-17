@@ -71,7 +71,9 @@ export default class MessagesStore implements IMessagesStore {
     }
   }
 
-  private newMessage(data: any) {
-    console.log(data);
+  private newMessage(data: IMessage) {
+    const chatMessagesInfo: IChatsMessages = this.messages.get(data.ChatID);
+    chatMessagesInfo.messages = [...chatMessagesInfo.messages, data];
+    this.messages.set(data.ChatID, chatMessagesInfo);
   }
 }

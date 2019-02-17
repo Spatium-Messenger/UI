@@ -12,8 +12,8 @@ export default class APIAudio implements IAPIAudio {
   private deletePath: string;
   constructor(data: IAPIData) {
     this.data = data;
-    this.uploadPath = "/api/user/uploadFile";
-    this.deletePath = "/api/user/deleteFile";
+    this.uploadPath = "/api/file/uploadFile";
+    this.deletePath = "/api/file/deleteFile";
     if (this.data.Imitation) {
       this.Upload = this.UploadTest;
       this.Delete = this.DeleteTest;
@@ -44,24 +44,28 @@ export default class APIAudio implements IAPIAudio {
         xhr.abort();
       };
 
-      await new Promise((resolve, reject) => {
-        xhr.upload.onload = () => {
+      const error = await new Promise((resolve) => {
+        xhr.onload = () => {
+          if (xhr.readyState !== 4) {return; }
           const data: {FileId: number, result: string} = JSON.parse(xhr.responseText);
           if (data.result !== "Error") {
-              file.fileID = data.FileId;
+              file.fileID = Number(data.FileId);
               if (file.del) {answer(file, true); }
               answer(file, false);
+              resolve(false);
             }
         };
 
-        xhr.upload.onerror = () => {
+        xhr.onerror = () => {
           if (this.data.Logs) {
               console.log("Uploading audio message: failed ");
           }
+          resolve(true);
         };
       });
-
-      answer(file, true);
+      if (error) {
+        answer(file, true);
+      }
     }
 
   public async Delete(file: IAudioMessage): Promise<boolean> {
@@ -136,8 +140,8 @@ export default class APIAudio implements IAPIAudio {
   private pack(file: IAudioMessage, token: string, userID: number): FormData {
     const fileName = file.src.blob.size + "_" + file.chatID + "_" + userID + ".wav";
     const formData = new FormData();
-    formData.append("uploadfile", (file.src.blob as any), fileName);
-    formData.append("fileName", fileName);
+    formData.append("file", (file.src.blob as any), fileName);
+    formData.append("name", fileName);
     formData.append("token", token);
     formData.append("type", "audio/wav");
     formData.append("ratio_size", (0 as any));

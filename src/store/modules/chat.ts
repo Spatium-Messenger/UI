@@ -6,15 +6,20 @@ import {IMessage} from "src/models/message";
 import { IAPI, IAnswerError } from "src/interfaces/api";
 import { ChatsTypes } from "src/interfaces/api/chat";
 import { IRootStore } from "../interfeces";
+import { IWebSocket, IServerActionOnlineUser } from "src/interfaces/web-socket";
 
 export default class ChatStoreModule implements IChatStore {
   @observable public chats: IChat[];
   @observable public currentChat: IChat;
   private remoteAPI: IAPI;
   private rootStore: IRootStore;
-  constructor(rootStore: IRootStore, remoteAPI: IAPI) {
+  private webScoketConnection: IWebSocket;
+
+  constructor(rootStore: IRootStore, remoteAPI: IAPI,  websocket: IWebSocket) {
     this.remoteAPI = remoteAPI;
     this.rootStore = rootStore;
+    this.webScoketConnection = websocket;
+    this.webScoketConnection.OnActionOnlineUser = this.newOnlineUser.bind(this);
     this.chats = [];
     // this.chats = [{
     //   ID: 1,
@@ -54,6 +59,10 @@ export default class ChatStoreModule implements IChatStore {
       this.rootStore.appStore.changeModal(MODALS_ID.NULL);
       this.loadChats();
     }
+  }
+
+  private newOnlineUser(data: IServerActionOnlineUser) {
+    // Useless now
   }
 
 }

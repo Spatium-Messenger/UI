@@ -7,7 +7,7 @@ import { IRootStore } from "../interfeces";
 import {startRecording, stopRecording, doneRecording} from "src/hard/voice-recording";
 import { IAudioMessage } from "src/models/audio";
 import { IWebSocket } from "src/interfaces/web-socket";
-import { IMessage, IMessageType } from "src/models/message";
+import { IMessage, IMessageType, IMessageSend } from "src/models/message";
 
 export default class InputStoreModule implements IInputStore {
   @observable public chatsInputData: Map<number, IInputData>;
@@ -218,7 +218,20 @@ export default class InputStoreModule implements IInputStore {
       this.remoteApi.audio.Upload(
         record,
         this.rootStore.userStore.data.ID,
-        function() {
+        function(file: IAudioMessage, err: boolean) {
+          const message: IMessageSend = {
+            AuthorID: this.rootStore.userStore.data.ID,
+            AuthorName: this.rootStore.userStore.data.login,
+            ChatID: file.chatID,
+            Content: {
+              Type: IMessageType.User,
+              Documents: [file.fileID],
+              Message: "",
+            },
+            ID: -1,
+            Time: -1,
+          };
+          this.webSocketConnect.SendMessage(message);
           this.voiceMessages.delete(chatID);
           this.voiceRecording = false;
         }.bind(this),
@@ -247,7 +260,7 @@ export default class InputStoreModule implements IInputStore {
         return;
       }
 
-      const message: IMessage = {
+      const message: IMessageSend = {
         AuthorID: this.rootStore.userStore.data.ID,
         AuthorName: this.rootStore.userStore.data.login,
         ChatID: chatID,
