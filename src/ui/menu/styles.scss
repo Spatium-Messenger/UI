@@ -1,0 +1,51 @@
+.user-menu-open,
+.user-menu-close{
+  padding: 5px 0px;
+  width: 230px;
+  height: 100vh;
+  position: fixed;
+  background: $purple;
+  transition: 0.2s left ease-in-out;
+  z-index: 999;
+}
+
+.user-menu-close{
+  left: -230px;
+}
+
+.user-menu-open{
+  left: 0px;
+}
+
+.user-menu__header{
+  user-select: none;
+  height: 30px;
+  display: flex;
+  padding: 10px;
+}
+
+.user-menu__header__avatar{
+  width: 30px;
+  border-radius: 5px;
+  background: $middle-gray;
+  color: $purple;
+  font-weight: 600;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 2;
+}
+
+.user-menu__header__info{
+  width: 180px;
+  margin-left: 10px;
+}
+
+.user-menu__header__info>div:nth-child(1){
+  font-size: 12px;
+  color: lighten($purple, 20%);
+}
+
+.user-menu__header__info>div:nth-child(2){
+  color: $gray;
+}

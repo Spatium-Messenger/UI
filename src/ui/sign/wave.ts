@@ -8,25 +8,23 @@ export default class Wave implements IWave {
 
   private color: string;
   private lambda: number;
-  private cvs: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private tick: number;
   private start: number;
 
   constructor(color: string, lambda: number,
-              nodes: number, cvs: HTMLCanvasElement,
+              nodes: number,
               ctx: CanvasRenderingContext2D,
               waveStart: number) {
-    this.color = color;
+    this.color = "#ffffff";
     this.lambda = lambda;
-    this.cvs = cvs;
     this.ctx = ctx;
     this.nodes = [];
     this.tick = 1;
     this.start = waveStart;
 
     for (let i = 0; i <= nodes + 2; i++) {
-      const tmp = [(i - 1) * this.cvs.width / nodes, 0, Math.random() * 200, .3];
+      const tmp = [(i - 1) * this.ctx.canvas.width / nodes, 50, Math.random() * 200, .3];
       this.nodes.push(tmp);
     }
   }
@@ -34,7 +32,7 @@ export default class Wave implements IWave {
   public Draw() {
     this.ctx.fillStyle = this.color;
     this.ctx.beginPath();
-    this.ctx.moveTo(0, this.start);
+    this.ctx.moveTo(0, 0);
     this.ctx.lineTo(this.nodes[0][0], this.nodes[0][1]);
     this.nodes.forEach((v, i) => {
       if (this.nodes[i + 1]) {
@@ -45,7 +43,7 @@ export default class Wave implements IWave {
         );
       } else {
         this.ctx.lineTo(this.nodes[i][0], this.nodes[i][1]);
-        this.ctx.lineTo(this.cvs.width, this.start);
+        this.ctx.lineTo(this.ctx.canvas.width, 0);
       }
     });
     this.ctx.closePath();

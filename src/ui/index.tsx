@@ -1,7 +1,7 @@
 import * as React from "react";
 import Store from "src/store";
-import SideBar from "./sidebar";
-import Window from "./window";
+import SideBar from "./chats";
+import Window from "./messages";
 import { IAPI } from "src/interfaces/api";
 import {IRootStore} from "src/store/interfeces";
 import { render } from "react-dom";
@@ -10,6 +10,7 @@ import Sign from "./sign";
 import { IUserStore } from "src/interfaces/store";
 import { ICookie } from "src/interfaces/cookie";
 import Modals from "./modals";
+import UserMenu from "./menu";
 import { IWebSocket } from "src/interfaces/web-socket";
 
 require("./styles.scss");
@@ -31,6 +32,7 @@ class Messenger extends React.Component<IMessngerProps> {
     const content = (this.props.store.userStore.data.token === "" ?
       <Sign/> :
       <div className="wrapper">
+        <UserMenu/>
         <Modals/>
         <SideBar/>
         <Window/>

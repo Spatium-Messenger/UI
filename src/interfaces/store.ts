@@ -8,6 +8,8 @@ export enum MODALS_ID {CREATE_CHAT, NULL}
 export interface IAppStore {
   modal: MODALS_ID;
   changeModal: (type: MODALS_ID) => void;
+  menu: boolean;
+  changeMenu: (val: boolean) => void;
 }
 
 export interface IChatStore {
@@ -24,6 +26,7 @@ export interface IUserStore {
   create: (login: string, pass: string) => void;
   checkUserWasSignIn: () => Promise<boolean>;
   enterAsAnonymus: () => void;
+  logout: () => void;
 }
 
 export interface IMessagesStore {

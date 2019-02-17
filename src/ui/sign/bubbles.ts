@@ -11,18 +11,17 @@ interface IBubble {
 }
 
 export default class Bubbles implements IBubbles {
-  private cvs: HTMLCanvasElement;
+
   private ctx: CanvasRenderingContext2D;
   private bubbles: IBubble[];
   private colors: string[];
-  constructor(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D,
+  constructor(context: CanvasRenderingContext2D,
               bubblesCount: number, colors: string[]) {
-    this.cvs = canvas;
     this.ctx = context;
     this.bubbles = [];
     this.colors = colors;
     for (let i = 0; i < bubblesCount; i++) {
-        this.bubbles.push(this.createBubble(Math.random() * this.cvs.height));
+        this.bubbles.push(this.createBubble(Math.random() * this.ctx.canvas.height));
     }
   }
 
@@ -31,7 +30,7 @@ export default class Bubbles implements IBubbles {
       const swingAxis = Math.sin(v.y / 20);
       const p = this.ctx.getImageData(v.x, v.y - v.velocity * 3, 1, 1).data;
       if (p[0] === 0 && p[1] === 0 && p[2] === 0) {
-        return this.createBubble(this.cvs.height);
+        return this.createBubble(this.ctx.canvas.height);
       }
       this.ctx.beginPath();
       // this.ctx.lineWidth = 5;
@@ -43,7 +42,7 @@ export default class Bubbles implements IBubbles {
       this.ctx.closePath();
       v.y -= v.velocity;
       if (v.y <= 0) {
-       return this.createBubble(this.cvs.height);
+       return this.createBubble(this.ctx.canvas.height);
         // console.log("New bubble", v, this.ctx.fillStyle);
       }
       return v;
@@ -54,7 +53,7 @@ export default class Bubbles implements IBubbles {
   private createBubble(start: number): IBubble {
     const bubble: IBubble = {
       y: start,
-      x: Math.random() * this.cvs.width,
+      x: Math.random() * this.ctx.canvas.width,
       color: this.colors[Math.floor(Math.random() * this.colors.length)],
       velocity: Math.random(),
       radius: Math.floor(Math.random() * 5),

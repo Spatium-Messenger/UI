@@ -26,7 +26,7 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
     };
     this.searchChange = this.searchChange.bind(this);
     this.chooseChat = this.chooseChat.bind(this);
-    this.newChat = this.newChat.bind(this);
+    this.menu = this.menu.bind(this);
   }
 
   public searchChange(n: string) {
@@ -39,9 +39,8 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
     this.props.store.chatStore.chooseChat(chat);
   }
 
-  public newChat() {
-    console.log("new chat");
-    this.props.store.appStore.changeModal(MODALS_ID.CREATE_CHAT);
+  public menu() {
+    this.props.store.appStore.changeMenu(true);
   }
 
   public render() {
@@ -68,7 +67,7 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
 
     return(
       <div className="sidebar">
-          <UpPanel onChange={this.searchChange} newChat={this.newChat}/>
+          <UpPanel onChange={this.searchChange} menu={this.menu}/>
           <div className="sidebar__items">
             {chats}
             <div className="sidebar__items__notfound">

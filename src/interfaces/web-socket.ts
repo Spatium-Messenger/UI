@@ -6,6 +6,7 @@ export interface IWebSocket {
   OnActionOnlineUser: (data: IServerActionOnlineUser) => void;
   CreateConnection: () => void;
   Auth: () => void;
+  CloseConnection: () => void;
 }
 
 export interface IWebSocketUserMessage {

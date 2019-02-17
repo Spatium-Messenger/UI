@@ -158,6 +158,12 @@ export default class WebSocketAPI implements IWebSocket {
     }
   }
 
+  public CloseConnection() {
+    this.socket.close();
+    this.connected = false;
+    this.auth = false;
+  }
+
   private push() {
     //
   }

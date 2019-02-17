@@ -3,13 +3,13 @@ import { observer, inject } from "mobx-react";
 require("./styles.scss");
 const icon = require("assets/menu-button.svg");
 
-interface ISideBarNewButtonProps {
+interface ISideBarMenuButtonProps {
   onClick: () => void;
 }
 
 @inject("store")
 @observer
-export default class SideBarNewButton extends React.Component<ISideBarNewButtonProps> {
+export default class SideBarMenuButton extends React.Component<ISideBarMenuButtonProps> {
   constructor(props) {
     super(props);
   }

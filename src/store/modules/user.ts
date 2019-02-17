@@ -62,6 +62,17 @@ export default class UserStoreModule implements IUserStore {
     //
   }
 
+  @action
+  public logout() {
+    this.webScoketConnection.CloseConnection();
+    this.data.ID = -1;
+    this.data.login = "";
+    this.data.token = "";
+    this.cookie.Set(TOKEN_COOKIE_NAME, "");
+    this.cookie.Set(LOGIN_COOKIE_NAME, "");
+    this.remoteAPI.data.Token = "";
+  }
+
   private async getUserID() {
     const answer: {result: string} = await this.remoteAPI.user.GetMyData();
     // console.log(answer);
