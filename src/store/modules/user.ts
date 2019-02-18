@@ -1,6 +1,6 @@
 import { observable, action} from "mobx";
 // import { IAppStoreModule, IUser } from "../../../interfaces/app_state";
-import {IUser, IUserStore} from "src/interfaces/store";
+import {IUser, IUserStore, LANGUAGES} from "src/interfaces/store";
 import { IAPI } from "src/interfaces/api";
 import { IRootStore } from "../interfeces";
 import { ICookie } from "src/interfaces/cookie";
@@ -19,7 +19,7 @@ export default class UserStoreModule implements IUserStore {
 
   constructor(rootStore: any, remote: IAPI, cookieControler: ICookie, websocket: IWebSocket) {
     this.remoteAPI = remote;
-    this.data = {token: "", login: "", ID: -1};
+    this.data = {token: "", login: "", ID: -1, lang: "Russian"};
     this.rootStore = rootStore;
     this.cookie = cookieControler;
     this.webScoketConnection = websocket;
@@ -60,6 +60,10 @@ export default class UserStoreModule implements IUserStore {
   @action
   public enterAsAnonymus() {
     //
+  }
+
+  @action public setLang(lang: string) {
+    this.data.lang = lang;
   }
 
   @action

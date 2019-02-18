@@ -2,8 +2,13 @@ import { IChat } from "src/models/chat";
 import { IMessage } from "src/models/message";
 import { IDocument, IDocumentUpload } from "src/models/document";
 import { IAudioMessage } from "src/models/audio";
+import langages from "src/language";
 
 export enum MODALS_ID {CREATE_CHAT, NULL}
+export enum LANGUAGES {RUSSIAN, ENGLISH}
+export const LANGUAGES_PACK: Map<LANGUAGES, string> = new Map<LANGUAGES, string>();
+LANGUAGES_PACK.set(LANGUAGES.RUSSIAN, "Russian");
+LANGUAGES_PACK.set(LANGUAGES.ENGLISH, "English");
 
 export interface IAppStore {
   modal: MODALS_ID;
@@ -26,6 +31,7 @@ export interface IUserStore {
   create: (login: string, pass: string) => void;
   checkUserWasSignIn: () => Promise<boolean>;
   enterAsAnonymus: () => void;
+  setLang: (lang: string) => void;
   logout: () => void;
 }
 
@@ -62,4 +68,5 @@ export interface IUser {
   login: string;
   token: string;
   ID: number;
+  lang: string;
 }

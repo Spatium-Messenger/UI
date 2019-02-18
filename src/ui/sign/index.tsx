@@ -3,6 +3,8 @@ import { observer, inject } from "mobx-react";
 import WavesDraw, { IWavesDraw } from "./waves.draw";
 import { IAppStore, IUserStore } from "src/interfaces/store";
 import { IRootStore } from "src/store/interfeces";
+import { ILanguage } from "src/language/interface";
+import languages from "src/language";
 require("./styles.scss");
 
 const anonIcon = require("assets/user.svg");
@@ -33,6 +35,7 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
     this.ButtonClick = this.ButtonClick.bind(this);
     this.Change = this.Change.bind(this);
     this.Anon = this.Anon.bind(this);
+    this.Language = this.Language.bind(this);
   }
 
   public componentDidMount() {
@@ -57,36 +60,58 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
     });
   }
 
+  public Language(lang: string) {
+    this.props.store.userStore.setLang(lang);
+  }
+
   public Anon() {
     //
   }
 
   public render() {
-    const header: string = (this.state.InOrUp ? "Sign Up" : "Sign In");
-    const bottom: string = (this.state.InOrUp ? "Sign In" : "Sign Up");
-    const button: string = (this.state.InOrUp ? "Start" : "Enter");
+    const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
+    const langs: string[] = [];
+    for (const l of languages.keys()) {
+      if (l !== this.props.store.userStore.data.lang) {
+        langs.push(l);
+      }
+    }
+
+    const header: string = (this.state.InOrUp ? lang.sign.up : lang.sign.in);
+    const bottom: string = (this.state.InOrUp ? lang.sign.in : lang.sign.up);
+    const button: string = (this.state.InOrUp ? lang.sign.start : lang.sign.enter);
     return(
       <div className="sign">
         <div className="sign__canvas-wrapper">
           <canvas ref={this.canvas}/>
         </div>
+        <div className="sign__lang">
+          <span>{this.props.store.userStore.data.lang}</span>
+          <div className="sign__lang__content">
+            {langs.map((l, i) => <div onClick={() => this.Language(l)}key={i}>{l}</div>)}
+          </div>
+        </div>
         <img src="/assets/logo.png" alt="logo" className="sign__logo"/>
         <div className="sign__form">
           <div className="sign__form-header">
             <div>{header}</div>
-            <div dangerouslySetInnerHTML={{__html: anonIcon}} onClick={this.Anon}/>
+            <div
+              dangerouslySetInnerHTML={{__html: anonIcon}}
+              onClick={this.Anon}
+              data-anon={lang.sign.anon}
+            />
           </div>
           <div>
             <input
               type="text"
               className="sign__form-input"
-              placeholder="Login"
+              placeholder={lang.sign.input.login}
               value={this.state.login}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({login: e.target.value})}
             />
             <input
               className="sign__form-input"
-              placeholder="Pass"
+              placeholder={lang.sign.input.pass}
               type="password"
               value={this.state.pass}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({pass: e.target.value})}

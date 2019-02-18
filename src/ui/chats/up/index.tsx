@@ -6,6 +6,7 @@ require("./styles.scss");
 interface ISideBarSearchProps {
   onChange: (word: string) => void;
   menu: () => void;
+  placeholder: string;
 }
 
 export default class SideBarSearch extends React.Component<ISideBarSearchProps> {
@@ -22,7 +23,7 @@ export default class SideBarSearch extends React.Component<ISideBarSearchProps> 
     return(
       <div className="sidebar__search">
         <SideBarMenuButton onClick={this.props.menu}/>
-        <input onChange={this.change} placeholder="Search..."/>
+        <input onChange={this.change} placeholder={this.props.placeholder}/>
       </div>
     );
   }

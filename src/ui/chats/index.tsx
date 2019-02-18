@@ -5,6 +5,8 @@ import UpPanel from "./up";
 import SideBarItem from "./item";
 import { IChat } from "src/models/chat";
 import { IRootStore } from "src/store/interfeces";
+import languages from "src/language";
+import { ILanguage } from "src/language/interface";
 
 require("./styles.scss");
 
@@ -65,9 +67,11 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
       },
     );
 
+    const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
+
     return(
       <div className="sidebar">
-          <UpPanel onChange={this.searchChange} menu={this.menu}/>
+          <UpPanel onChange={this.searchChange} menu={this.menu} placeholder={lang.chats.search}/>
           <div className="sidebar__items">
             {chats}
             <div className="sidebar__items__notfound">

@@ -2,6 +2,7 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { IAppStore, IInputStore, IChatStore } from "src/interfaces/store";
 import { IRootStore } from "src/store/interfeces";
+import languages from "src/language";
 require("./styles.scss");
 
 const autosie = require("autosize");
@@ -58,6 +59,7 @@ export default class TextArea extends React.Component<ITextAreaProps, ITextAreaS
   }
 
   public render() {
+    const lang = languages.get(this.props.store.userStore.data.lang).messages.input;
     const chatID = this.props.store.chatStore.currentChat.ID;
     const input = this.props.store.inputStore.chatsInputData.get(chatID).text;
     const voiceRecordingEnable = this.props.store.inputStore.voiceRecording;
@@ -66,7 +68,7 @@ export default class TextArea extends React.Component<ITextAreaProps, ITextAreaS
         ref={this.inputRef}
         id="inputarea"
         className={"message-input" + (voiceRecordingEnable ? "-shadowed" : "")}
-        placeholder="Message..."
+        placeholder={lang.placeholder}
         onChange={this.handleChange}
         value={input}
         // id="inputTextArea"

@@ -5,7 +5,11 @@ import WindowsContent from "./content";
 import WindowsInput from "./input";
 import { IAppStore, IChatStore } from "src/interfaces/store";
 import { IRootStore } from "src/store/interfeces";
+import { ILanguage } from "src/language/interface";
+import languages from "src/language";
 require("./styles.scss");
+
+const worldIcon: string = require("assets/worlwide.svg");
 
 interface IWindowProps {
   store?: IRootStore;
@@ -18,10 +22,18 @@ export default class Window extends React.Component<IWindowProps> {
     super(props);
   }
   public render() {
+    const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
     if (!this.props.store.chatStore.currentChat) {
       return (
         <div className="window">
-          <div className="window__empty">Choose chat</div>
+          <div className="window__empty">
+            <div>
+              <div
+                dangerouslySetInnerHTML={{__html: worldIcon}}
+              />
+              <div>{lang.messages.choose}</div>
+            </div>
+          </div>
         </div>
       );
     }

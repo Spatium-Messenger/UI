@@ -7,7 +7,7 @@ export default class AppStoreModule implements IAppStore {
 
   constructor(rootStore: any) {
     this.modal = MODALS_ID.NULL;
-    this.menu = true;
+    this.menu = false;
   }
 
   @action
