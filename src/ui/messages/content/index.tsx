@@ -29,6 +29,8 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
       }
 
       return <IMessageUnit
+        downloadFile={this.props.store.messagesStore.downloadFile}
+        getImage={this.props.store.messagesStore.getImage}
         data={v}
         key={i}
         userID={userID}

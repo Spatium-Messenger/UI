@@ -4,51 +4,31 @@ import { IRootStore } from "../interfeces";
 import { IAPI, IAnswerError } from "src/interfaces/api";
 import { IMessage } from "src/models/message";
 import { IWebSocket } from "src/interfaces/web-socket";
+import { ILocalStorage } from "src/interfaces/local-storage";
+import { LZString } from "src/hard/string-compress";
 
 export default class MessagesStore implements IMessagesStore {
   @observable public messages: Map<number, IChatsMessages>;
   private rootStore: IRootStore;
   private remoteApi: IAPI;
   private webSocketConnect: IWebSocket;
+  private storage: ILocalStorage;
+  private openLink: (link: string, name: string) => void;
 
-  constructor(rootStore: IRootStore, remoteAPI: IAPI, websocket: IWebSocket) {
+  constructor(
+      rootStore: IRootStore,
+      openLink: (link: string, name: string) => void,
+    ) {
     this.rootStore = rootStore;
-    this.remoteApi = remoteAPI;
-    this.webSocketConnect = websocket;
+    this.remoteApi = rootStore.remoteAPI;
+    this.webSocketConnect = rootStore.webScoketConnection;
+    this.storage = rootStore.storage;
     this.webSocketConnect.OnMessage = this.newMessage.bind(this);
+    this.openLink = openLink;
+
     this.messages = new Map<number, IChatsMessages>();
-    this.messages.set(1, {
-      messages: [
-      //   {
-      //     ID: 1,
-      //     AuthorID: 2,
-      //     AuthorName: "BorisBritva",
-      //     Content: {
-      //               Documents: [],
-      //               Message: `Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-      //                 when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-      //            It has survived not only five centuries, but also the leap into electronic typesetting, remaining
-      //                 essentially unchanged. It was popularised in the 1960s with the release
-      //                 of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-      //                 publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-      //               Type: "u_msg"},
-      //     ChatID: 1,
-      //     Time: 1547649321,
-      //  },
-      //   {
-      //     ID: 2,
-      //     AuthorID: 1,
-      //     AuthorName: "Alex228",
-      //     Content: {
-      //               Documents: [],
-      //               Message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      //               Type: "u_msg"},
-      //     ChatID: 1,
-      //     Time: 1547648232,
-      //  },
-      ],
-      allLoaded: false,
-    });
+    this.getImage = this.getImage.bind(this);
+    this.downloadFile = this.downloadFile.bind(this);
   }
 
   @action
@@ -69,6 +49,35 @@ export default class MessagesStore implements IMessagesStore {
     } else {
       console.log("Error", newMessages);
     }
+  }
+
+  public async getImage(fileID: number, ext: string): Promise<string> {
+    let compressed = this.storage.Get(String(fileID));
+    if (compressed !== "" && compressed !== null) {
+      const decompressed = LZString.decompress(compressed);
+      return decompressed;
+    } else {
+      const decompressed = await this.remoteApi.file.GetImage(fileID, ext);
+      if (decompressed !== "Error" && decompressed !== "") {
+        compressed = LZString.compress(decompressed);
+        this.storage.Set(String(fileID), compressed);
+        return decompressed;
+      } else {
+        return "Error";
+      }
+    }
+  }
+
+  public async downloadFile(fileID: number, name: string) {
+    let link: string = await this.remoteApi.file.Download(fileID);
+    if (link !== "Error") {
+      link = this.remoteApi.data.URL + "/getFile/" + link + "/" + name;
+      this.openLink(link, name);
+    }
+  }
+
+  public clear() {
+    this.messages.clear();
   }
 
   private newMessage(data: IMessage) {

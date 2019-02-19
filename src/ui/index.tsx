@@ -12,6 +12,7 @@ import { ICookie } from "src/interfaces/cookie";
 import Modals from "./modals";
 import UserMenu from "./menu";
 import { IWebSocket } from "src/interfaces/web-socket";
+import { ILocalStorage } from "src/interfaces/local-storage";
 
 require("./styles.scss");
 require("./main.scss");
@@ -43,8 +44,14 @@ class Messenger extends React.Component<IMessngerProps> {
   }
 }
 
-const CreateUI = function(remoteAPI: IAPI, cookieController: ICookie, websocket: IWebSocket) {
-  store = new Store(remoteAPI, cookieController, websocket);
+const CreateUI = function(
+    remoteAPI: IAPI,
+    cookieController: ICookie,
+    websocket: IWebSocket,
+    storage: ILocalStorage,
+    openLink: (link: string, name: string) => void,
+  ) {
+  store = new Store(remoteAPI, cookieController, websocket, storage, openLink);
   render(
     <main>
        <Provider store={store}>

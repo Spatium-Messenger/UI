@@ -8,6 +8,7 @@ import ChatStoreModule from "./modules/chat";
 import UserStoreModule from "./modules/user";
 import { ICookie } from "src/interfaces/cookie";
 import { IWebSocket } from "src/interfaces/web-socket";
+import { ILocalStorage } from "src/interfaces/local-storage";
 
 export default class RootStore implements IRootStore {
   public appStore: IAppStore;
@@ -15,18 +16,26 @@ export default class RootStore implements IRootStore {
   public messagesStore: IMessagesStore;
   public chatStore: IChatStore;
   public userStore: IUserStore;
-  private remoteAPI: IAPI;
-  private cookie: ICookie;
-  private webScoketConnection: IWebSocket;
+  public remoteAPI: IAPI;
+  public cookie: ICookie;
+  public webScoketConnection: IWebSocket;
+  public storage: ILocalStorage;
 
-  constructor(remoteAPI: IAPI, cookieController: ICookie, websocket: IWebSocket) {
+  constructor(
+      remoteAPI: IAPI,
+      cookieController: ICookie,
+      websocket: IWebSocket,
+      storage: ILocalStorage,
+      openLink: (link: string, name: string) => void,
+    ) {
     this.remoteAPI = remoteAPI;
     this.cookie = cookieController;
     this.webScoketConnection = websocket;
+    this.storage = storage;
     this.appStore = new AppStoreModule(this);
-    this.inputStore = new InputStoreModule(this, this.remoteAPI, this.webScoketConnection);
-    this.messagesStore = new MessagesStore(this, this.remoteAPI, this.webScoketConnection);
-    this.chatStore = new ChatStoreModule(this, this.remoteAPI, this.webScoketConnection);
-    this.userStore = new UserStoreModule(this, this.remoteAPI, this.cookie, this.webScoketConnection);
+    this.inputStore = new InputStoreModule(this);
+    this.messagesStore = new MessagesStore(this, openLink);
+    this.chatStore = new ChatStoreModule(this);
+    this.userStore = new UserStoreModule(this);
   }
 }

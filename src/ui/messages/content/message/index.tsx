@@ -8,6 +8,8 @@ interface IMessageUnitProps {
   data: IMessage;
   userID: number;
   lastMessageAuthorName: string;
+  getImage: (fileID: number, ext: string) => Promise<string>;
+  downloadFile: (fileID: number,  name: string) => void;
 }
 
 export default class MessageUnit extends React.Component<IMessageUnitProps> {
@@ -28,12 +30,21 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
       </div>
       );
     }
+
+    const docs: JSX.Element[] = mess.Content.Documents.map((d, i) =>
+      <DocMessage
+         getImage={this.props.getImage}
+         downloadFile={this.props.downloadFile}
+         doc={d}
+         key={i}
+      />,
+      );
     return(
       // <div className={"message_" + (authorsMessage ? "my" : "alien")}>
       <div className={"message-wrapper"}>
         <div className="message">
           {(showAuthorName ? <div className="message__author">{mess.AuthorName}</div> : <div/>)}
-          {mess.Content.Documents.map((d, i) => <DocMessage doc={d} key={i}/>)}
+          {docs}
           <div className="message__content">{mess.Content.Message}</div>
         </div>
       </div>

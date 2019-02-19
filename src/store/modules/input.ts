@@ -18,10 +18,10 @@ export default class InputStoreModule implements IInputStore {
   private rootStore: IRootStore;
   private webSocketConnect: IWebSocket;
 
-  constructor(rootStore: IRootStore, remoteAPI: IAPI, websocket: IWebSocket) {
+  constructor(rootStore: IRootStore) {
     this.rootStore = rootStore;
-    this.remoteApi = remoteAPI;
-    this.webSocketConnect = websocket;
+    this.remoteApi = rootStore.remoteAPI;
+    this.webSocketConnect = rootStore.webScoketConnection;
     this.chatsInputData = new Map<number, IInputData>();
     this.chatsInputData.set(1, {
       documents: [],
@@ -225,6 +225,13 @@ export default class InputStoreModule implements IInputStore {
       documents: [],
       text: "",
     });
+  }
+
+  public clear() {
+    this.chatsInputData.clear();
+    this.voiceRecording = false;
+    this.voiceVolumes = [];
+    this.voiceMessages.clear();
   }
 
   private getUpdateKey(oldKey: number) {

@@ -35,3 +35,11 @@ Current:
   Show Messages:
     Messages API
     Connect to store
+
+
+New:
+  Audio Messages View
+  Language in modals
+  Cache modal
+  Send docs without message
+  Time with nickname

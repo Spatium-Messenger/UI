@@ -23,6 +23,7 @@ export interface IChatStore {
   chooseChat: (chat: IChat) => void;
   loadChats: () => void;
   createChat: (name: string) => void;
+  clear: () => void;
 }
 
 export interface IUserStore {
@@ -38,6 +39,9 @@ export interface IUserStore {
 export interface IMessagesStore {
   messages: Map<number, IChatsMessages>;
   loadMessages: (chatID: number) => void;
+  getImage: (fileID: number, ext: string) => Promise<string>;
+  downloadFile: (fileID: number,  name: string) => void;
+  clear: () => void;
 }
 
 export interface IChatsMessages {
@@ -57,6 +61,7 @@ export interface IInputStore {
   sendMessage: () => void;
   changeRecording: (val: boolean) => void;
   stopRecording: () => void;
+  clear: () => void;
 }
 
 export interface IInputData {

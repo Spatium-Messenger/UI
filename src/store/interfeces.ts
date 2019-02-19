@@ -1,4 +1,8 @@
 import {IAppStore, IInputStore, IMessagesStore, IChatStore, IUserStore} from "src/interfaces/store";
+import { IAPI } from "src/interfaces/api";
+import { ICookie } from "src/interfaces/cookie";
+import { IWebSocket } from "src/interfaces/web-socket";
+import { ILocalStorage } from "src/interfaces/local-storage";
 // import {IPopularPageStoreModule} from "./modules/popular_page/interfaces";
 
 export interface IRootStore {
@@ -7,5 +11,9 @@ export interface IRootStore {
   messagesStore: IMessagesStore;
   chatStore: IChatStore;
   userStore: IUserStore;
+  remoteAPI: IAPI;
+  cookie: ICookie;
+  webScoketConnection: IWebSocket;
+  storage: ILocalStorage;
   // popularStore: IPopularPageStoreModule;
 }

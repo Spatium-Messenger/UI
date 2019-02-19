@@ -17,12 +17,12 @@ export default class UserStoreModule implements IUserStore {
   private cookie: ICookie;
   private webScoketConnection: IWebSocket;
 
-  constructor(rootStore: any, remote: IAPI, cookieControler: ICookie, websocket: IWebSocket) {
-    this.remoteAPI = remote;
+  constructor(rootStore: IRootStore) {
+    this.remoteAPI = rootStore.remoteAPI;
     this.data = {token: "", login: "", ID: -1, lang: "Russian"};
     this.rootStore = rootStore;
-    this.cookie = cookieControler;
-    this.webScoketConnection = websocket;
+    this.cookie = rootStore.cookie;
+    this.webScoketConnection = rootStore.webScoketConnection;
   }
 
   @action
@@ -74,6 +74,9 @@ export default class UserStoreModule implements IUserStore {
     this.data.token = "";
     this.cookie.Set(TOKEN_COOKIE_NAME, "");
     this.cookie.Set(LOGIN_COOKIE_NAME, "");
+    this.rootStore.chatStore.clear();
+    this.rootStore.inputStore.clear();
+    this.rootStore.messagesStore.clear();
     this.remoteAPI.data.Token = "";
   }
 

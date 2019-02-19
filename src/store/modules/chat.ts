@@ -15,24 +15,12 @@ export default class ChatStoreModule implements IChatStore {
   private rootStore: IRootStore;
   private webScoketConnection: IWebSocket;
 
-  constructor(rootStore: IRootStore, remoteAPI: IAPI,  websocket: IWebSocket) {
-    this.remoteAPI = remoteAPI;
+  constructor(rootStore: IRootStore) {
+    this.remoteAPI = rootStore.remoteAPI;
     this.rootStore = rootStore;
-    this.webScoketConnection = websocket;
+    this.webScoketConnection = rootStore.webScoketConnection;
     this.webScoketConnection.OnActionOnlineUser = this.newOnlineUser.bind(this);
     this.chats = [];
-    // this.chats = [{
-    //   ID: 1,
-    //   LastMessage:
-    //     {AuthorID: 1,
-    //      AuthorName: "Alex228",
-    //      Content: {Documents: [], Message: "Hi)", Type: "u_msg"},
-    //      chatID: 1,
-    //      Time: 1547648232,
-    //     },
-    //   Name: "AlexChat",
-    //   New: 2,
-    // }];
     this.currentChat = null;
 
   }
@@ -48,6 +36,13 @@ export default class ChatStoreModule implements IChatStore {
     const chats: IAnswerError | IChat[] = await this.remoteAPI.chat.Get();
     if ((chats as IAnswerError).result !== "Error") {
       this.chats = (chats as IChat[]);
+      this.rootStore.messagesStore.messages.clear();
+      this.chats.forEach((v) => {
+        this.rootStore.messagesStore.messages.set(v.ID, {
+          allLoaded: false,
+          messages: [],
+        });
+      });
     }
   }
 
@@ -59,6 +54,11 @@ export default class ChatStoreModule implements IChatStore {
       this.rootStore.appStore.changeModal(MODALS_ID.NULL);
       this.loadChats();
     }
+  }
+
+  public clear() {
+    this.chats = [];
+    this.currentChat = null;
   }
 
   private newOnlineUser(data: IServerActionOnlineUser) {

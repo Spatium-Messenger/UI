@@ -8,6 +8,8 @@ const downloadIcon: string = require("assets/download.svg");
 
 interface IDocMessageProps {
   doc: IMessageContentDoc;
+  getImage: (fileID: number, ext: string) => Promise<string>;
+  downloadFile: (fileID: number,  name: string) => void;
 }
 
 const EXTENSION_AUDIO = "wav";
@@ -26,7 +28,11 @@ export default class DocMessage extends React.Component<IDocMessageProps> {
       case EXTENSION_IMAGE_JPEG:
       case EXTENSION_IMAGE_JPG:
       case EXTENSION_IMAGE_PNG:
-        return <ImageMessage doc={this.props.doc}/>;
+        return <ImageMessage
+                  doc={this.props.doc}
+                  getImage={this.props.getImage}
+                  downloadFile={this.props.downloadFile}
+        />;
       case EXTENSION_AUDIO:
         return <AudioMessage doc={this.props.doc}/>;
     }
