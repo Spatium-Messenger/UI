@@ -1,45 +1,6 @@
-Window:
-  Input:
-    + Resize textarea
-    + Attach documents
-    Voice records
-  Content:
-    Load meesages
-    Show messages
-    Partly load messages
-    Show documents
-    Play voice messages
-    Images cash
-  Header:
-    Open settings sidebar
-  Chat settings:
-    Rename
-
-
-Current:
-  + Voice record to document
-  + Play yourself message
-  + Send voice message
-  + Create API remote base class
-  Sign page
-    Canvas curves
-  Load chats:
-    Chats API
-    API Connect to Store
-  Create chat:
-    Chats API
-    Connect to Store
-  Send messages:
-    Chats API
-    Connect to Store
-  Show Messages:
-    Messages API
-    Connect to store
-
-
-New:
-  Audio Messages View
+Todo:
+  + Audio Messages View
   Language in modals
   Cache modal
-  Send docs without message
+  + Send docs without message
   Time with nickname

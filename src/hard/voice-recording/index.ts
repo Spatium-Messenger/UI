@@ -10,11 +10,9 @@ interface INode {
 }
 
 const startRecording = async function(progress: (ampls: number) => void) {
-  if (!recorder) {
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    const input = new AudioContext().createMediaStreamSource(stream);
-    recorder = new Recorder(input, progress);
-  }
+  const stream = await navigator.mediaDevices.getUserMedia(constraints);
+  const input = new AudioContext().createMediaStreamSource(stream);
+  recorder = new Recorder(input, progress);
   recorder.record();
 };
 

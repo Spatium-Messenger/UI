@@ -29,6 +29,7 @@ export default class MessagesStore implements IMessagesStore {
     this.messages = new Map<number, IChatsMessages>();
     this.getImage = this.getImage.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
+    this.getAudio = this.getAudio.bind(this);
   }
 
   @action
@@ -49,6 +50,10 @@ export default class MessagesStore implements IMessagesStore {
     } else {
       console.log("Error", newMessages);
     }
+  }
+
+  public async getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}> {
+    return this.remoteApi.audio.Get(fileID);
   }
 
   public async getImage(fileID: number, ext: string): Promise<string> {

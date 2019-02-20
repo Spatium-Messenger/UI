@@ -10,6 +10,7 @@ interface IMessageUnitProps {
   lastMessageAuthorName: string;
   getImage: (fileID: number, ext: string) => Promise<string>;
   downloadFile: (fileID: number,  name: string) => void;
+  getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
 }
 
 export default class MessageUnit extends React.Component<IMessageUnitProps> {
@@ -21,7 +22,7 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
     const authorsMessage = (mess.AuthorID === this.props.userID);
     const showAuthorName = (this.props.lastMessageAuthorName !== mess.AuthorName);
     if (mess.Content.Documents.length > 0) {
-      console.log(mess.Content.Documents);
+      // console.log(mess.Content.Documents);
     }
     if (mess.Content.Type === IMessageType.System) {
       return (
@@ -33,6 +34,7 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
 
     const docs: JSX.Element[] = mess.Content.Documents.map((d, i) =>
       <DocMessage
+         getAudio={this.props.getAudio}
          getImage={this.props.getImage}
          downloadFile={this.props.downloadFile}
          doc={d}

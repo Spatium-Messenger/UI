@@ -178,9 +178,12 @@ export default class InputStoreModule implements IInputStore {
   public cancelVoiceRecording() {
     const chatID = this.rootStore.chatStore.currentChat.ID;
     const data: IAudioMessage = this.voiceMessages.get(chatID);
-    if (data.load === 1) {
-      data.abortLoad();
+    if (data) {
+      if (data.load === 1) {
+        data.abortLoad();
+      }
     }
+    stopRecording();
     this.voiceVolumes = [];
     this.voiceMessages.delete(this.rootStore.chatStore.currentChat.ID);
     this.voiceRecording = false;

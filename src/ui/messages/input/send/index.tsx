@@ -32,7 +32,7 @@ export default class Send extends React.Component<ISendProps> {
   public render() {
     const voiseRecordingEnable = this.props.store.inputStore.voiceRecording ;
     const chatID = this.props.store.chatStore.currentChat.ID;
-    const textInput = this.props.store.inputStore.chatsInputData.get(chatID).text;
+    const input = this.props.store.inputStore.chatsInputData.get(chatID);
     let button = (this.props.store.inputStore.voiceRecording ?
     <div
       className="window__input__send"
@@ -45,7 +45,7 @@ export default class Send extends React.Component<ISendProps> {
       className="voice-record__icon"
     />);
 
-    if (textInput.length !== 0 && !voiseRecordingEnable) {
+    if (input.text.length !== 0 && !voiseRecordingEnable) {
       button =
       <div
         className="window__input__send"
@@ -53,10 +53,33 @@ export default class Send extends React.Component<ISendProps> {
         onClick={this.sendClick}
       />;
     }
+
+    if (input.text.length === 0 && this.docsCheck(chatID)) {
+      button =
+      <div
+        className="window__input__send"
+        dangerouslySetInnerHTML={{__html: sendIcon}}
+        onClick={this.sendClick}
+      />;
+    }
+
     return(
       <div className="sendWrapper">
         {button}
       </div>
     );
+  }
+
+  private docsCheck(chatID: number): boolean {
+    let answer: boolean = true;
+    const docs = this.props.store.inputStore.chatsInputData.get(chatID).documents;
+    if (docs.length === 0) {
+      return false;
+    }
+    docs.forEach((d) => {
+      if (!answer) {return ; }
+      if (d.load !== 2) { answer = false; }
+    });
+    return answer;
   }
 }

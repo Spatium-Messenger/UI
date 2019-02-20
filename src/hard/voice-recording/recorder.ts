@@ -99,6 +99,9 @@ export class Recorder implements IRecorder {
   }
 
   public stop() {
+    this.audiosourcenode.mediaStream.getTracks().forEach(function(track) {
+      track.stop();
+    });
     this.recording = false;
   }
 

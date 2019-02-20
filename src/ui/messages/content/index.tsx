@@ -29,6 +29,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
       }
 
       return <IMessageUnit
+        getAudio={this.props.store.messagesStore.getAudio}
         downloadFile={this.props.store.messagesStore.downloadFile}
         getImage={this.props.store.messagesStore.getImage}
         data={v}

@@ -37,11 +37,10 @@ export default class PlayVoiceMessage extends React.Component<IPlayVoiceMessageP
   public changeListen() {
     if (this.state.listen) {
       this.audio.pause();
-      this.setState({listen: false});
     } else {
       this.audio.play();
-      this.setState({listen: true});
     }
+    this.setState({listen: !this.state.listen});
   }
 
   public rewind(e: React.MouseEvent) {

@@ -1,7 +1,6 @@
 import { IAPIAudio } from "src/interfaces/api/audio";
 import { IAudioMessage } from "src/models/audio";
 import { IAPIData } from "src/interfaces/api";
-import {LZString} from "src/hard/compress";
 
 import {TESTUPLOADSPEED} from "./test.config";
 
@@ -10,18 +9,52 @@ export default class APIAudio implements IAPIAudio {
   private uploadPath: string;
   private getPath: string;
   private deletePath: string;
+  private getAudioURL: string;
   constructor(data: IAPIData) {
     this.data = data;
     this.uploadPath = "/api/file/uploadFile";
     this.deletePath = "/api/file/deleteFile";
+    this.getAudioURL = "/api/file/getFile";
     if (this.data.Imitation) {
       this.Upload = this.UploadTest;
       this.Delete = this.DeleteTest;
     }
   }
 
-  public async Get(ID: number) {
-    //
+  public async Get(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}> {
+      const xhr: XMLHttpRequest = new XMLHttpRequest();
+      const body: string = JSON.stringify({
+        token: this.data.Token,
+        file_id: fileID,
+        min: false,
+      });
+      xhr.open("POST", this.data.URL + this.getAudioURL, true);
+      xhr.responseType = "arraybuffer";
+      xhr.send(body);
+      const result: {duration: number, blob: Blob} | {result: string} = await new Promise((resolve) => {
+        xhr.onload = () => {
+          if (xhr.readyState !== 4) {return; }
+          try {
+            const response: {result: string} = JSON.parse(xhr.responseText);
+            if (response.result === "Error") {
+              resolve({result: "Error"});
+            }
+          } catch (e) {
+            const blob = this.getBlob(xhr.response, "audio/wav");
+            const audioData = xhr.response;
+
+            const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
+
+            audioCtx.decodeAudioData(audioData, (buffer: AudioBuffer) => {
+              resolve({blob, duration: buffer.duration});
+            });
+          }
+        };
+        xhr.onerror = () => {
+          resolve({result: "Error"});
+        };
+      });
+      return result;
   }
 
   public async Upload(
@@ -147,6 +180,17 @@ export default class APIAudio implements IAPIAudio {
     formData.append("ratio_size", (0 as any));
     formData.append("chat_id", (file.chatID as any));
     return formData;
+  }
+
+  private getBlob(data: string, extension: string): Blob {
+    try {
+        return new Blob([data], {type: extension});
+    } catch (e) {
+        const BlobBuilder = (window as any).WebKitBlobBuilder || (window as any).MozBlobBuilder;
+        const bb = new BlobBuilder();
+        bb.append(data);
+        return bb.getBlob(extension);
+    }
   }
 
 }

@@ -10,6 +10,7 @@ interface IDocMessageProps {
   doc: IMessageContentDoc;
   getImage: (fileID: number, ext: string) => Promise<string>;
   downloadFile: (fileID: number,  name: string) => void;
+  getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
 }
 
 const EXTENSION_AUDIO = "wav";
@@ -34,7 +35,10 @@ export default class DocMessage extends React.Component<IDocMessageProps> {
                   downloadFile={this.props.downloadFile}
         />;
       case EXTENSION_AUDIO:
-        return <AudioMessage doc={this.props.doc}/>;
+        return <AudioMessage
+          doc={this.props.doc}
+          getAudio={this.props.getAudio}
+        />;
     }
     return(
       <div className="message-document">

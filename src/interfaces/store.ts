@@ -40,6 +40,7 @@ export interface IMessagesStore {
   messages: Map<number, IChatsMessages>;
   loadMessages: (chatID: number) => void;
   getImage: (fileID: number, ext: string) => Promise<string>;
+  getAudio: (fileID: number) => Promise<{duration: number, blob: Blob} | {result: string}>;
   downloadFile: (fileID: number,  name: string) => void;
   clear: () => void;
 }
