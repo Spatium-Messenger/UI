@@ -1,7 +1,6 @@
 import * as React from "react";
 import Store from "src/store";
-import SideBar from "./chats";
-import Window from "./messages";
+
 import { IAPI } from "src/interfaces/api";
 import {IRootStore} from "src/store/interfeces";
 import { render } from "react-dom";
@@ -9,10 +8,12 @@ import { observer, inject, Provider } from "mobx-react";
 import Sign from "./sign";
 import { IUserStore } from "src/interfaces/store";
 import { ICookie } from "src/interfaces/cookie";
-import Modals from "./modals";
+import Popups from "./popups";
 import UserMenu from "./menu";
 import { IWebSocket } from "src/interfaces/web-socket";
 import { ILocalStorage } from "src/interfaces/local-storage";
+
+import Main from "./Main";
 
 require("./styles.scss");
 require("./main.scss");
@@ -34,9 +35,8 @@ class Messenger extends React.Component<IMessngerProps> {
       <Sign/> :
       <div className="wrapper">
         <UserMenu/>
-        <Modals/>
-        <SideBar/>
-        <Window/>
+        <Popups/>
+        <Main/>
       </div>);
     return(
         <div>{content}</div>

@@ -8,3 +8,11 @@ export interface IChat {
   AdminID: number;
   Delete: boolean;
 }
+
+export interface IChatUser {
+  ID: number;
+  Login: string;
+  Name: string;
+  Blocked: boolean;
+  Delete: boolean;
+}

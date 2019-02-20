@@ -16,8 +16,17 @@ interface IWindowHeaderProps {
 export default class WindowHeader extends React.Component<IWindowHeaderProps> {
   constructor(props) {
     super(props);
+    this.openPreferences = this.openPreferences.bind(this);
   }
+
+  public openPreferences() {
+    this.props.store.appStore.changeChatMenu(!this.props.store.appStore.chatMenu);
+  }
+
   public render() {
+    if (this.props.store.chatStore.currentChat === null) {
+      return(<div/>);
+    }
     return(
       <div className="window__header">
         <div className="window__header__back" dangerouslySetInnerHTML={{__html: backIcon}}/>
@@ -25,7 +34,11 @@ export default class WindowHeader extends React.Component<IWindowHeaderProps> {
           <div>{this.props.store.chatStore.currentChat.Name.substring(0, 2).toUpperCase()}</div>
           <div>{this.props.store.chatStore.currentChat.Name}</div>
         </div>
-        <div className="window__header__more" dangerouslySetInnerHTML={{__html: moreIcon}}/>
+        <div
+          className="window__header__more"
+          dangerouslySetInnerHTML={{__html: moreIcon}}
+          onClick={this.openPreferences}
+        />
       </div>
     );
   }

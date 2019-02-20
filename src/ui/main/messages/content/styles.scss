@@ -1,8 +1,8 @@
 .window__content{
   height: 100%;
   width: 100%;
-  display: flex;
-  align-items: flex-end;
+  // display: flex;
+  // align-items: flex-end;
   display: flex;
   padding: 10px 0px;
   overflow-y: auto; 
@@ -10,4 +10,8 @@
 
 .window__content>div{
   width: 100%;
+  flex-flow: column-reverse;
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
 }

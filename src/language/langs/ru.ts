@@ -30,6 +30,29 @@ const ru: ILanguage = {
       placeholder: "Сообщение...",
     },
   },
+  chatPreferences: {
+    up: {
+      header: "Настройки чата",
+      placeholder: "Имя",
+    },
+    people: {
+      header: "Участники",
+      add: "Пригласить",
+    },
+  },
+  popups: {
+    createChat: {
+      header: "Создать новый чат",
+      paragraph: "Введите имя чата",
+      placeholder: "Имя",
+      button: "Создать",
+    },
+    addUsers: {
+      header: "Пригласить участника",
+      placeholder: "Имя",
+      notfound: "Не найдено",
+    },
+  },
 };
 
 export default ru;

@@ -95,6 +95,7 @@ export default class UserStoreModule implements IUserStore {
     this.data.token = token;
     this.data.login = login;
     this.remoteAPI.data.Token = token;
+    this.webScoketConnection.CreateConnection();
     await this.getUserID();
     await this.loadAllData();
     this.webScoketConnection.Auth();

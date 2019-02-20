@@ -26,4 +26,4 @@ const rempoteAPIConfig = new APIData(URL, "", LOGS, IMITATION);
 const webSocketSystem: IWebSocket = new WebSocketAPI(rempoteAPIConfig);
 const remoteAPI = new RemoteAPI(rempoteAPIConfig);
 const UI = CreateUI(remoteAPI, cookie, webSocketSystem, storage, openLinkFunc);
-webSocketSystem.CreateConnection();
+// webSocketSystem.CreateConnection();

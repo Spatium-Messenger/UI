@@ -1,10 +1,10 @@
-import { IChat } from "src/models/chat";
+import { IChat, IChatUser } from "src/models/chat";
 import { IMessage } from "src/models/message";
 import { IDocument, IDocumentUpload } from "src/models/document";
 import { IAudioMessage } from "src/models/audio";
-import langages from "src/language";
+import { IAnswerError } from "./api";
 
-export enum MODALS_ID {CREATE_CHAT, NULL}
+export enum MODALS_ID {ADD_USERS, CREATE_CHAT, NULL}
 export enum LANGUAGES {RUSSIAN, ENGLISH}
 export const LANGUAGES_PACK: Map<LANGUAGES, string> = new Map<LANGUAGES, string>();
 LANGUAGES_PACK.set(LANGUAGES.RUSSIAN, "Russian");
@@ -15,14 +15,20 @@ export interface IAppStore {
   changeModal: (type: MODALS_ID) => void;
   menu: boolean;
   changeMenu: (val: boolean) => void;
+  chatMenu: boolean;
+  changeChatMenu: (val: boolean) => void;
 }
 
 export interface IChatStore {
   chats: IChat[];
   currentChat: IChat;
+  users: Map<number, IChatUser[]>;
   chooseChat: (chat: IChat) => void;
   loadChats: () => void;
   createChat: (name: string) => void;
+  getChatUsers: () => void;
+  getUsersForAdd: (name: string) => Promise<IAnswerError | IChatUser[]>;
+  addUserToChat: (userID: number) => Promise<IAnswerError>;
   clear: () => void;
 }
 

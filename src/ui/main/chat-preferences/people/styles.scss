@@ -1,0 +1,57 @@
+.chat-preferences-people__header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+
+  div:nth-child(1){
+    font-size: 12px;
+    color: rgba(0,0,0,0.4);
+  }
+
+  div:nth-child(2){
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+    
+    border-radius: 5px;
+    // border: 3px solid $primary-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    svg{
+      width: 10px;
+      height: 10px;
+      fill: $dark_gray;
+    }
+  }
+
+  div:nth-child(2):hover{
+    opacity: 1;
+  }
+
+}
+
+.chat-preferences-people__body{
+  padding: 0px 5px;
+}
+
+.people-item-add{
+  div:nth-child(2){
+    color: $primary-color;
+  }
+  
+  div:nth-child(1){
+    background: transparent;
+    svg{
+      width: 16px;
+      height: 16px;
+      fill: $primary-color;
+    }
+
+    
+  }
+}

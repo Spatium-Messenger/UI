@@ -30,6 +30,29 @@ const en: ILanguage = {
       placeholder: "Message...",
     },
   },
+  chatPreferences: {
+    up: {
+      header: "Chat details",
+      placeholder: "Name",
+    },
+    people: {
+      header: "People",
+      add: "Invite People",
+    },
+  },
+  popups: {
+    createChat: {
+      header: "Create new chat",
+      paragraph: "Input name of chat",
+      placeholder: "Name",
+      button: "Create",
+    },
+    addUsers: {
+      header: "Add Users",
+      placeholder: "Name",
+      notfound: "Not found",
+    },
+  },
 };
 
 export default en;

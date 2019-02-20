@@ -1,6 +1,11 @@
 Todo:
   + Audio Messages View
-  Language in modals
+  + Language in modals
   Cache modal
   + Send docs without message
+  Auto scroll down in content
   Time with nickname
+  Chat menu
+    + Create sidebar
+    Change name
+    Send "joins"

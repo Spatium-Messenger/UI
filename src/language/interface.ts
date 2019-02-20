@@ -3,6 +3,8 @@ export interface ILanguage {
   chats: ILanguageChats;
   messages: ILanguageMessagesWindow;
   menu: ILanguageMenu;
+  chatPreferences: ILanguageChatPreferences;
+  popups: ILanguagePopups;
 }
 
 interface ILanguageSign {
@@ -36,4 +38,33 @@ interface ILanguageMenu {
   cache: string;
   settings: string;
   logout: string;
+}
+
+interface ILanguageChatPreferences {
+  up: {
+    header: string;
+    placeholder: string;
+  };
+  people: {
+    header: string;
+    add: string;
+  };
+}
+
+interface ILanguagePopups {
+  createChat: ILanguagePopupsCreateChat;
+  addUsers: ILanguagePopupsAddUsers;
+}
+
+interface ILanguagePopupsCreateChat {
+  header: string;
+  paragraph: string;
+  placeholder: string;
+  button: string;
+}
+
+interface ILanguagePopupsAddUsers {
+  header: string;
+  placeholder: string;
+  notfound: string;
 }

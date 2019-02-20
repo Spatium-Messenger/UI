@@ -1,7 +1,7 @@
-import { IAPIChat, ChatsTypes } from "src/interfaces/api/chat";
+import { IAPIChat, ChatsTypes, IAPIChatsUser, IAPIUsersForAdd } from "src/interfaces/api/chat";
 import { IAPIData, IAnswerError } from "src/interfaces/api";
 import APIClass, { IAPIClassCallProps } from "./remote.api.base";
-import { IChat } from "src/models/chat";
+import { IChat, IChatUser } from "src/models/chat";
 import { IChatServer } from "./interfaces";
 
 export class APIChat extends APIClass implements IAPIChat {
@@ -21,6 +21,7 @@ export class APIChat extends APIClass implements IAPIChat {
     super(data);
     const p: string = "/api/chat/";
     this.getChatsURL = "/api/user/getMyChats";
+    this.getUsersForAddURL = p + "getUsersForAdd";
     this.createChatURL = p + "create";
     this.addUsersURL = p + "addUsersInChat";
     this.getUsersURL = p + "getUsers";
@@ -74,15 +75,53 @@ export class APIChat extends APIClass implements IAPIChat {
     return answer;
   }
 
-  public async AddUsers(IDs: number[], chatID: number): Promise<void> {
-    //
+  public async AddUsers(IDs: number[], chatID: number): Promise<IAnswerError> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.addUsersURL;
+    message.payload = {...message.payload,
+                       chat_id: chatID,
+                       users: IDs};
+    return super.Send(message);
   }
 
-  public async GetUsers(chatID: number): Promise<void> {
-    //
+  public async GetUsers(chatID: number): Promise<IAnswerError | IChatUser[]> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.getUsersURL;
+    message.payload = {...message.payload,
+                       chat_id: chatID};
+    const answer: IAnswerError | IAPIChatsUser[]  = await super.Send(message);
+    if ((answer as IAnswerError).result !== "Error") {
+      const users: IChatUser[] = (answer as IAPIChatsUser[]).map((u): IChatUser => {
+       return {
+         ID: u.id,
+         Login: u.login,
+         Blocked: (u.blocked !== 0),
+         Delete: (u.delete !== 0),
+         Name: u.name,
+       };
+      });
+      return users;
+    }
+    return (answer as IAnswerError);
   }
 
-  public async GetUsersForAdd(chatID: number, name: string): Promise<void> {
+  public async GetUsersForAdd(chatID: number, name: string): Promise<IAnswerError |  IChatUser[]> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.getUsersForAddURL;
+    message.payload = {...message.payload, chat_id: chatID, name};
+    const answer: IAnswerError | {users: IAPIUsersForAdd[]} = await super.Send(message);
+    if ((answer as IAnswerError).result !== "Error") {
+      return (answer as {users: IAPIUsersForAdd[]}).users.map((u): IChatUser => {
+        return {
+          Blocked: false,
+          Delete: false,
+          ID: u.id,
+          Login: u.login,
+          Name: u.name,
+        };
+      });
+    }
+    return [];
     //
   }
 
@@ -110,7 +149,7 @@ export class APIChat extends APIClass implements IAPIChat {
     //
   }
 
-  public async DeleteChatFromList(chatID: number): Promise<void> {
+  public async DeleteChatFromList(chatID: number): Promise<void > {
     //
   }
 }

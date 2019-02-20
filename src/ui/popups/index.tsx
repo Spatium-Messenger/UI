@@ -3,6 +3,7 @@ import { observer, inject } from "mobx-react";
 import { IRootStore } from "src/store/interfeces";
 import { MODALS_ID } from "src/interfaces/store";
 import CreateChat from "./create-chat";
+import AddUserPopup from "./add-user";
 import ModalClose from "./components/modal-close";
 require("./styles.scss");
 
@@ -26,6 +27,10 @@ export default class Modals extends React.Component<IModalsProps> {
     switch (this.props.store.appStore.modal) {
       case MODALS_ID.CREATE_CHAT:
         content = <CreateChat/>;
+        break;
+      case MODALS_ID.ADD_USERS:
+        content = <AddUserPopup/>;
+        break;
     }
 
     return(

@@ -39,7 +39,6 @@ export default class Window extends React.Component<IWindowProps> {
     }
     return(
       <div className="window">
-        <WindowsHeader/>
         <WindowsContent/>
         <WindowsInput/>
       </div>

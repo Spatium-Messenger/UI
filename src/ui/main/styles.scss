@@ -1,0 +1,15 @@
+.main-wrapper{
+  width: 100vw;
+  display: flex;
+  overflow: hidden;
+}
+
+.main-wrapper__left{
+  width: calc(100% - 230px);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-wrapper__left__content{
+  display: flex;
+}

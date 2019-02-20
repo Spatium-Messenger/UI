@@ -19,6 +19,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
   public render() {
     const chatID = this.props.store.chatStore.currentChat.ID;
     const messages = this.props.store.messagesStore.messages.get(chatID).messages;
+
     const userID = this.props.store.userStore.data.ID;
     const messagesComponents: JSX.Element[] = messages.map((v, i) => {
       let lastMessageAuthorName: string = (i === 0 ? "" :  messages[i - 1].AuthorName);

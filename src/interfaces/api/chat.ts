@@ -1,4 +1,4 @@
-import { IChat } from "src/models/chat";
+import { IChat, IChatUser } from "src/models/chat";
 import { IAnswerError } from ".";
 
 export enum ChatsTypes {
@@ -6,12 +6,26 @@ export enum ChatsTypes {
   Channel,
 }
 
+export interface IAPIChatsUser {
+  blocked: number;
+  delete: number;
+  id: number;
+  login: string;
+  name: string;
+}
+
+export interface IAPIUsersForAdd {
+  id: number;
+  login: string;
+  name: string;
+}
+
 export interface IAPIChat {
   Get: () => Promise<IAnswerError | IChat[]>;
   Create: (type: ChatsTypes, name: string) => Promise<IAnswerError>;
-  AddUsers: (IDs: number[], chatID: number) => Promise<void>;
-  GetUsers: (chatID: number) => Promise<void>;
-  GetUsersForAdd: (chatID: number, name: string) => Promise<void>;
+  AddUsers: (IDs: number[], chatID: number) => Promise<IAnswerError>;
+  GetUsers: (chatID: number) => Promise<IAnswerError | IChatUser[]>;
+  GetUsersForAdd: (chatID: number, name: string) => Promise<IAnswerError |  IChatUser[]>;
   DeleteUsers: (chatID: number, IDs: number[]) => Promise<void>;
   RecoveryUsers: (chatID: number, IDs: number[]) => Promise<void>;
   GetChatSettings: (chatID: number) => Promise<void>;

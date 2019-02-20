@@ -154,6 +154,7 @@ export default class WebSocketAPI implements IWebSocket {
         console.log(WS_SEND_LOG, serialMessage);
       }
     } else {
+      console.log(this.connected, this.data.Token);
       throw Error(ERROR_AUTH_CONNECT_OR_TOKEN);
     }
   }
