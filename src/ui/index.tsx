@@ -13,7 +13,7 @@ import UserMenu from "./menu";
 import { IWebSocket } from "src/interfaces/web-socket";
 import { ILocalStorage } from "src/interfaces/local-storage";
 
-import Main from "./Main";
+import Main from "./main";
 
 require("./styles.scss");
 require("./main.scss");

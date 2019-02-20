@@ -5,6 +5,7 @@ import { MODALS_ID } from "src/interfaces/store";
 import CreateChat from "./create-chat";
 import AddUserPopup from "./add-user";
 import ModalClose from "./components/modal-close";
+import Cache from "./cache";
 require("./styles.scss");
 
 interface IModalsProps {
@@ -30,6 +31,9 @@ export default class Modals extends React.Component<IModalsProps> {
         break;
       case MODALS_ID.ADD_USERS:
         content = <AddUserPopup/>;
+        break;
+      case MODALS_ID.CACHE:
+        content = <Cache/>;
         break;
     }
 

@@ -4,7 +4,7 @@ import { IDocument, IDocumentUpload } from "src/models/document";
 import { IAudioMessage } from "src/models/audio";
 import { IAnswerError } from "./api";
 
-export enum MODALS_ID {ADD_USERS, CREATE_CHAT, NULL}
+export enum MODALS_ID {CACHE, ADD_USERS, CREATE_CHAT, NULL}
 export enum LANGUAGES {RUSSIAN, ENGLISH}
 export const LANGUAGES_PACK: Map<LANGUAGES, string> = new Map<LANGUAGES, string>();
 LANGUAGES_PACK.set(LANGUAGES.RUSSIAN, "Russian");
@@ -48,6 +48,7 @@ export interface IMessagesStore {
   getImage: (fileID: number, ext: string) => Promise<string>;
   getAudio: (fileID: number) => Promise<{duration: number, blob: Blob} | {result: string}>;
   downloadFile: (fileID: number,  name: string) => void;
+  getCacheSize: () => string;
   clear: () => void;
 }
 

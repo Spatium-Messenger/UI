@@ -30,6 +30,7 @@ export default class MessagesStore implements IMessagesStore {
     this.getImage = this.getImage.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
     this.getAudio = this.getAudio.bind(this);
+    this.getCacheSize = this.getAudio.bind(this);
   }
 
   @action
@@ -79,6 +80,10 @@ export default class MessagesStore implements IMessagesStore {
       link = this.remoteApi.data.URL + "/getFile/" + link + "/" + name;
       this.openLink(link, name);
     }
+  }
+
+  public getCacheSize(): string {
+    return this.storage.Size();
   }
 
   public clear() {

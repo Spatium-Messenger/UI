@@ -8,7 +8,7 @@ import { IWebSocket } from "./interfaces/web-socket";
 import { ILocalStorage } from "./interfaces/local-storage";
 import LocalStorage from "./hard/local-storage";
 
-const URL = "http://192.168.1.38:1234";
+const URL = "http://localhost:3030";
 const LOGS = true;
 const IMITATION = false;
 

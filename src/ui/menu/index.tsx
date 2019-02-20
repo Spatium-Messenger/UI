@@ -25,6 +25,7 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
   constructor(props) {
     super(props);
     this.newChat = this.newChat.bind(this);
+    this.cache = this.cache.bind(this);
     this.close = this.close.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -43,7 +44,8 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
   }
 
   public cache() {
-    //
+    this.close();
+    this.props.store.appStore.changeModal(MODALS_ID.CACHE);
   }
 
   public settings() {
@@ -73,7 +75,7 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
         <MenuItem colorClassName={"menu-item-icon-white"} icon={backIcon} text={lang.back} click={this.close}/>
         <MenuItem colorClassName={"menu-item-icon-blue"} icon={messageIcon} text={lang.newChat} click={this.newChat}/>
         <MenuItem colorClassName={"menu-item-icon-green"} icon={profileIcon} text={lang.profile} click={this.profile}/>
-        <MenuItem colorClassName={"menu-item-icon-pink"} icon={cacheIcon} text={lang.cache} click={this.profile}/>
+        <MenuItem colorClassName={"menu-item-icon-pink"} icon={cacheIcon} text={lang.cache} click={this.cache}/>
         <MenuItem colorClassName={"menu-item-icon-yellow"} icon={setIcon} text={lang.settings} click={this.profile}/>
         <MenuItem colorClassName={"menu-item-icon-purple"} icon={exitIcon} text={lang.logout} click={this.logout}/>
         </div>

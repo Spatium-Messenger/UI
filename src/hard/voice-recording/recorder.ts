@@ -27,13 +27,16 @@ export class Recorder implements IRecorder {
   };
 
   constructor(src: MediaStreamAudioSourceNode, progress: (n: number) => void) {
-
+    console.log(src);
     this.audiosourcenode = src;
-    this.audiosourcenode.mediaStream.stop = function() {
-      this.getTracks().forEach(function(track) {
+    // src.mediaStream
+    if (this.audiosourcenode.mediaStream) {
+      this.audiosourcenode.mediaStream.stop = function() {
+        this.getTracks().forEach(function(track) {
           track.stop();
-      });
-    };
+        });
+     };
+    }
 
     this.recording = false;
     this.context = src.context;

@@ -52,6 +52,11 @@ const ru: ILanguage = {
       placeholder: "Имя",
       notfound: "Не найдено",
     },
+    cache: {
+      header: "Кэш",
+      clearButton: "Очистить",
+      size: "Занято",
+    },
   },
 };
 

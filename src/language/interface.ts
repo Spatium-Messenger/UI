@@ -54,6 +54,7 @@ interface ILanguageChatPreferences {
 interface ILanguagePopups {
   createChat: ILanguagePopupsCreateChat;
   addUsers: ILanguagePopupsAddUsers;
+  cache: ILanguagePopupsCache;
 }
 
 interface ILanguagePopupsCreateChat {
@@ -67,4 +68,10 @@ interface ILanguagePopupsAddUsers {
   header: string;
   placeholder: string;
   notfound: string;
+}
+
+interface ILanguagePopupsCache {
+  header: string;
+  size: string;
+  clearButton: string;
 }

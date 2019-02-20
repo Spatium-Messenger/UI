@@ -52,6 +52,11 @@ const en: ILanguage = {
       placeholder: "Name",
       notfound: "Not found",
     },
+    cache: {
+      header: "Cache",
+      clearButton: "Clear",
+      size: "Size",
+    },
   },
 };
 
