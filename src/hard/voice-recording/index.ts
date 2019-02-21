@@ -9,19 +9,42 @@ interface INode {
   retry: number;
 }
 
+const GET_USER_MEDIA_ERROR = "Get User Media Error";
+
+interface IRecordError {
+  errror: string;
+}
+
 const startRecording = async function(progress: (ampls: number) => void) {
-  const stream = await navigator.mediaDevices.getUserMedia(constraints);
+  let stream: MediaStream = null;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+  } catch (e) {
+    console.log("Fail");
+  }
+  if (stream === null) {
+    return;
+  }
+  console.log(stream);
+  // await new Promise((res, rej) => {
+  //   await navigator.mediaDevices.getUserMedia(constraints);
+  // }).then((newStream: MediaStream) => {stream = newStream; });
   const input = new AudioContext().createMediaStreamSource(stream);
-  recorder = new Recorder(input, progress);
+  console.log(input);
+  recorder = new Recorder(stream, input, progress);
   recorder.record();
 };
 
 const stopRecording = function() {
-  recorder.stop();
+  if (recorder) {
+    recorder.stop();
+  }
 };
 
 const doneRecording = function(blobCallback: (data: {blob: Blob, duration: number}) => void) {
-  recorder.done(blobCallback);
+  if (recorder) {
+    recorder.done(blobCallback);
+  }
 };
 
 export {startRecording, stopRecording, doneRecording};

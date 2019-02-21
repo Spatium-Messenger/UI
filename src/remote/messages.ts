@@ -33,6 +33,7 @@ export default class APIMessages extends APIClass implements IAPIMessages {
               Path: d.path,
               RatioSize: d.ratio_size,
               Size: d.size,
+              AdditionalContentLoaded: false,
             });
           });
         }

@@ -7,7 +7,7 @@ require("./styles.scss");
 interface IMessageUnitProps {
   data: IMessage;
   userID: number;
-  lastMessageAuthorName: string;
+  lastAuthorID: number;
   getImage: (fileID: number, ext: string) => Promise<string>;
   downloadFile: (fileID: number,  name: string) => void;
   getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
@@ -20,7 +20,7 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
   public render() {
     const mess = this.props.data;
     const authorsMessage = (mess.AuthorID === this.props.userID);
-    const showAuthorName = (this.props.lastMessageAuthorName !== mess.AuthorName);
+    const showAuthorName = (this.props.lastAuthorID !== mess.AuthorID);
     if (mess.Content.Documents.length > 0) {
       // console.log(mess.Content.Documents);
     }
@@ -38,7 +38,7 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
          getImage={this.props.getImage}
          downloadFile={this.props.downloadFile}
          doc={d}
-         key={i}
+         key={d.ID}
       />,
       );
     return(

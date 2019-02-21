@@ -9,7 +9,7 @@ export default class AppStoreModule implements IAppStore {
   constructor(rootStore: any) {
     this.modal = MODALS_ID.NULL;
     this.menu = false;
-    this.chatMenu = true;
+    this.chatMenu = false;
   }
 
   @action

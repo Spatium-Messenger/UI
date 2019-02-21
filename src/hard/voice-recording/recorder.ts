@@ -21,22 +21,20 @@ export class Recorder implements IRecorder {
   private node: ScriptProcessorNode;
   private worker: InlineWorker;
   private audiosourcenode: MediaStreamAudioSourceNode;
+  private mediaStream: MediaStream;
   private callbacks: {
     getBuffer: any[];
     exportWAV: any[];
   };
 
-  constructor(src: MediaStreamAudioSourceNode, progress: (n: number) => void) {
-    console.log(src);
+  constructor(mediaStream: MediaStream, src: MediaStreamAudioSourceNode, progress: (n: number) => void) {
+    this.mediaStream = mediaStream;
     this.audiosourcenode = src;
-    // src.mediaStream
-    if (this.audiosourcenode.mediaStream) {
-      this.audiosourcenode.mediaStream.stop = function() {
+    this.mediaStream.stop = function() {
         this.getTracks().forEach(function(track) {
           track.stop();
         });
-     };
-    }
+    };
 
     this.recording = false;
     this.context = src.context;
@@ -102,7 +100,7 @@ export class Recorder implements IRecorder {
   }
 
   public stop() {
-    this.audiosourcenode.mediaStream.getTracks().forEach(function(track) {
+    this.mediaStream.getTracks().forEach(function(track) {
       track.stop();
     });
     this.recording = false;
@@ -110,7 +108,7 @@ export class Recorder implements IRecorder {
 
   public done(blobCallback: (data: {blob: Blob, duration: number}) => void) {
     this.callbacks.exportWAV.push(blobCallback);
-    this.audiosourcenode.mediaStream.getTracks().forEach(function(track) {
+    this.mediaStream.getTracks().forEach(function(track) {
       track.stop();
     });
     this.recording = false;

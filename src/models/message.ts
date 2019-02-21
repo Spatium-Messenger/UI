@@ -32,6 +32,7 @@ export interface IMessageContentDoc {
   RatioSize: number;
   Size: number;
   Path: string;
+  AdditionalContentLoaded: boolean;
 }
 
 export enum IMessageType {
