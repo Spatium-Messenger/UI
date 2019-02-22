@@ -31,6 +31,7 @@ interface ILanguageMessagesWindow {
   input: {
     placeholder: string;
   };
+  months: string[];
 }
 
 interface ILanguageMenu {

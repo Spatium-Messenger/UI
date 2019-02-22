@@ -1,7 +1,10 @@
 Todo:
-  +Image loader
-  +Menu language change
-  Time with nickname
+  + Image loader
+  + Menu language change
+  + Time with nickname
+  + Send message on enter
+  Redesign voice recorder lines
+  Check deleting a file
   OGG encoding
   Chat menu
     Change name

@@ -40,14 +40,36 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
         key={d.ID}
       />,
       );
+    const up = (!showAuthorName ? <div/> :
+      <div className="message__up">
+        <div className="message__author">{mess.AuthorName}</div>
+        <div>{this.getTime(mess.Time)}</div>
+      </div>);
     return(
       <div className={"message-wrapper"}>
         <div className="message">
-          {(showAuthorName ? <div className="message__author">{mess.AuthorName}</div> : <div/>)}
+          {up}
           {docs}
           <div className="message__content">{mess.Content.Message}</div>
         </div>
       </div>
     );
+  }
+
+  private getTime(unixTimestamp: number): string {
+    // console.log();
+    const d = new Date();
+    /* convert to msec
+	   subtract local time zone offset
+	   get UTC time in msec */
+    const gmtHours = -d.getTimezoneOffset() / 60;
+    const then = new Date(1970, 0, 1); // Epoch
+    then.setSeconds(unixTimestamp + gmtHours * 60 * 60);
+    let final: string;
+    const minutes = (then.getMinutes() < 10) ? "0" + then.getMinutes() : then.getMinutes();
+    const  hours = (then.getHours() < 10) ? "0" + then.getHours() : then.getHours();
+    final = hours + ":" + minutes;
+    return final;
+
   }
 }

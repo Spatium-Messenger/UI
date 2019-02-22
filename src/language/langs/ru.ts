@@ -32,6 +32,7 @@ const ru: ILanguage = {
     input: {
       placeholder: "Сообщение...",
     },
+    months: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
   },
   chatPreferences: {
     up: {

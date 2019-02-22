@@ -6,27 +6,20 @@ import languages from "src/language";
 require("./styles.scss");
 
 const autosie = require("autosize");
-const shift = false;
 
 interface ITextAreaProps {
   store?: IRootStore;
 
 }
 
-interface ITextAreaState {
-  message: string;
-}
-
 @inject("store")
 @observer
-export default class TextArea extends React.Component<ITextAreaProps, ITextAreaState> {
+export default class TextArea extends React.Component<ITextAreaProps> {
   private inputRef: React.RefObject<HTMLTextAreaElement>;
   constructor(props) {
     super(props);
-    this.state = {
-      message: "",
-    };
     this.handleChange = this.handleChange.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.inputRef = React.createRef();
   }
 
@@ -39,23 +32,17 @@ export default class TextArea extends React.Component<ITextAreaProps, ITextAreaS
 
   }
 
-  public handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    //
-  }
-
-  public handleKeyUp(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    //
-  }
-
   public handleKeyPress(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    //
+    if (e.nativeEvent.keyCode  === 13) {
+      if (!e.shiftKey) {
+        e.preventDefault();
+        this.props.store.inputStore.sendMessage();
+      }
+    }
   }
 
   public handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     this.props.store.inputStore.setTextInput(e.target.value);
-    // this.setState({
-    //   message: e.target.value,
-    // });
   }
 
   public render() {
@@ -71,11 +58,8 @@ export default class TextArea extends React.Component<ITextAreaProps, ITextAreaS
         placeholder={lang.placeholder}
         onChange={this.handleChange}
         value={input}
-        // id="inputTextArea"
         rows={1}
-        // onKeyPress={this.handleKeyPress}
-        // onKeyUp={this.handleKeyUp}
-        // onKeyDown={this.handleKeyDown}
+        onKeyPress={this.handleKeyPress}
         autoFocus={true}
       />
     );

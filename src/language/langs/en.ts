@@ -32,6 +32,7 @@ const en: ILanguage = {
     input: {
       placeholder: "Message...",
     },
+    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sem", "Oct", "Nov", "Dec"],
   },
   chatPreferences: {
     up: {
