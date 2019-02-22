@@ -60,6 +60,19 @@
   display: block;
 }
 
+.sign-lang-item{
+  display: flex;
+
+  div:nth-child(1){
+    width: 20px;
+    height: 20px;
+  }
+
+  div:nth-child(2){
+    margin-left: 10px;
+  }
+}
+
 .sign__block{
   background: #363050;
   // background: #36393f;

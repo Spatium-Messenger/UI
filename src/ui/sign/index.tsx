@@ -70,25 +70,38 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
 
   public render() {
     const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
-    const langs: string[] = [];
+    const langs: ILanguage[] = [];
     for (const l of languages.keys()) {
-      if (l !== this.props.store.userStore.data.lang) {
-        langs.push(l);
+      if (languages.get(l).id !== this.props.store.userStore.data.lang) {
+        langs.push(languages.get(l));
       }
     }
 
     const header: string = (this.state.InOrUp ? lang.sign.up : lang.sign.in);
     const bottom: string = (this.state.InOrUp ? lang.sign.in : lang.sign.up);
     const button: string = (this.state.InOrUp ? lang.sign.start : lang.sign.enter);
+
+    const langsEl: JSX.Element[] = langs.map((l, i) =>
+      <div
+        onClick={() => this.Language(l.id)}
+        key={i}
+        className="sign-lang-item"
+      >
+        <div dangerouslySetInnerHTML={{__html: l.icon}}/>
+        <div>{l.name}</div>
+      </div>);
     return(
       <div className="sign">
         <div className="sign__canvas-wrapper">
           <canvas ref={this.canvas}/>
         </div>
         <div className="sign__lang">
-          <span>{this.props.store.userStore.data.lang}</span>
+          <div className="sign-lang-item">
+            <div dangerouslySetInnerHTML={{__html: lang.icon}}/>
+            <div>{lang.name}</div>
+          </div>
           <div className="sign__lang__content">
-            {langs.map((l, i) => <div onClick={() => this.Language(l)}key={i}>{l}</div>)}
+            {langsEl}
           </div>
         </div>
         <img src="/assets/logo.png" alt="logo" className="sign__logo"/>

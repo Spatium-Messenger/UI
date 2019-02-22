@@ -4,11 +4,13 @@ import { IDocument, IDocumentUpload } from "src/models/document";
 import { IAudioMessage } from "src/models/audio";
 import { IAnswerError } from "./api";
 
-export enum MODALS_ID {CACHE, ADD_USERS, CREATE_CHAT, NULL}
-export enum LANGUAGES {RUSSIAN, ENGLISH}
-export const LANGUAGES_PACK: Map<LANGUAGES, string> = new Map<LANGUAGES, string>();
-LANGUAGES_PACK.set(LANGUAGES.RUSSIAN, "Russian");
-LANGUAGES_PACK.set(LANGUAGES.ENGLISH, "English");
+export enum MODALS_ID {
+  LANGUAGE,
+  CACHE,
+  ADD_USERS,
+  CREATE_CHAT,
+  NULL,
+}
 
 export interface IAppStore {
   modal: MODALS_ID;

@@ -28,6 +28,7 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
     this.cache = this.cache.bind(this);
     this.close = this.close.bind(this);
     this.logout = this.logout.bind(this);
+    this.lang = this.lang.bind(this);
   }
 
   public newChat() {
@@ -52,13 +53,18 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
     //
   }
 
+  public lang() {
+    this.props.store.appStore.changeModal(MODALS_ID.LANGUAGE);
+  }
+
   public logout() {
     this.props.store.appStore.changeMenu(false);
     this.props.store.userStore.logout();
   }
 
   public render() {
-    const lang = languages.get(this.props.store.userStore.data.lang).menu;
+    const lang = languages.get(this.props.store.userStore.data.lang);
+    const CL = lang.menu;
     const login: string = this.props.store.userStore.data.login;
     return(
       <div className={"user-menu-" + (this.props.store.appStore.menu ? "open" : "close")}>
@@ -67,17 +73,23 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
             {login.substring(0, 2).toUpperCase()}
           </div>
           <div className="user-menu__header__info">
-            <div>SIGNED IN AS </div>
+            <div>{CL.signed} </div>
             <div>{login}</div>
           </div>
         </div>
         <div className="user-menu__body">
-        <MenuItem colorClassName={"menu-item-icon-white"} icon={backIcon} text={lang.back} click={this.close}/>
-        <MenuItem colorClassName={"menu-item-icon-blue"} icon={messageIcon} text={lang.newChat} click={this.newChat}/>
-        <MenuItem colorClassName={"menu-item-icon-green"} icon={profileIcon} text={lang.profile} click={this.profile}/>
-        <MenuItem colorClassName={"menu-item-icon-pink"} icon={cacheIcon} text={lang.cache} click={this.cache}/>
-        <MenuItem colorClassName={"menu-item-icon-yellow"} icon={setIcon} text={lang.settings} click={this.profile}/>
-        <MenuItem colorClassName={"menu-item-icon-purple"} icon={exitIcon} text={lang.logout} click={this.logout}/>
+        <MenuItem colorClassName={"menu-item-icon-white"} icon={backIcon} text={CL.back} click={this.close}/>
+        <MenuItem colorClassName={"menu-item-icon-blue"} icon={messageIcon} text={CL.newChat} click={this.newChat}/>
+        <MenuItem colorClassName={"menu-item-icon-green"} icon={profileIcon} text={CL.profile} click={this.profile}/>
+        <MenuItem colorClassName={"menu-item-icon-pink"} icon={cacheIcon} text={CL.cache} click={this.cache}/>
+        <MenuItem colorClassName={"menu-item-icon-yellow"} icon={setIcon} text={CL.settings} click={this.profile}/>
+        <MenuItem colorClassName={"menu-item-icon-purple"} icon={exitIcon} text={CL.logout} click={this.logout}/>
+        </div>
+        <div className="user-menu__lang">
+          <div
+            dangerouslySetInnerHTML={{__html: lang.icon}}
+            onClick={this.lang}
+          />
         </div>
       </div>
     );

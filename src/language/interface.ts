@@ -1,4 +1,7 @@
 export interface ILanguage {
+  name: string;
+  id: string;
+  icon: string;
   sign: ILanguageSign;
   chats: ILanguageChats;
   messages: ILanguageMessagesWindow;
@@ -55,6 +58,7 @@ interface ILanguagePopups {
   createChat: ILanguagePopupsCreateChat;
   addUsers: ILanguagePopupsAddUsers;
   cache: ILanguagePopupsCache;
+  lang: ILanguagePopupsLang;
 }
 
 interface ILanguagePopupsCreateChat {
@@ -74,4 +78,8 @@ interface ILanguagePopupsCache {
   header: string;
   size: string;
   clearButton: string;
+}
+
+interface ILanguagePopupsLang {
+  header: string;
 }

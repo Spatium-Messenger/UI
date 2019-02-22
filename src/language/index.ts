@@ -3,7 +3,7 @@ import RU from "./langs/ru";
 import { ILanguage } from "./interface";
 
 const languages: Map<string, ILanguage> = new Map<string, ILanguage>();
-languages.set("Russian", RU);
-languages.set("English", EN);
+languages.set(RU.id, RU);
+languages.set(EN.id, EN);
 
 export default languages;

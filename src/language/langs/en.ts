@@ -1,6 +1,9 @@
 import { ILanguage } from "../interface";
-
+const icon: string = require("assets/langs/en.svg");
 const en: ILanguage = {
+  name: "English",
+  id: "en",
+  icon,
   sign: {
     anon: "Enter as anonymous",
     enter: "Enter",
@@ -56,6 +59,9 @@ const en: ILanguage = {
       header: "Cache",
       clearButton: "Clear",
       size: "Size",
+    },
+    lang: {
+      header: "Language",
     },
   },
 };
