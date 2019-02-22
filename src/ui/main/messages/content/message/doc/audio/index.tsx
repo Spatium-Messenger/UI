@@ -5,8 +5,11 @@ require("./styles.scss");
 const playIcon: string = require("assets/play.svg");
 const pauseButton: string = require("assets/pause.svg");
 
+let COMPONENT_WAS_UNMOUNTED = false;
+
 interface IAudioMessageProps {
   doc: IMessageContentDoc;
+  audioBuffers: Map<string, {el: HTMLAudioElement, d: number}>;
   getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
 }
 
@@ -40,10 +43,28 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     this.rewind = this.rewind.bind(this);
   }
 
+  public componentWillUnmount() {
+    COMPONENT_WAS_UNMOUNTED = true;
+    clearInterval(this.intervals);
+  }
+
   public async load() {
+    // Check buffers to loaded audio elements
     if (this.state.loaded) {return; }
-    const ID = this.props.doc.ID;
-    console.log("File ID " + ID);
+    const audioElement: {el: HTMLAudioElement, d: number} = this.props.audioBuffers.get(this.props.doc.Path);
+    if (audioElement && !COMPONENT_WAS_UNMOUNTED) {
+      this.audio = audioElement.el;
+      this.setState({
+        duration: audioElement.d,
+        loaded: true,
+        current: 0,
+      });
+      this.intervals = setInterval(this.timer, 200);
+      return;
+    }
+
+    const {ID} = this.props.doc;
+    // console.log("File ID " + ID);
     new Promise(async (res, rej) => {
       const data: {duration: number, blob: Blob} | {result: string} = await this.props.getAudio(ID);
       if ((data as {result: string}).result !== "Error") {
@@ -54,6 +75,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     }).then((data: {duration: number, blob: Blob}) => {
       this.loaded(data.blob, data.duration);
     }, () => {
+      if (COMPONENT_WAS_UNMOUNTED) {return; }
       this.setState({
         error: true,
       });
@@ -61,6 +83,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
   }
 
   public componentWillMount() {
+    COMPONENT_WAS_UNMOUNTED = false;
     this.load();
   }
 
@@ -71,6 +94,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     } else {
       this.audio.play();
     }
+    if (COMPONENT_WAS_UNMOUNTED) {return; }
     this.setState({
       play: !this.state.play,
     });
@@ -114,14 +138,9 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
 
   private loaded(blob: Blob, duration: number) {
     const audioUrl = URL.createObjectURL(blob);
-    this.audio = new Audio(audioUrl);
-    this.props.doc.AdditionalContentLoaded = true;
-    this.setState({
-      duration,
-      loaded: true,
-      current: 0,
-    });
-    this.intervals = setInterval(this.timer, 200);
+    const audioEl = new Audio(audioUrl);
+    this.audio = audioEl;
+    this.props.audioBuffers.set(this.props.doc.Path, {el: audioEl, d: duration});
   }
 
   private formatTime(duration: number): string {

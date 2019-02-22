@@ -1,5 +1,6 @@
 import * as React from "react";
 import { IMessageContentDoc } from "src/models/message";
+import Loader from "src/ui/components/loader";
 require("./styles.scss");
 
 const downloadIcon: string = require("assets/download.svg");
@@ -43,7 +44,9 @@ export default class ImageMessage extends React.Component<IImageMessageProps, II
     if (this.state.body === "") {
       return(
         <div className="message-image-loading">
-          <div>loading</div>
+          <div className="message-image-loading__loader">
+            <Loader/>
+          </div>
         </div>
       );
     }

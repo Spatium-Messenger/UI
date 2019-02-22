@@ -1,15 +1,7 @@
 Todo:
-
-  !Messages Places
-  !Load auido 
-
-  + Audio Messages View
-  + Language in modals
-  Cache modal
-  + Send docs without message
-  Auto scroll down in content
+  +Image loader
+  Menu language change
   Time with nickname
+  OGG encoding
   Chat menu
-    + Create sidebar
     Change name
-    Send "joins"

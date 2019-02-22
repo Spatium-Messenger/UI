@@ -1,4 +1,4 @@
-import {IAppStore, IInputStore, IMessagesStore, IChatStore, IUserStore} from "src/interfaces/store";
+import {IAppStore, IInputStore, IMessagesStore, IChatStore, IUserStore, IFileStore} from "src/interfaces/store";
 import { IAPI } from "src/interfaces/api";
 import { ICookie } from "src/interfaces/cookie";
 import { IWebSocket } from "src/interfaces/web-socket";
@@ -11,6 +11,7 @@ export interface IRootStore {
   messagesStore: IMessagesStore;
   chatStore: IChatStore;
   userStore: IUserStore;
+  fileStore: IFileStore;
   remoteAPI: IAPI;
   cookie: ICookie;
   webScoketConnection: IWebSocket;

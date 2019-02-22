@@ -8,6 +8,7 @@ interface IMessageUnitProps {
   data: IMessage;
   userID: number;
   lastAuthorID: number;
+  audioBuffers: Map<string, {el: HTMLAudioElement, d: number}>;
   getImage: (fileID: number, ext: string) => Promise<string>;
   downloadFile: (fileID: number,  name: string) => void;
   getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
@@ -19,11 +20,8 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
   }
   public render() {
     const mess = this.props.data;
-    const authorsMessage = (mess.AuthorID === this.props.userID);
     const showAuthorName = (this.props.lastAuthorID !== mess.AuthorID);
-    if (mess.Content.Documents.length > 0) {
-      // console.log(mess.Content.Documents);
-    }
+
     if (mess.Content.Type === IMessageType.System) {
       return (
       <div className={"system-message"}>
@@ -34,15 +32,15 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
 
     const docs: JSX.Element[] = mess.Content.Documents.map((d, i) =>
       <DocMessage
-         getAudio={this.props.getAudio}
-         getImage={this.props.getImage}
-         downloadFile={this.props.downloadFile}
-         doc={d}
-         key={d.ID}
+        audioBuffers={this.props.audioBuffers}
+        getAudio={this.props.getAudio}
+        getImage={this.props.getImage}
+        downloadFile={this.props.downloadFile}
+        doc={d}
+        key={d.ID}
       />,
       );
     return(
-      // <div className={"message_" + (authorsMessage ? "my" : "alien")}>
       <div className={"message-wrapper"}>
         <div className="message">
           {(showAuthorName ? <div className="message__author">{mess.AuthorName}</div> : <div/>)}

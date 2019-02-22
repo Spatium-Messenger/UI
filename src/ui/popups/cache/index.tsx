@@ -23,12 +23,15 @@ export default class CachePopup extends React.Component<ICachePopupProps, ICache
 
   public componentWillMount() {
     this.setState({
-      size: this.props.store.messagesStore.getCacheSize(),
+      size: this.props.store.fileStore.getCacheSize(),
     });
   }
 
   public clear() {
-    //
+    this.props.store.fileStore.clearCache();
+    this.setState({
+      size: this.props.store.fileStore.getCacheSize(),
+    });
   }
 
   public render() {

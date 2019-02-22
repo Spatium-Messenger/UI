@@ -24,6 +24,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
   }
 
   public componentDidUpdate() {
+    console.log(this.contentRef.current.scrollHeight);
     const chatID = this.props.store.chatStore.currentChat.ID;
     const messages = this.props.store.messagesStore.messages.get(chatID).messages;
     if (chatID !== CHAT_ID_PAST) {
@@ -37,15 +38,12 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
   }
 
   public render() {
-
-    // console.log("UPDATE");
     const chatID = this.props.store.chatStore.currentChat.ID;
     const messages = this.props.store.messagesStore.messages.get(chatID).messages;
 
     const userID = this.props.store.userStore.data.ID;
     /*
       Messages order - [{time: 9:00},  {time: 9:05}, { time: 9:10}]
-
       First message - last sended message
     */
     const messagesComponents: JSX.Element[] = messages.map((v, i) => {
@@ -61,23 +59,11 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
         lastAuhtorID =  -1;
       }
 
-      // lastAuhtorID = -1;
-
-      // let lastMessageAuthorName: string = (i === (messages.length - 1) ? "" :  messages[i + 1].AuthorName);
-      // if (lastMessageAuthorName !== "") {
-      //   if (messages[i + 1].Content.Type !==  IMessageType.User) {
-      //     lastMessageAuthorName = "";
-      //   }
-      // }
-
-      // if (i === messages.length - 1 && i !== 0) {
-      //   lastMessageAuthorName = (v.AuthorID === (messages[i-1].AuthorID) ? "" :  messages[i + 1].AuthorName);
-      // }
-
       return <IMessageUnit
-        getAudio={this.props.store.messagesStore.getAudio}
-        downloadFile={this.props.store.messagesStore.downloadFile}
-        getImage={this.props.store.messagesStore.getImage}
+        audioBuffers={this.props.store.fileStore.audioBuffers}
+        getAudio={this.props.store.fileStore.getAudio}
+        downloadFile={this.props.store.fileStore.downloadFile}
+        getImage={this.props.store.fileStore.getImage}
         data={v}
         key={i}
         userID={userID}
@@ -87,22 +73,22 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
 
     return(
       < div className="window__content" ref={this.contentRef} >
-        <div ref={this.innerRef}>
+        <div className="window__content-tmp"/>
+        <div ref={this.innerRef} className="window__content__wrapper">
           {messagesComponents}
         </div>
       </div >);
   }
 
   private scroll(force: boolean) {
+    const needScroll = this.contentRef.current.scrollHeight;
     const scrolledTop = this.contentRef.current.scrollTop;
     const messagesHeightSum = this.innerRef.current.offsetHeight;
     const wrapperHeight =  this.contentRef.current.offsetHeight;
     const formBottom = messagesHeightSum - scrolledTop - wrapperHeight;
-    // console.log(formBottom, console.log(this.contentRef.current.scrollTop));
-    if (messagesHeightSum - scrolledTop - wrapperHeight >= 100 && !force) {
+    if (formBottom >= 100 && !force) {
       return;
     }
-
-    this.contentRef.current.scrollTo(0, this.innerRef.current.offsetHeight);
+    this.contentRef.current.scrollTo(0, needScroll);
   }
 }

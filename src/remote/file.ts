@@ -171,7 +171,7 @@ export default class APIFile extends APIClass implements IAPIFile {
       formData.append("file", (file.src as any), file.src.name);
       formData.append("name", file.src.name);
       formData.append("token", token);
-      formData.append("type", this.getExt(file.src.name));
+      formData.append("type", this.getExt(file.src.name).toLowerCase());
       formData.append("ratio_size", ((file.width / file.height as any) || 0));
       formData.append("chat_id", (file.chatID as any));
       return formData;

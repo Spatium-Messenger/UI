@@ -1,6 +1,6 @@
 import { IRootStore } from "./interfeces";
 import AppStoreModule from "./modules/app";
-import {IAppStore, IInputStore, IMessagesStore, IChatStore, IUser, IUserStore} from "src/interfaces/store";
+import {IAppStore, IInputStore, IMessagesStore, IChatStore, IUserStore, IFileStore} from "src/interfaces/store";
 import InputStoreModule from "./modules/input";
 import MessagesStore from "./modules/messages";
 import { IAPI } from "src/interfaces/api";
@@ -9,6 +9,7 @@ import UserStoreModule from "./modules/user";
 import { ICookie } from "src/interfaces/cookie";
 import { IWebSocket } from "src/interfaces/web-socket";
 import { ILocalStorage } from "src/interfaces/local-storage";
+import FileStoreModule from "./modules/file";
 
 export default class RootStore implements IRootStore {
   public appStore: IAppStore;
@@ -16,6 +17,7 @@ export default class RootStore implements IRootStore {
   public messagesStore: IMessagesStore;
   public chatStore: IChatStore;
   public userStore: IUserStore;
+  public fileStore: IFileStore;
   public remoteAPI: IAPI;
   public cookie: ICookie;
   public webScoketConnection: IWebSocket;
@@ -32,9 +34,10 @@ export default class RootStore implements IRootStore {
     this.cookie = cookieController;
     this.webScoketConnection = websocket;
     this.storage = storage;
+    this.fileStore = new FileStoreModule(this, openLink);
     this.appStore = new AppStoreModule(this);
     this.inputStore = new InputStoreModule(this);
-    this.messagesStore = new MessagesStore(this, openLink);
+    this.messagesStore = new MessagesStore(this);
     this.chatStore = new ChatStoreModule(this);
     this.userStore = new UserStoreModule(this);
   }

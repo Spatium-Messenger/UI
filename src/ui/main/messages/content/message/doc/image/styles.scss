@@ -59,7 +59,15 @@
 .message-image-loading{
   width: 360px;
   height: 180;
-  border-radius: 5;
-  background-color: rgba(0,0,0,0.4);
+  border-radius: 5px;
+  border: 1px solid rgba(0,0,0,0.1);
   margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .message-image-loading__loader{
+    width: 30px;
+    height: 20px;
+  }
 }

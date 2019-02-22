@@ -19,6 +19,15 @@ export interface IAppStore {
   changeChatMenu: (val: boolean) => void;
 }
 
+export interface IFileStore {
+  audioBuffers: Map<string, {el: HTMLAudioElement, d: number}>;
+  getAudio: (fileID: number) => Promise<{duration: number, blob: Blob} | {result: string}>;
+  getImage: (fileID: number, ext: string) => Promise<string>;
+  downloadFile: (fileID: number,  name: string) => void;
+  getCacheSize: () => string;
+  clearCache: () => void;
+}
+
 export interface IChatStore {
   chats: IChat[];
   currentChat: IChat;
@@ -45,10 +54,7 @@ export interface IUserStore {
 export interface IMessagesStore {
   messages: Map<number, IChatsMessages>;
   loadMessages: (chatID: number) => void;
-  getImage: (fileID: number, ext: string) => Promise<string>;
-  getAudio: (fileID: number) => Promise<{duration: number, blob: Blob} | {result: string}>;
-  downloadFile: (fileID: number,  name: string) => void;
-  getCacheSize: () => string;
+
   clear: () => void;
 }
 
