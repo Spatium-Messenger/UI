@@ -137,8 +137,13 @@ export class APIChat extends APIClass implements IAPIChat {
     //
   }
 
-  public async SetChatSettings(chatID: number, name: string): Promise<void> {
-    //
+  public async SetChatSettings(chatID: number, name: string): Promise<IAnswerError> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.addUsersURL;
+    message.payload = {...message.payload,
+                       chat_id: chatID,
+                       name};
+    return super.Send(message);
   }
 
   public async DeleteFromDialog(chatID: number): Promise<void> {

@@ -31,6 +31,7 @@ export default class ChatPreferencesUp extends React.Component<IChatPreferencesU
       };
     }
     this.input = this.input.bind(this);
+    this.save = this.save.bind(this);
   }
 
   public close() {
@@ -44,7 +45,7 @@ export default class ChatPreferencesUp extends React.Component<IChatPreferencesU
   }
 
   public save() {
-    //
+    this.props.store.chatStore.setChatName(this.state.input);
   }
 
   public render() {

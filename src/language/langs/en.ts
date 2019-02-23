@@ -17,6 +17,7 @@ const en: ILanguage = {
   },
   chats: {
     search: "Search...",
+    notFound: "Not Found",
   },
   menu: {
     back: "Back to Swap",

@@ -23,7 +23,7 @@ export default class ChatStoreModule implements IChatStore {
     this.webScoketConnection = rootStore.webScoketConnection;
     this.webScoketConnection.OnActionOnlineUser = this.newOnlineUser.bind(this);
     this.chats = [];
-    this.currentChatID = -1;
+    this.currentChatID = 1;
     this.users = new Map<number, IChatUser[]>();
     this.loading = false;
 
@@ -122,6 +122,24 @@ export default class ChatStoreModule implements IChatStore {
   public async addUserToChat(userID: number): Promise<IAnswerError> {
     const chatID = this.currentChatID;
     return this.remoteAPI.chat.AddUsers([userID], chatID);
+  }
+
+  @action
+  public async setChatName(name: string) {
+    const chatID = this.currentChatID;
+    const answer: IAnswerError =  await this.remoteAPI.chat.SetChatSettings(chatID, name);
+    if (answer.result !== "Error") {
+      // this.loadChats();
+      this.chats = this.chats.map((v) => {
+        if (v.ID === chatID) {
+          v.Name = name;
+        }
+        return v;
+      });
+    } else {
+      console.log("setChatName", answer);
+    }
+
   }
 
   public clear() {

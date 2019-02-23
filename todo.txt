@@ -8,9 +8,8 @@ Todo:
     + Chats
     + Messages
   + Clear up store/input
-  Check deleting a file
+  + Check deleting a file
   OGG encoding
-  Chat menu
-    Change name
-    Gradients
-    
+  + Chat menu
+    + Change name
+    + Gradients

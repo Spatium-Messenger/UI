@@ -53,6 +53,7 @@ export interface IChatStore {
   getChatUsers: () => void;
   getUsersForAdd: (name: string) => Promise<IAnswerError | IChatUser[]>;
   addUserToChat: (userID: number) => Promise<IAnswerError>;
+  setChatName: (name: string) => void;
   clear: () => void;
 }
 

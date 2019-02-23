@@ -17,6 +17,7 @@ const ru: ILanguage = {
   },
   chats: {
     search: "Поиск...",
+    notFound: "Не найдено",
   },
   menu: {
     back: "Вернуться в Swap",

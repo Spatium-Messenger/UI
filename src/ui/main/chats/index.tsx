@@ -75,7 +75,7 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
       <div className="sidebar__items">
         {chats}
         <div className="sidebar__items__notfound">
-          {(chats.length === 0 ? "Not found" : "")}
+          {(chats.length === 0 ? lang.chats.notFound : "")}
         </div>
       </div>);
 

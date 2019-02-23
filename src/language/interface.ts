@@ -24,6 +24,7 @@ interface ILanguageSign {
 
 interface ILanguageChats {
   search: string;
+  notFound: string;
 }
 
 interface ILanguageMessagesWindow {
