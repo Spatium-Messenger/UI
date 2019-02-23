@@ -4,9 +4,9 @@ Todo:
   + Time with nickname
   + Send message on enter
   + Microphone fault
-  Add loaders
-    Chats
-    Messages
+  + Add loaders
+    + Chats
+    + Messages
   + Clear up store/input
   Check deleting a file
   OGG encoding

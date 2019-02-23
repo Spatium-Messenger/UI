@@ -22,17 +22,21 @@ export default class MessagesStore implements IMessagesStore {
   @action
   public async loadMessages(chatID: number) {
     const chatMessagesInfo: IChatsMessages = this.messages.get(chatID);
+    if (chatMessagesInfo.allLoaded) {
+      return;
+    }
     const lastID: number = (chatMessagesInfo.messages.length === 0 ?
       0 :
       chatMessagesInfo.messages[chatMessagesInfo.messages.length - 1].ID);
-
+    chatMessagesInfo.loading = true;
+    this.messages.set(chatID, chatMessagesInfo);
     const newMessages: IAnswerError | IMessage[] = await this.remoteApi.messages.Get(lastID, chatID);
     if ((newMessages as IAnswerError).result !== "Error") {
-      if ((newMessages as IMessage[]).length === 0) {
+      if ((newMessages as IMessage[]).length < 80) {
         chatMessagesInfo.allLoaded = true;
-      } else {
-        chatMessagesInfo.messages = [...chatMessagesInfo.messages, ...((newMessages as any) as IMessage[])];
       }
+      chatMessagesInfo.messages = [...chatMessagesInfo.messages, ...((newMessages as any) as IMessage[])];
+      chatMessagesInfo.loading = false;
       this.messages.set(chatID, chatMessagesInfo);
     } else {
       console.log("Error", newMessages);

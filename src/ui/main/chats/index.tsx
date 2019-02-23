@@ -7,6 +7,7 @@ import { IChat } from "src/models/chat";
 import { IRootStore } from "src/store/interfeces";
 import languages from "src/language";
 import { ILanguage } from "src/language/interface";
+import Loader from "src/ui/components/loader";
 
 require("./styles.scss");
 
@@ -51,9 +52,6 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
     this.props.store.chatStore.chats.map(
       (value, i) => {
         const currentID = this.props.store.chatStore.currentChatID;
-        // if (this.props.store.chatStore.currentChatID != -1) {
-        //   currentID = this.props.store.chatStore.currentChatID;
-        // }
         if  (value.Name.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
           chats.push(
             <SideBarItem
@@ -68,17 +66,23 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
     );
 
     const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
+    const content: JSX.Element = (this.props.store.chatStore.loading ?
+      <div className="sidebar__load-wrapper">
+        <div className="sidebar_load-wrapper-inner">
+          <Loader/>
+        </div>
+      </div> :
+      <div className="sidebar__items">
+        {chats}
+        <div className="sidebar__items__notfound">
+          {(chats.length === 0 ? "Not found" : "")}
+        </div>
+      </div>);
 
     return(
       <div className="sidebar">
           <UpPanel onChange={this.searchChange} menu={this.menu} placeholder={lang.chats.search}/>
-          <div className="sidebar__items">
-            {chats}
-            <div className="sidebar__items__notfound">
-              {(chats.length === 0 ? "Not found" : "")}
-            </div>
-          </div>
-          {/* <NewButton onClick={this.newChat}/> */}
+          {content}
       </div>
     );
   }

@@ -4,6 +4,7 @@ import IMessageUnit from "./message";
 import { IRootStore } from "src/store/interfeces";
 import { IMessageType, IMessage } from "src/models/message";
 import languages from "src/language";
+import Loader from "src/ui/components/loader";
 require("./styles.scss");
 
 interface IWindowContentProps {
@@ -27,8 +28,11 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
 
   public componentDidUpdate() {
     const chatID = this.props.store.chatStore.currentChatID;
-    // const chatData = this.props.store.chatStore.getChatData(chatID);
-    const messages = this.props.store.messagesStore.messages.get(chatID).messages;
+    const messagesData = this.props.store.messagesStore.messages.get(chatID);
+    if (!messagesData || messagesData.loading) {
+      return;
+    }
+    const messages = messagesData.messages;
     if (chatID !== CHAT_ID_PAST) {
       this.scroll(true);
     } else {
@@ -41,8 +45,18 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
 
   public render() {
     const chatID = this.props.store.chatStore.currentChatID;
-    const messages = this.props.store.messagesStore.messages.get(chatID).messages;
-
+    const messagesInfo = this.props.store.messagesStore.messages.get(chatID);
+    console.log(messagesInfo);
+    if (!messagesInfo || messagesInfo.loading) {
+      return(<div className="window__content" ref={this.contentRef} >
+        <div className="window__content-loader-wrapper">
+          <div className="window__content-loader">
+            <Loader/>
+          </div>
+        </div>
+      </div >);
+    }
+    const messages = messagesInfo.messages;
     const userID = this.props.store.userStore.data.ID;
     /*
       Messages order - [{time: 9:00},  {time: 9:05}, { time: 9:10}]
@@ -89,7 +103,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
     });
 
     return(
-      < div className="window__content" ref={this.contentRef} >
+      <div className="window__content" ref={this.contentRef} >
         <div className="window__content-tmp"/>
         <div ref={this.innerRef} className="window__content__wrapper">
           {messagesComponents}

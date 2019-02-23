@@ -12,6 +12,7 @@ export default class ChatStoreModule implements IChatStore {
   @observable public chats: IChat[];
   @observable public currentChatID: number;
   @observable public users: Map<number, IChatUser[]>;
+  @observable public loading: boolean;
   private remoteAPI: IAPI;
   private rootStore: IRootStore;
   private webScoketConnection: IWebSocket;
@@ -24,6 +25,7 @@ export default class ChatStoreModule implements IChatStore {
     this.chats = [];
     this.currentChatID = -1;
     this.users = new Map<number, IChatUser[]>();
+    this.loading = false;
 
   }
 
@@ -37,21 +39,40 @@ export default class ChatStoreModule implements IChatStore {
 
   @action
   public async loadChats() {
+    this.loading = true;
     const chats: IAnswerError | IChat[] = await this.remoteAPI.chat.Get();
+    let loadCurrentChatMessages = false;
     if ((chats as IAnswerError).result !== "Error") {
       this.rootStore.messagesStore.messages.clear();
       (chats as IChat[]).forEach((v) => {
-        this.rootStore.messagesStore.messages.set(v.ID, {
-          allLoaded: false,
-          messages: [],
-        });
+        if (v.ID === this.currentChatID) {
+          loadCurrentChatMessages = true;
+          this.rootStore.messagesStore.messages.set(v.ID, {
+            allLoaded: false,
+            messages: [],
+            loading: true,
+          });
+        } else {
+          this.rootStore.messagesStore.messages.set(v.ID, {
+            allLoaded: false,
+            messages: [],
+            loading: false,
+          });
+        }
         this.rootStore.inputStore.chatsInputData.set(v.ID, {
           documents: [],
           text: "",
         });
+
       });
-      // console.log(this.rootStore.messagesStore.messages);
       this.chats = (chats as IChat[]);
+      this.loading  = false;
+      if (loadCurrentChatMessages) {
+        this.rootStore.messagesStore.loadMessages(this.currentChatID);
+        this.getChatUsers();
+      } else {
+        this.currentChatID = -1;
+      }
 
     }
   }

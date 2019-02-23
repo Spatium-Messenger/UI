@@ -1,5 +1,9 @@
+
+// -loading
 .chat-preferences-open,
-.chat-preferences-close{
+.chat-preferences-close,
+.chat-preferences-open-loading,
+.chat-preferences-close-loading{
   min-width: 250px;
   height: 100%;
   background: $white;
@@ -9,6 +13,22 @@
   margin-right: 0px;
 }
 
-.chat-preferences-close{
+.chat-preferences-close,
+.chat-preferences-close-loading{
   margin-right: -250px;
 }
+
+
+.chat-preferences-open-loading,
+.chat-preferences-close-loading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.chat-preferences-loader{
+  width: 30px;
+  height: 20px;
+}
+

@@ -45,6 +45,7 @@ export interface IChatStore {
   chats: IChat[];
   currentChatID: number;
   users: Map<number, IChatUser[]>;
+  loading: boolean;
   getChatData: (id: number) => IChat;
   chooseChat: (chat: IChat) => void;
   loadChats: () => void;
@@ -74,6 +75,7 @@ export interface IMessagesStore {
 export interface IChatsMessages {
   messages: IMessage[];
   allLoaded: boolean;
+  loading: boolean;
 }
 
 export interface IInputStore {
