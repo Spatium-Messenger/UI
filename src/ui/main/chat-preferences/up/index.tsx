@@ -21,9 +21,15 @@ export default class ChatPreferencesUp extends React.Component<IChatPreferencesU
   constructor(props) {
     super(props);
     this.close = this.close.bind(this);
+    const chatID = this.props.store.chatStore.currentChatID;
     this.state = {
-      input: this.props.store.chatStore.currentChat.Name,
+      input: "",
     };
+    if (chatID !== -1) {
+      this.state = {
+        input: this.props.store.chatStore.getChatData(chatID).Name,
+      };
+    }
     this.input = this.input.bind(this);
   }
 
@@ -45,13 +51,6 @@ export default class ChatPreferencesUp extends React.Component<IChatPreferencesU
     const lang = languages.get(this.props.store.userStore.data.lang).chatPreferences;
     return(
       <div className="chat-preferences-up">
-        <div className="chat-preferences-up__header">
-          <div>{lang.up.header}</div>
-          <div
-            dangerouslySetInnerHTML={{__html: closeIcon}}
-            onClick={this.close}
-          />
-        </div>
         <div className="chat-preferences-up__body">
             <div className="chat-preferences-up__body__avatar">
               {this.state.input.substring(0, 2).toUpperCase()}

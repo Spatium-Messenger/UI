@@ -1,9 +1,8 @@
 import { observable, action} from "mobx";
-import {IAppStore, MODALS_ID, IFileStore} from "src/interfaces/store";
+import {IFileStore} from "src/interfaces/store";
 import { IAPI } from "src/interfaces/api";
 import { IRootStore } from "../interfeces";
 import { ILocalStorage } from "src/interfaces/local-storage";
-import { IWebSocket } from "src/interfaces/web-socket";
 import { LZString } from "src/hard/string-compress";
 
 export default class FileStoreModule implements IFileStore {

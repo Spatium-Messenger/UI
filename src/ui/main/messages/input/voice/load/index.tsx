@@ -20,8 +20,8 @@ export default class VoiceLoading extends React.Component<IVoiceLoadingProps> {
     super(props);
   }
   public render() {
-    const chatID = this.props.store.chatStore.currentChat.ID;
-    const message = this.props.store.inputStore.voiceMessages.get(chatID);
+    const chatID = this.props.store.chatStore.currentChatID;
+    const message = this.props.store.audioStore.voiceMessages.get(chatID);
     return(
       <div className="voice-record-active">
         <div className="voice-record-load__circle">

@@ -50,10 +50,10 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
     const chats: JSX.Element[] = [];
     this.props.store.chatStore.chats.map(
       (value, i) => {
-        let currentID = -1;
-        if (this.props.store.chatStore.currentChat) {
-          currentID = this.props.store.chatStore.currentChat.ID;
-        }
+        const currentID = this.props.store.chatStore.currentChatID;
+        // if (this.props.store.chatStore.currentChatID != -1) {
+        //   currentID = this.props.store.chatStore.currentChatID;
+        // }
         if  (value.Name.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
           chats.push(
             <SideBarItem

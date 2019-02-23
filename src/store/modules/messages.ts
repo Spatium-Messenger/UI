@@ -4,7 +4,6 @@ import { IRootStore } from "../interfeces";
 import { IAPI, IAnswerError } from "src/interfaces/api";
 import { IMessage } from "src/models/message";
 import { IWebSocket } from "src/interfaces/web-socket";
-import { ILocalStorage } from "src/interfaces/local-storage";
 
 export default class MessagesStore implements IMessagesStore {
   @observable public messages: Map<number, IChatsMessages>;

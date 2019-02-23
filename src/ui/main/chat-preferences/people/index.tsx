@@ -43,7 +43,7 @@ export default class ChatPreferencesPeople extends React.Component<
 
   public render() {
     const lang = languages.get(this.props.store.userStore.data.lang).chatPreferences.people;
-    const people = this.props.store.chatStore.users.get(this.props.store.chatStore.currentChat.ID);
+    const people = this.props.store.chatStore.users.get(this.props.store.chatStore.currentChatID);
     if (!people) {
       return <div/>;
     }

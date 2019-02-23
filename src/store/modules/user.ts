@@ -1,6 +1,6 @@
 import { observable, action} from "mobx";
 // import { IAppStoreModule, IUser } from "../../../interfaces/app_state";
-import {IUser, IUserStore, LANGUAGES} from "src/interfaces/store";
+import {IUser, IUserStore} from "src/interfaces/store";
 import { IAPI } from "src/interfaces/api";
 import { IRootStore } from "../interfeces";
 import { ICookie } from "src/interfaces/cookie";
@@ -78,6 +78,7 @@ export default class UserStoreModule implements IUserStore {
     this.rootStore.chatStore.clear();
     this.rootStore.inputStore.clear();
     this.rootStore.messagesStore.clear();
+    this.rootStore.audioStore.clear();
     this.remoteAPI.data.Token = "";
   }
 

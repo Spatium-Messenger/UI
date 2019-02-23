@@ -15,22 +15,24 @@ interface IRecordError {
   errror: string;
 }
 
-const startRecording = async function(progress: (ampls: number) => void) {
+const startRecording = async function(progress: (ampls: number) => void, error: (e: Error) => void) {
   let stream: MediaStream = null;
   try {
     stream = await navigator.mediaDevices.getUserMedia(constraints);
   } catch (e) {
-    console.log("Fail");
+    error(e);
+    return;
+    // console.log("Fail");
   }
   if (stream === null) {
+    error(Error("Failed got mediaDevices"));
     return;
   }
-  console.log(stream);
   // await new Promise((res, rej) => {
   //   await navigator.mediaDevices.getUserMedia(constraints);
   // }).then((newStream: MediaStream) => {stream = newStream; });
   const input = new AudioContext().createMediaStreamSource(stream);
-  console.log(input);
+  // console.log(input);
   recorder = new Recorder(stream, input, progress);
   recorder.record();
 };

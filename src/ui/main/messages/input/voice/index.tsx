@@ -20,11 +20,11 @@ export default class Voice extends React.Component<IVoiceProps> {
   }
 
   public stopRecording() {
-    this.props.store.inputStore.stopRecording();
+    this.props.store.audioStore.stopRecording();
   }
 
   public render() {
-    const voiceVolumes = this.props.store.inputStore.voiceVolumes;
+    const voiceVolumes = this.props.store.audioStore.voiceVolumes;
     const timeLine: JSX.Element[] = voiceVolumes.slice(0).reverse().map((v, i) =>
       <div
         key={i}
@@ -33,8 +33,8 @@ export default class Voice extends React.Component<IVoiceProps> {
         <div style={{height: (v + 3) + "px"}}/>
       </div>,
     );
-    const chatID = this.props.store.chatStore.currentChat.ID;
-    const voiceMessage: IAudioMessage = this.props.store.inputStore.voiceMessages.get(chatID);
+    const chatID = this.props.store.chatStore.currentChatID;
+    const voiceMessage: IAudioMessage = this.props.store.audioStore.voiceMessages.get(chatID);
     if (voiceMessage) {
       if (voiceMessage.load === 1) {
         return(<VoiceLoading />);
@@ -42,7 +42,7 @@ export default class Voice extends React.Component<IVoiceProps> {
       return(<PlayVoiceMessage data={voiceMessage}/>);
     }
     return(
-      <div className={"voice-record" + (this.props.store.inputStore.voiceRecording ? "-active" : "")}>
+      <div className={"voice-record" + (this.props.store.audioStore.voiceRecording ? "-active" : "")}>
         <div className="voice-record__stop" onClick={this.stopRecording}>
           <div/>
         </div>

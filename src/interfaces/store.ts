@@ -30,10 +30,22 @@ export interface IFileStore {
   clearCache: () => void;
 }
 
+export interface IAudioStore {
+  voiceRecording: boolean;
+  voiceVolumes: number[];
+  voiceMessages: Map<number, IAudioMessage>;
+  cancelVoiceRecording: () => void;
+  changeRecording: (val: boolean) => void;
+  stopRecording: () => void;
+  sendVoiceMessage: (chatID: number) => void;
+  clear: () => void;
+}
+
 export interface IChatStore {
   chats: IChat[];
-  currentChat: IChat;
+  currentChatID: number;
   users: Map<number, IChatUser[]>;
+  getChatData: (id: number) => IChat;
   chooseChat: (chat: IChat) => void;
   loadChats: () => void;
   createChat: (name: string) => void;
@@ -56,7 +68,6 @@ export interface IUserStore {
 export interface IMessagesStore {
   messages: Map<number, IChatsMessages>;
   loadMessages: (chatID: number) => void;
-
   clear: () => void;
 }
 
@@ -66,17 +77,11 @@ export interface IChatsMessages {
 }
 
 export interface IInputStore {
-  voiceRecording: boolean;
-  voiceVolumes: number[];
-  voiceMessages: Map<number, IAudioMessage>;
   chatsInputData: Map<number, IInputData>;
   setTextInput: (text: string) => void;
   uploadDocuments: (docs: IDocumentUpload[]) => void;
   deleteDocument: (doc: IDocumentUpload) => void;
-  cancelVoiceRecording: () => void;
   sendMessage: () => void;
-  changeRecording: (val: boolean) => void;
-  stopRecording: () => void;
   clear: () => void;
 }
 

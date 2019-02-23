@@ -15,23 +15,10 @@
   margin-bottom: 10px;
 }
 
-// .message_my{
-//   float: right;
-//   background: $primary-color;
-// }
-
-// .message_my>.message__content::selection{
-//   background: $ultra_active;
-// }
-
-// .message_alien{
-//   background: $ultra_active;
-// }
-
 .message__up{
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 
   div:nth-child(2){
     font-size: 12px;

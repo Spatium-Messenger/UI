@@ -32,13 +32,13 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
   }
 
   public voiceRecordingClose() {
-    this.props.store.inputStore.cancelVoiceRecording();
+    this.props.store.audioStore.cancelVoiceRecording();
   }
 
   public getFiles() {
     const inputFiles = this.inputRef.current.files;
     const sendFiles = [];
-    const chatID = this.props.store.chatStore.currentChat.ID;
+    const chatID = this.props.store.chatStore.currentChatID;
     for (const file of inputFiles) {
       if (file.size < Config.files.maxSize) {
         const uploadFile: IDocumentUpload = {
@@ -63,7 +63,7 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
   }
 
   public render() {
-    const button = (!this.props.store.inputStore.voiceRecording ?
+    const button = (!this.props.store.audioStore.voiceRecording ?
       <div
           onClick={this.click}
           className="documents-upload__icon"

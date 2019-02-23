@@ -22,7 +22,7 @@ export default class Send extends React.Component<ISendProps> {
   }
 
   public voiceClick() {
-    this.props.store.inputStore.changeRecording(true);
+    this.props.store.audioStore.changeRecording(true);
   }
 
   public sendClick() {
@@ -30,10 +30,10 @@ export default class Send extends React.Component<ISendProps> {
   }
 
   public render() {
-    const voiseRecordingEnable = this.props.store.inputStore.voiceRecording ;
-    const chatID = this.props.store.chatStore.currentChat.ID;
+    const voiseRecordingEnable = this.props.store.audioStore.voiceRecording ;
+    const chatID = this.props.store.chatStore.currentChatID;
     const input = this.props.store.inputStore.chatsInputData.get(chatID);
-    let button = (this.props.store.inputStore.voiceRecording ?
+    let button = (this.props.store.audioStore.voiceRecording ?
     <div
       className="window__input__send"
       dangerouslySetInnerHTML={{__html: sendIcon}}

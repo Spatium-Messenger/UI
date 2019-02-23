@@ -3,7 +3,11 @@ Todo:
   + Menu language change
   + Time with nickname
   + Send message on enter
-  Redesign voice recorder lines
+  + Microphone fault
+  Add loaders
+    Chats
+    Messages
+  + Clear up store/input
   Check deleting a file
   OGG encoding
   Chat menu

@@ -23,7 +23,7 @@ export default class Window extends React.Component<IWindowProps> {
   }
   public render() {
     const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
-    if (!this.props.store.chatStore.currentChat) {
+    if (this.props.store.chatStore.currentChatID === -1) {
       return (
         <div className="window">
           <div className="window__empty">

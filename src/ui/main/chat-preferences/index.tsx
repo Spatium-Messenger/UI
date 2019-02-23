@@ -16,7 +16,7 @@ export default class ChatPreferences extends React.Component<IChatPreferencesPro
     super(props);
   }
   public render() {
-    if (!this.props.store.chatStore.currentChat) {
+    if (this.props.store.chatStore.currentChatID === -1) {
       return(<div/>);
     }
     const classname = "chat-preferences" + (this.props.store.appStore.chatMenu ? "-open" : "-close");

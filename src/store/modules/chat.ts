@@ -10,7 +10,7 @@ import { IWebSocket, IServerActionOnlineUser } from "src/interfaces/web-socket";
 
 export default class ChatStoreModule implements IChatStore {
   @observable public chats: IChat[];
-  @observable public currentChat: IChat;
+  @observable public currentChatID: number;
   @observable public users: Map<number, IChatUser[]>;
   private remoteAPI: IAPI;
   private rootStore: IRootStore;
@@ -22,14 +22,14 @@ export default class ChatStoreModule implements IChatStore {
     this.webScoketConnection = rootStore.webScoketConnection;
     this.webScoketConnection.OnActionOnlineUser = this.newOnlineUser.bind(this);
     this.chats = [];
-    this.currentChat = null;
+    this.currentChatID = -1;
     this.users = new Map<number, IChatUser[]>();
 
   }
 
   @action
   public chooseChat(chat: IChat) {
-    this.currentChat = chat;
+    this.currentChatID = chat.ID;
     this.getChatUsers();
     this.rootStore.messagesStore.loadMessages(chat.ID);
 
@@ -56,10 +56,20 @@ export default class ChatStoreModule implements IChatStore {
     }
   }
 
+  public getChatData(id: number): IChat {
+    let final: IChat = null;
+    this.chats.forEach((c) => {
+      if (final != null) {return; }
+      if (c.ID === id) {
+        final = c;
+      }
+    });
+    return final;
+  }
+
   @action
   public async createChat(name: string) {
     const answer: IAnswerError = await this.remoteAPI.chat.Create(ChatsTypes.Chat, name);
-    console.log(answer);
     if (answer.result !== "Error") {
       this.rootStore.appStore.changeModal(MODALS_ID.NULL);
       this.loadChats();
@@ -68,7 +78,7 @@ export default class ChatStoreModule implements IChatStore {
 
   @action
   public async getChatUsers() {
-    const chatID = this.currentChat.ID;
+    const chatID = this.currentChatID;
     const answer: IAnswerError | IChatUser[] = await this.remoteAPI.chat.GetUsers(chatID);
     if ((answer as IAnswerError).result !== "Error") {
       this.users.set(chatID, (answer as IChatUser[]));
@@ -79,7 +89,7 @@ export default class ChatStoreModule implements IChatStore {
 
   @action
   public async getUsersForAdd(name: string): Promise<IAnswerError | IChatUser[]> {
-    const chatID = this.currentChat.ID;
+    const chatID = this.currentChatID;
     const answer: IAnswerError | IChatUser[] = await this.remoteAPI.chat.GetUsersForAdd(chatID, name);
     if ((answer as IAnswerError).result !== "Error") {
       return (answer as IChatUser[]);
@@ -89,13 +99,13 @@ export default class ChatStoreModule implements IChatStore {
 
   @action
   public async addUserToChat(userID: number): Promise<IAnswerError> {
-    const chatID = this.currentChat.ID;
+    const chatID = this.currentChatID;
     return this.remoteAPI.chat.AddUsers([userID], chatID);
   }
 
   public clear() {
     this.chats = [];
-    this.currentChat = null;
+    this.currentChatID = -1;
     this.users.clear();
   }
 

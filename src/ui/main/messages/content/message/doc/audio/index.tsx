@@ -64,7 +64,6 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     }
 
     const {ID} = this.props.doc;
-    // console.log("File ID " + ID);
     new Promise(async (res, rej) => {
       const data: {duration: number, blob: Blob} | {result: string} = await this.props.getAudio(ID);
       if ((data as {result: string}).result !== "Error") {
@@ -141,6 +140,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     const audioEl = new Audio(audioUrl);
     this.audio = audioEl;
     this.props.audioBuffers.set(this.props.doc.Path, {el: audioEl, d: duration});
+    this.load();
   }
 
   private formatTime(duration: number): string {

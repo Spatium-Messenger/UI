@@ -26,8 +26,8 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
   }
 
   public componentDidUpdate() {
-    console.log(this.contentRef.current.scrollHeight);
-    const chatID = this.props.store.chatStore.currentChat.ID;
+    const chatID = this.props.store.chatStore.currentChatID;
+    // const chatData = this.props.store.chatStore.getChatData(chatID);
     const messages = this.props.store.messagesStore.messages.get(chatID).messages;
     if (chatID !== CHAT_ID_PAST) {
       this.scroll(true);
@@ -40,7 +40,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
   }
 
   public render() {
-    const chatID = this.props.store.chatStore.currentChat.ID;
+    const chatID = this.props.store.chatStore.currentChatID;
     const messages = this.props.store.messagesStore.messages.get(chatID).messages;
 
     const userID = this.props.store.userStore.data.ID;

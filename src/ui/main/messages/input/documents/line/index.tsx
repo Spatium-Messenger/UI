@@ -23,7 +23,7 @@ export default class DocumentsPanel extends React.Component<IDocumentsPanelProps
   }
 
   public render() {
-    const chatID = (this.props.store.chatStore.currentChat ? this.props.store.chatStore.currentChat.ID : -1);
+    const chatID = this.props.store.chatStore.currentChatID;
     const chatsInputData = this.props.store.inputStore.chatsInputData;
     let documents: IDocumentUpload[] = [];
     if (chatsInputData.has(chatID)) {

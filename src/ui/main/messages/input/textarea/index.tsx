@@ -47,9 +47,9 @@ export default class TextArea extends React.Component<ITextAreaProps> {
 
   public render() {
     const lang = languages.get(this.props.store.userStore.data.lang).messages.input;
-    const chatID = this.props.store.chatStore.currentChat.ID;
+    const chatID = this.props.store.chatStore.currentChatID;
     const input = this.props.store.inputStore.chatsInputData.get(chatID).text;
-    const voiceRecordingEnable = this.props.store.inputStore.voiceRecording;
+    const voiceRecordingEnable = this.props.store.audioStore.voiceRecording;
     return(
       <textarea
         ref={this.inputRef}

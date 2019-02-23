@@ -24,15 +24,17 @@ export default class WindowHeader extends React.Component<IWindowHeaderProps> {
   }
 
   public render() {
-    if (this.props.store.chatStore.currentChat === null) {
+    const chatID = this.props.store.chatStore.currentChatID;
+    const chatData = this.props.store.chatStore.getChatData(chatID);
+    if (chatData === null) {
       return(<div/>);
     }
     return(
       <div className="window__header">
         <div className="window__header__back" dangerouslySetInnerHTML={{__html: backIcon}}/>
         <div className="window__header__name">
-          <div>{this.props.store.chatStore.currentChat.Name.substring(0, 2).toUpperCase()}</div>
-          <div>{this.props.store.chatStore.currentChat.Name}</div>
+          <div>{chatData.Name.substring(0, 2).toUpperCase()}</div>
+          <div>{chatData.Name}</div>
         </div>
         <div
           className="window__header__more"
