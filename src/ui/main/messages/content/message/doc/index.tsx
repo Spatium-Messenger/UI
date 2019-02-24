@@ -14,7 +14,7 @@ interface IDocMessageProps {
   getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
 }
 
-const EXTENSION_AUDIO = "wav";
+const EXTENSION_AUDIO = "ogg";
 const EXTENSION_IMAGE_JPG = "jpg";
 const EXTENSION_IMAGE_JPEG = "jpeg";
 const EXTENSION_IMAGE_PNG = "png";

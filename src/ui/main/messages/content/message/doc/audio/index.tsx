@@ -6,6 +6,7 @@ const playIcon: string = require("assets/play.svg");
 const pauseButton: string = require("assets/pause.svg");
 
 let COMPONENT_WAS_UNMOUNTED = false;
+let LAST_CURRENT_PLAY_POSITION = "-1";
 
 interface IAudioMessageProps {
   doc: IMessageContentDoc;
@@ -155,10 +156,16 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
         current: this.audio.currentTime,
         play: this.state.play,
       };
-      if (data.current.toFixed(1) === this.state.duration.toFixed(1)) {
+      if (
+        data.current.toFixed(1) === this.state.duration.toFixed(1) ||
+        LAST_CURRENT_PLAY_POSITION  === data.current.toFixed(1)
+      ) {
         data.play = false;
+        data.current = this.state.duration;
         this.audio.pause();
+        LAST_CURRENT_PLAY_POSITION = "-1";
       }
+      LAST_CURRENT_PLAY_POSITION = data.current.toFixed(1);
       this.setState(data);
     }
   }

@@ -1,15 +1,5 @@
 Todo:
-  + Image loader
-  + Menu language change
-  + Time with nickname
-  + Send message on enter
-  + Microphone fault
-  + Add loaders
-    + Chats
-    + Messages
-  + Clear up store/input
-  + Check deleting a file
-  OGG encoding
-  + Chat menu
-    + Change name
-    + Gradients
+  + OGG encoding
+  Dialog and channel creating
+  Dialog and channel view in chats menu
+  Check name reducing in docs view

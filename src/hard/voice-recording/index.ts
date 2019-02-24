@@ -1,7 +1,9 @@
 import {IRecorder, Recorder} from "./recorder";
+import { IOGG, OGG } from "./ogg";
 
 const constraints: { audio: boolean} = { audio: true};
 let recorder: IRecorder = null;
+let OGGEncoder: IOGG = new OGG();
 
 interface INode {
   buf: ArrayBuffer;
@@ -17,6 +19,9 @@ interface IRecordError {
 
 const startRecording = async function(progress: (ampls: number) => void, error: (e: Error) => void) {
   let stream: MediaStream = null;
+  if (!OGGEncoder) {
+    OGGEncoder = new OGG();
+  }
   try {
     stream = await navigator.mediaDevices.getUserMedia(constraints);
   } catch (e) {
@@ -28,12 +33,8 @@ const startRecording = async function(progress: (ampls: number) => void, error: 
     error(Error("Failed got mediaDevices"));
     return;
   }
-  // await new Promise((res, rej) => {
-  //   await navigator.mediaDevices.getUserMedia(constraints);
-  // }).then((newStream: MediaStream) => {stream = newStream; });
   const input = new AudioContext().createMediaStreamSource(stream);
-  // console.log(input);
-  recorder = new Recorder(stream, input, progress);
+  recorder = new Recorder(stream, input, progress, OGGEncoder);
   recorder.record();
 };
 

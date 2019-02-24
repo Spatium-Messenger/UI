@@ -10,6 +10,7 @@ export class APIChat extends APIClass implements IAPIChat {
   private addUsersURL: string;
   private getUsersURL: string;
   private getUsersForAddURL: string;
+  private setSettingsURL: string;
   private deleteUsersURL: string;
   private recoveryUsersURL: string;
   private deleteFromDialogURL: string;
@@ -30,6 +31,7 @@ export class APIChat extends APIClass implements IAPIChat {
     this.deleteFromDialogURL = p + "deleteFromDialog";
     this.recoveryUserInDialogURL = p + "recoveryUserInDialog";
     this.deleteChatFromList = p + "deleteFromList";
+    this.setSettingsURL = p + "setSettings";
   }
 
   public async Get(): Promise<IAnswerError | IChat[]> {
@@ -139,7 +141,7 @@ export class APIChat extends APIClass implements IAPIChat {
 
   public async SetChatSettings(chatID: number, name: string): Promise<IAnswerError> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
-    message.uri = this.addUsersURL;
+    message.uri = this.setSettingsURL;
     message.payload = {...message.payload,
                        chat_id: chatID,
                        name};
