@@ -83,7 +83,6 @@ export default class AddUserPopup extends React.Component<IAddUserPopupProps, IA
     }
     return(
       <div className="add-user-popup">
-        <div>{lang.header}</div>
         <div>
           <input
             className="add-user-popup__input"

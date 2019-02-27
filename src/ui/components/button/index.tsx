@@ -6,6 +6,7 @@ interface IButtonProps {
   text: string;
   active: boolean;
   loading: boolean;
+  tabindex?: number;
 }
 
 export default class Button extends React.Component<IButtonProps> {
@@ -17,6 +18,7 @@ export default class Button extends React.Component<IButtonProps> {
       <button
         className={this.props.active ? "default-button-active" : "default-button"}
         onClick={this.props.onClick}
+        tabIndex={this.props.tabindex || -1}
       >
         {this.props.text}
       </button>

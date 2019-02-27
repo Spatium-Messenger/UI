@@ -5,9 +5,10 @@ Todo:
   + Redesign header in messenger window (Change box to icon, add online users, change options icon)
   + Сhannel creating
   + Auto open on wide screens chat-preferences
-  Online actions
-  Redesign dialogs
+  + Redesign dialogs
   Escape from dialog (ESC press)
+  Online actions
+  Fonts connect
   Dialog creating, find users in chats menu
   Dialog and channel view in chats menu
   Check name reducing in docs view

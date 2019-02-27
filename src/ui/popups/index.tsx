@@ -2,13 +2,14 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { IRootStore } from "src/store/interfeces";
 import { MODALS_ID } from "src/interfaces/store";
-import CreateChat from "./create-chat";
+import Create from "./create";
 import AddUserPopup from "./add-user";
-import ModalClose from "./components/modal-close";
 import Cache from "./cache";
 import LanguagePopup from "./language";
-import CreateChannel from "./new-channel";
+import languages from "src/language";
 require("./styles.scss");
+
+const closeIcon = require("assets/cancel.svg");
 
 interface IModalsProps {
   store?: IRootStore;
@@ -17,9 +18,22 @@ interface IModalsProps {
 @inject("store")
 @observer
 export default class Modals extends React.Component<IModalsProps> {
+  private modalBack: React.RefObject<HTMLDivElement>;
+  private closeRef: React.RefObject<HTMLDivElement>;
   constructor(props) {
     super(props);
+    this.close = this.close.bind(this);
+    this.modalBack = React.createRef();
+    this.closeRef = React.createRef();
   }
+
+  public close(e: React.MouseEvent<HTMLDivElement>) {
+    if ((e.target as HTMLDivElement) === this.modalBack.current ||
+    (e.target as HTMLDivElement) === this.closeRef.current) {
+      this.props.store.appStore.changeModal(MODALS_ID.NULL);
+    }
+  }
+
   public render() {
     if (this.props.store.appStore.modal === MODALS_ID.NULL) {
       return(
@@ -27,9 +41,11 @@ export default class Modals extends React.Component<IModalsProps> {
       );
     }
     let content: JSX.Element = <div/>;
+    const popupsLang = languages.get(this.props.store.userStore.data.lang).popups;
     switch (this.props.store.appStore.modal) {
       case MODALS_ID.CREATE_CHAT:
-        content = <CreateChat/>;
+      case MODALS_ID.CREATE_CHANNEL:
+        content = <Create/>;
         break;
       case MODALS_ID.ADD_USERS:
         content = <AddUserPopup/>;
@@ -40,17 +56,29 @@ export default class Modals extends React.Component<IModalsProps> {
       case MODALS_ID.LANGUAGE:
         content = <LanguagePopup/>;
         break;
-      case MODALS_ID.CREATE_CHANNEL:
-        content = <CreateChannel/>;
-        break;
     }
-
+          /* <div className="modal__header">
+            <div>{header}</div>
+           <ModalClose/>
+          </div>
+          <div className="modal__body"> */
     return(
-      <div className="modal-wrapper">
-        <div className="modal">
-          <ModalClose/>
-          {content}
+      <div className="modal_wrapper">
+        <div
+          className="modal-back"
+          onClick={this.close}
+          ref={this.modalBack}
+        >
+          <div
+            onClick={this.close}
+            ref={this.closeRef}
+            className="modal-back__close"
+            dangerouslySetInnerHTML={{__html: closeIcon}}
+          />
         </div>
+        <div className="modal">
+            {content}
+          </div>
       </div>
     );
   }

@@ -7,6 +7,7 @@ interface IInputFieldProps {
   startValue?: string;
   type?: string;
   className?: string;
+  tabindex?: number;
 }
 
 interface IInputFieldState {
@@ -34,6 +35,7 @@ export default class InputField extends React.Component<IInputFieldProps, IInput
     const placeholder = (this.props.placeholder ? this.props.placeholder : "");
     return(
       <input
+        tabIndex={this.props.tabindex || -1}
         className={"default-input " + cname}
         placeholder={placeholder}
         onChange={this.change}

@@ -38,13 +38,13 @@ export default class CachePopup extends React.Component<ICachePopupProps, ICache
     const lang = languages.get(this.props.store.userStore.data.lang).popups.cache;
     return(
       <div className="cache-popup">
-        <div className="cache-popup__header">
-          {lang.header}
-        </div>
-        <div className="cache-popup__body">
+        <div className="cache-popup__body modal-body">
+          <div className="modal-header create-modal__header">
+            {lang.header}
+          </div>
           <div className="cache-popup__body__size">
-            <div>{lang.size}</div>
-            <div>{this.state.size}</div>
+            <div className="modal-text">{lang.size}</div>
+            <div className="modal-text">{this.state.size}</div>
           </div>
         </div>
         <div className="cache-popup__bottom">

@@ -43,10 +43,10 @@ export default class LanguagePopup extends React.Component<ILanguagePopupProps> 
     );
     return(
       <div className="language-popup">
-        <div className="cache-popup__header">
-          {CL.header}
-        </div>
         <div className="language-popup__body">
+          <div className="modal-header language-popup__header">
+            {langData.popups.lang.header}
+          </div>
           {langsEL}
         </div>
       </div>

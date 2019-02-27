@@ -52,7 +52,7 @@ const ru: ILanguage = {
   popups: {
     createChat: {
       header: "Создать новый чат",
-      paragraph: "Введите имя чата",
+      paragraph: "Введите имя нового чата",
       placeholder: "Имя",
       button: "Создать",
     },
