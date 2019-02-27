@@ -1,5 +1,13 @@
 Todo:
   + OGG encoding
-  Dialog and channel creating
+  + In and Up link in sing page
+  + Redesign language choose
+  + Redesign header in messenger window (Change box to icon, add online users, change options icon)
+  + Сhannel creating
+  + Auto open on wide screens chat-preferences
+  Online actions
+  Redesign dialogs
+  Escape from dialog (ESC press)
+  Dialog creating, find users in chats menu
   Dialog and channel view in chats menu
   Check name reducing in docs view

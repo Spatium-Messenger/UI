@@ -98,6 +98,15 @@ export default class ChatStoreModule implements IChatStore {
   }
 
   @action
+  public async createChannel(name: string) {
+    const answer: IAnswerError = await this.remoteAPI.chat.Create(ChatsTypes.Channel, name);
+    if (answer.result !== "Error") {
+      this.rootStore.appStore.changeModal(MODALS_ID.NULL);
+      this.loadChats();
+    }
+  }
+
+  @action
   public async getChatUsers() {
     const chatID = this.currentChatID;
     const answer: IAnswerError | IChatUser[] = await this.remoteAPI.chat.GetUsers(chatID);
@@ -139,7 +148,6 @@ export default class ChatStoreModule implements IChatStore {
     } else {
       console.log("setChatName", answer);
     }
-
   }
 
   public clear() {

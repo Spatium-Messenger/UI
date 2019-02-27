@@ -48,6 +48,7 @@ export class APIChat extends APIClass implements IAPIChat {
           AdminID: e.admin_id,
           Delete: e.delete,
           Online: e.online,
+          Type: e.type,
         });
       });
       return chats;

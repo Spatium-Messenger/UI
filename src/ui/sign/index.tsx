@@ -131,7 +131,7 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
             />
           </div>
           <div className="sign__form-bottom">
-            <div className="sign__form-bottom-signup" onClick={this.Change}>{bottom}</div>
+            <button className="sign__form-bottom-signup" onClick={this.Change}>{bottom}</button>
             <button className="sign__form-bottom-button" onClick={this.ButtonClick}>{button}</button>
           </div>
         </div>

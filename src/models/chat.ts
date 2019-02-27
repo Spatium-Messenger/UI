@@ -1,5 +1,11 @@
 import { IMessage } from "./message";
 
+export enum ChatTypes {
+  Chat,
+  Dialog,
+  Channel,
+}
+
 export interface IChat {
   ID: number;
   Name: string;
@@ -7,6 +13,7 @@ export interface IChat {
   Online: number;
   AdminID: number;
   Delete: boolean;
+  Type: ChatTypes;
 }
 
 export interface IChatUser {

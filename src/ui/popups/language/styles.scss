@@ -29,7 +29,9 @@
   div:nth-child(1){
     width: 30px;
     height: 30px;
+    border-radius: 50%;
     margin-left: 10px;
+    border: 2px solid transparent;
   }
 
   div:nth-child(2){
@@ -42,8 +44,14 @@
 }
 
 .language-popup__item-choosen{
-  background: rgba($primary-color, 0.2);
-  &:hover{
-    background: rgba($primary-color, 0.2);
+  div:nth-child(1){
+    border: 2px solid $primary-color;
   }
+  div:nth-child(2){
+    color: $primary-color;
+  }
+  // background: rgba($primary-color, 0.2);
+  // &:hover{
+    // background: rgba($primary-color, 0.2);
+  // }
 }

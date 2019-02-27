@@ -24,6 +24,7 @@ const en: ILanguage = {
     cache: "Cache",
     logout: "Log Out",
     newChat: "New Chat",
+    newChannel: "New Channel",
     profile: "Profile",
     settings: "Settings",
     signed: "SIGNED IN AS",
@@ -34,6 +35,9 @@ const en: ILanguage = {
       placeholder: "Message...",
     },
     months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sem", "Oct", "Nov", "Dec"],
+    header: {
+      online: "Online",
+    },
   },
   chatPreferences: {
     up: {
@@ -49,6 +53,12 @@ const en: ILanguage = {
     createChat: {
       header: "Create new chat",
       paragraph: "Input name of chat",
+      placeholder: "Name",
+      button: "Create",
+    },
+    createChannel: {
+      header: "Create new channel",
+      paragraph: "Input name of channel",
       placeholder: "Name",
       button: "Create",
     },

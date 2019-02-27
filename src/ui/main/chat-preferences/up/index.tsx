@@ -58,6 +58,7 @@ export default class ChatPreferencesUp extends React.Component<IChatPreferencesU
             </div>
             <div className="chat-preferences-up__body__info">
               <input
+                tabIndex={-1}
                 type="text"
                 onChange={this.input}
                 placeholder={lang.up.placeholder}

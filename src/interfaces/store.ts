@@ -9,6 +9,7 @@ export enum MODALS_ID {
   CACHE,
   ADD_USERS,
   CREATE_CHAT,
+  CREATE_CHANNEL,
   NULL,
 }
 
@@ -50,6 +51,7 @@ export interface IChatStore {
   chooseChat: (chat: IChat) => void;
   loadChats: () => void;
   createChat: (name: string) => void;
+  createChannel: (name: string) => void;
   getChatUsers: () => void;
   getUsersForAdd: (name: string) => Promise<IAnswerError | IChatUser[]>;
   addUserToChat: (userID: number) => Promise<IAnswerError>;

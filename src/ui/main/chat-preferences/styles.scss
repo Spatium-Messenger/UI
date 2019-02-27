@@ -32,3 +32,10 @@
   height: 20px;
 }
 
+
+@media screen and (min-width: 992px) {
+  .chat-preferences-close,
+  .chat-preferences-close-loading{
+    margin-right: 0px;
+  }
+}

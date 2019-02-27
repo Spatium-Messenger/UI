@@ -1,5 +1,6 @@
 import * as React from "react";
-import { IChat } from "src/models/chat";
+import { IChat, ChatTypes } from "src/models/chat";
+// import { ChatsTypes } from "src/models/chat";
 // import { IAppStore } from "src/interfaces/store";
 require("./styles.scss");
 
@@ -21,12 +22,21 @@ export default class SideBarItem extends React.Component<ISideBarItemProps> {
 
   public render() {
     const curChat = this.props.chat;
+    let avatarClassName: string = "sidebar-item__avatar";
+    switch (curChat.Type) {
+      case ChatTypes.Channel:
+        avatarClassName += "-channel";
+        break;
+      case ChatTypes.Dialog:
+        avatarClassName += "-dialog";
+        break;
+    }
     return(
       <div
         className={(this.props.active ? "sidebar-item-active" : "sidebar-item")}
         onClick={this.click}
       >
-        <div className="sidebar-item__avatar">
+        <div className={avatarClassName}>
           {curChat.Name.substring(0, 2).toUpperCase()}
         </div>
         <div className="sidebar-item__info">

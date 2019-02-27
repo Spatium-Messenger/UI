@@ -14,6 +14,8 @@ const profileIcon: string = require("assets/user.svg");
 const cacheIcon: string = require("assets/archive-black-box.svg");
 const setIcon: string = require("assets/settings-work-tool.svg");
 const exitIcon: string = require("assets/exit.svg");
+const dialogIcon: string = require("assets/friends.svg");
+const chanIcon: string = require("assets/rss-symbol.svg");
 
 interface IUserMenuProps {
   store?: RootStore;
@@ -25,41 +27,11 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
   constructor(props) {
     super(props);
     this.newChat = this.newChat.bind(this);
+    this.newChannel = this.newChannel.bind(this);
     this.cache = this.cache.bind(this);
     this.close = this.close.bind(this);
     this.logout = this.logout.bind(this);
     this.lang = this.lang.bind(this);
-  }
-
-  public newChat() {
-    this.close();
-    this.props.store.appStore.changeModal(MODALS_ID.CREATE_CHAT);
-  }
-
-  public close() {
-    this.props.store.appStore.changeMenu(false);
-  }
-
-  public profile() {
-    //
-  }
-
-  public cache() {
-    this.close();
-    this.props.store.appStore.changeModal(MODALS_ID.CACHE);
-  }
-
-  public settings() {
-    //
-  }
-
-  public lang() {
-    this.props.store.appStore.changeModal(MODALS_ID.LANGUAGE);
-  }
-
-  public logout() {
-    this.props.store.appStore.changeMenu(false);
-    this.props.store.userStore.logout();
   }
 
   public render() {
@@ -80,6 +52,7 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
         <div className="user-menu__body">
         <MenuItem colorClassName={"menu-item-icon-white"} icon={backIcon} text={CL.back} click={this.close}/>
         <MenuItem colorClassName={"menu-item-icon-blue"} icon={messageIcon} text={CL.newChat} click={this.newChat}/>
+        <MenuItem colorClassName={"menu-item-icon-orange"} icon={chanIcon} text={CL.newChannel}click={this.newChannel}/>
         <MenuItem colorClassName={"menu-item-icon-green"} icon={profileIcon} text={CL.profile} click={this.profile}/>
         <MenuItem colorClassName={"menu-item-icon-pink"} icon={cacheIcon} text={CL.cache} click={this.cache}/>
         <MenuItem colorClassName={"menu-item-icon-yellow"} icon={setIcon} text={CL.settings} click={this.profile}/>
@@ -94,4 +67,41 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
       </div>
     );
   }
+
+  private close() {
+    this.props.store.appStore.changeMenu(false);
+  }
+
+  private profile() {
+    //
+  }
+
+  private cache() {
+    this.close();
+    this.props.store.appStore.changeModal(MODALS_ID.CACHE);
+  }
+
+  private settings() {
+    //
+  }
+
+  private lang() {
+    this.props.store.appStore.changeModal(MODALS_ID.LANGUAGE);
+  }
+
+  private logout() {
+    this.props.store.appStore.changeMenu(false);
+    this.props.store.userStore.logout();
+  }
+
+  private newChat() {
+    this.close();
+    this.props.store.appStore.changeModal(MODALS_ID.CREATE_CHAT);
+  }
+
+  private newChannel() {
+    this.close();
+    this.props.store.appStore.changeModal(MODALS_ID.CREATE_CHANNEL);
+  }
+
 }

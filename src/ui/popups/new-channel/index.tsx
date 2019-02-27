@@ -5,19 +5,19 @@ import {InputField, Button} from "src/ui/components";
 import languages from "src/language";
 require("./styles.scss");
 
-const chatIcon = require("assets/support.svg");
+const channelIcon = require("assets/megaphone.svg");
 
-interface ICreateChatProps {
+interface ICreateChannelProps {
   store?: IRootStore;
 }
 
-interface ICreateChatState {
+interface ICreateChannelState {
   name: string;
 }
 
 @inject("store")
 @observer
-export default class CreateChat extends React.Component<ICreateChatProps, ICreateChatState> {
+export default class CreateChannel extends React.Component<ICreateChannelProps, ICreateChannelState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,25 +32,25 @@ export default class CreateChat extends React.Component<ICreateChatProps, ICreat
   }
 
   public submit() {
-    this.props.store.chatStore.createChat(this.state.name);
+    this.props.store.chatStore.createChannel(this.state.name);
   }
 
   public render() {
-    const lang = languages.get(this.props.store.userStore.data.lang).popups.createChat;
+    const lang = languages.get(this.props.store.userStore.data.lang).popups.createChannel;
     return(
-      <div className="create-chat-modal">
+      <div className="create-channel-modal">
         <div
-          dangerouslySetInnerHTML={{__html: chatIcon}}
-          className="create-chat-modal__icon"
+          dangerouslySetInnerHTML={{__html: channelIcon}}
+          className="create-channel-modal__icon"
         />
-        <div className="modal-header create-chat-modal__header">{lang.header}</div>
-        <div className="modal-text create-chat-modal__text">{lang.paragraph}</div>
+        <div className="modal-header create-channel-modal__header">{lang.header}</div>
+        <div className="modal-text create-channel-modal__text">{lang.paragraph}</div>
         <InputField
           onChange={this.inputChange}
-          className="create-chat-modal__input"
+          className="create-channel-modal__input"
           placeholder={lang.placeholder}
         />
-        <div className="create-chat-modal__bottom">
+        <div className="create-channel-modal__bottom">
           <Button
             text={lang.button}
             active={true}

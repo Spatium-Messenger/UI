@@ -7,6 +7,7 @@ import AddUserPopup from "./add-user";
 import ModalClose from "./components/modal-close";
 import Cache from "./cache";
 import LanguagePopup from "./language";
+import CreateChannel from "./new-channel";
 require("./styles.scss");
 
 interface IModalsProps {
@@ -38,6 +39,9 @@ export default class Modals extends React.Component<IModalsProps> {
         break;
       case MODALS_ID.LANGUAGE:
         content = <LanguagePopup/>;
+        break;
+      case MODALS_ID.CREATE_CHANNEL:
+        content = <CreateChannel/>;
         break;
     }
 

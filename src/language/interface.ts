@@ -33,12 +33,16 @@ interface ILanguageMessagesWindow {
     placeholder: string;
   };
   months: string[];
+  header: {
+    online: string;
+  };
 }
 
 interface ILanguageMenu {
   signed: string;
   back: string;
   newChat: string;
+  newChannel: string;
   profile: string;
   cache: string;
   settings: string;
@@ -58,6 +62,7 @@ interface ILanguageChatPreferences {
 
 interface ILanguagePopups {
   createChat: ILanguagePopupsCreateChat;
+  createChannel: ILanguagePopupsNewChannel;
   addUsers: ILanguagePopupsAddUsers;
   cache: ILanguagePopupsCache;
   lang: ILanguagePopupsLang;
@@ -84,4 +89,11 @@ interface ILanguagePopupsCache {
 
 interface ILanguagePopupsLang {
   header: string;
+}
+
+interface ILanguagePopupsNewChannel {
+  header: string;
+  paragraph: string;
+  placeholder: string;
+  button: string;
 }

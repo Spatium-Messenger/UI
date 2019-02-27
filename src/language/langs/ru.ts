@@ -24,6 +24,7 @@ const ru: ILanguage = {
     cache: "Кэш",
     logout: "Выйти",
     newChat: "Новый чат",
+    newChannel: "Новый канал",
     profile: "Профиль",
     settings: "Настройки",
     signed: "В СЕТИ КАК",
@@ -34,6 +35,9 @@ const ru: ILanguage = {
       placeholder: "Сообщение...",
     },
     months: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+    header: {
+      online: "Онлайн",
+    },
   },
   chatPreferences: {
     up: {
@@ -49,6 +53,12 @@ const ru: ILanguage = {
     createChat: {
       header: "Создать новый чат",
       paragraph: "Введите имя чата",
+      placeholder: "Имя",
+      button: "Создать",
+    },
+    createChannel: {
+      header: "Создать новый канал",
+      paragraph: "Введите имя канала",
       placeholder: "Имя",
       button: "Создать",
     },
