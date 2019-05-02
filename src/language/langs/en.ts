@@ -38,10 +38,16 @@ const en: ILanguage = {
     header: {
       online: "Online",
     },
+    messageCommands: {
+      userCreatedChat: "created chat",
+      userCreatedChannel: "created channel",
+      userInvitedChat: "was invited to chat",
+      userInvitedChannel: "was invited to channel",
+    },
   },
   chatPreferences: {
     up: {
-      header: "Chat details",
+      header: "Details",
       placeholder: "Name",
     },
     people: {

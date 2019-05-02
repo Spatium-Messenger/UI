@@ -1,12 +1,17 @@
 import { IWebSocket,
          IWebSocketUserMessage,
          IWebSocketSystemMessage,
-         IWebSocketUserMessageRecieve,
-         IWebSocketSystemMessageAuth,
          IWebSocketSystemMessageOnline,
          IServerActionOnlineUser,
-         OnlineUserAction} from "src/interfaces/web-socket";
-import { IMessage, IMessageType, IMessageSend, IMessageContentDoc } from "src/models/message";
+         OnlineUserAction,
+         IWebSocketSystemMessageUserInsertedToChat,
+         IServerActionUserInserted} from "src/interfaces/web-socket";
+import {
+  IMessage,
+  IMessageType,
+  IMessageSend,
+  IMessageContentDoc,
+} from "src/models/message";
 import { IAPIData } from "src/interfaces/api";
 import { IDocumentUpload } from "src/models/document";
 import { IIMessageServer } from "src/remote/interfaces";
@@ -14,17 +19,23 @@ import { IIMessageServer } from "src/remote/interfaces";
 const ERROR_CONNECTION_TRY_LIMIT: string = "WS Error connection limit";
 const ERROR_AUTH_CONNECT_OR_TOKEN: string = "WS Error connection or token is undefined";
 
+const WS_AUTH_SUCCESS_RESULT = "Success";
+
+const WS_ACTION_ONLINE_USER_ADDED  = "+";
+
 const WS_SEND_LOG: string = "WS Sended message: ";
 const WS_RECIEVE_LOG: string = "WS Recieved message:";
 
 const WS_ACTION_AUTH = "authoriz";
-const WS_ACTION_ONLINE_USER = "online-user";
+const WS_ACTION_ONLINE_USER = "online_user";
+const WS_ACTION_USER_INVITED_CHAT = "user_inserted";
 
 export default class WebSocketAPI implements IWebSocket {
   private data: IAPIData;
   private socket: WebSocket;
   private onMessage: (message: IMessage) => void;
   private onActionOnlineUser: (data: IServerActionOnlineUser) => void;
+  private onUserInsertedToChat: (data: IServerActionUserInserted) => void;
   private connected: boolean;
   private auth: boolean;
   private tryLimit: number;
@@ -41,6 +52,10 @@ export default class WebSocketAPI implements IWebSocket {
 
   set OnActionOnlineUser(fn: (data: IServerActionOnlineUser) => void) {
       this.onActionOnlineUser = fn;
+  }
+
+  set OnUserInsertedToChat(fn: (data: IServerActionUserInserted) => void) {
+    this.onUserInsertedToChat = fn;
   }
 
   public SendMessage(message: IMessageSend) {
@@ -93,48 +108,9 @@ export default class WebSocketAPI implements IWebSocket {
       if (this.onMessage &&  this.onActionOnlineUser) {
         const wmessage: IWebSocketSystemMessage | IIMessageServer = JSON.parse(event.data);
         if ((wmessage as IWebSocketSystemMessage).type_a) {
-          switch ((wmessage as IWebSocketSystemMessage).action) {
-            case WS_ACTION_AUTH:
-              if ((wmessage as IWebSocketSystemMessageAuth).result === "Success") {
-                this.auth = true;
-              }
-              break;
-            case WS_ACTION_ONLINE_USER:
-              const WAOUmessage: IWebSocketSystemMessageOnline = (wmessage as IWebSocketSystemMessageOnline);
-              const OUmessage: IServerActionOnlineUser = {
-                Chats: WAOUmessage.chats,
-                Self: WAOUmessage.self,
-                Type: (WAOUmessage.type === "+" ? OnlineUserAction.Increase : OnlineUserAction.Reduce),
-              };
-              this.onActionOnlineUser(OUmessage);
-              break;
-          }
+          this.HandleSystemMessage((wmessage as IWebSocketSystemMessage));
         } else {
-          const docs: IMessageContentDoc[] = [];
-          if ((wmessage as IIMessageServer).message.documents) {
-            (wmessage as IIMessageServer).message.documents.forEach((v) => {
-              docs.push({
-                ID: v.file_id,
-                Name: v.name,
-                Path: v.path,
-                RatioSize: v.ratio_size,
-                Size: v.size,
-              });
-            });
-          }
-          const message: IMessage = {
-            AuthorID: (wmessage as IIMessageServer).author_id,
-            AuthorName: (wmessage as IIMessageServer).author_name,
-            ChatID: (wmessage as IIMessageServer).chat_id,
-            Content: {
-              Documents: docs,
-              Message: (wmessage as IIMessageServer).message.content,
-              Type: IMessageType.User,
-            },
-            ID: (wmessage as IIMessageServer).id,
-            Time: (wmessage as IIMessageServer).time,
-          };
-          this.onMessage(message);
+          this.HandleUsersMessage((wmessage as IIMessageServer));
         }
       }
     };
@@ -163,6 +139,59 @@ export default class WebSocketAPI implements IWebSocket {
     this.socket.close();
     this.connected = false;
     this.auth = false;
+  }
+
+  private HandleUsersMessage(m: IIMessageServer) {
+    const docs: IMessageContentDoc[] = [];
+    if (m.message.documents) {
+      m.message.documents.forEach((v) => {
+        docs.push({
+          ID: v.file_id,
+          Name: v.name,
+          Path: v.path,
+          RatioSize: v.ratio_size,
+          Size: v.size,
+          AdditionalContentLoaded: false,
+        });
+      });
+    }
+    const message: IMessage = {
+      AuthorID: m.author_id,
+      AuthorName: m.author_name,
+      ChatID: m.chat_id,
+      Content: {
+        Documents: docs,
+        Message: m.message.content,
+        Type: IMessageType.User,
+        Command: m.message.command,
+      },
+      ID: m.id,
+      Time: m.time,
+    };
+    this.onMessage(message);
+  }
+
+  private HandleSystemMessage(message: IWebSocketSystemMessage) {
+    switch (message.action) {
+      case WS_ACTION_AUTH:
+        if (message.result === WS_AUTH_SUCCESS_RESULT) {
+          this.auth = true;
+        }
+        break;
+      case WS_ACTION_ONLINE_USER:
+        const WAOUmessage: IWebSocketSystemMessageOnline = (message as IWebSocketSystemMessageOnline);
+        const OUmessage: IServerActionOnlineUser = {
+          Chats: WAOUmessage.chats,
+          Self: WAOUmessage.self,
+          Type: (WAOUmessage.type === WS_ACTION_ONLINE_USER_ADDED ? OnlineUserAction.Increase
+            : OnlineUserAction.Reduce),
+        };
+        this.onActionOnlineUser(OUmessage);
+        break;
+      case WS_ACTION_USER_INVITED_CHAT:
+        this.onUserInsertedToChat({ChatID: (message as IWebSocketSystemMessageUserInsertedToChat).chat_id});
+        break;
+    }
   }
 
   private push() {

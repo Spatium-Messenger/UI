@@ -44,6 +44,7 @@ export default class APIMessages extends APIClass implements IAPIMessages {
             Documents: docs,
             Message: e.message.content,
             Type: (e.message.type === "u_msg" ? IMessageType.User : IMessageType.System),
+            Command: e.message.command,
           },
           Time: e.time,
           ChatID: e.chat_id,

@@ -5,6 +5,7 @@ import { IRootStore } from "src/store/interfeces";
 import { IMessageType, IMessage } from "src/models/message";
 import languages from "src/language";
 import Loader from "src/ui/components/loader";
+import { ILanguage } from "src/language/interface";
 require("./styles.scss");
 
 interface IWindowContentProps {
@@ -88,7 +89,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
       if (i === 0 && i === (messages.length - 1)) {
         lastAuhtorID =  -1;
       }
-
+      const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
       messagesComponents.push(<IMessageUnit
         audioBuffers={this.props.store.fileStore.audioBuffers}
         getAudio={this.props.store.fileStore.getAudio}
@@ -98,6 +99,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
         key={key++}
         userID={userID}
         lastAuthorID={lastAuhtorID}
+        messageLang={lang.messages}
       />);
     });
 

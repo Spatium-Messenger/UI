@@ -27,7 +27,7 @@ interface ILanguageChats {
   notFound: string;
 }
 
-interface ILanguageMessagesWindow {
+export interface ILanguageMessagesWindow {
   choose: string;
   input: {
     placeholder: string;
@@ -35,6 +35,12 @@ interface ILanguageMessagesWindow {
   months: string[];
   header: {
     online: string;
+  };
+  messageCommands: {
+    userCreatedChat: string;
+    userCreatedChannel: string;
+    userInvitedChat: string;
+    userInvitedChannel: string;
   };
 }
 

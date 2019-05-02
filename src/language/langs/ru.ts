@@ -38,10 +38,16 @@ const ru: ILanguage = {
     header: {
       online: "Онлайн",
     },
+    messageCommands: {
+      userCreatedChat: "создал чат",
+      userCreatedChannel: "создал канал",
+      userInvitedChat: "был приглашен в чат",
+      userInvitedChannel: "был приглашен в канал",
+    },
   },
   chatPreferences: {
     up: {
-      header: "Настройки чата",
+      header: "Настройки",
       placeholder: "Имя",
     },
     people: {

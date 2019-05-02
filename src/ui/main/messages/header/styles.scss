@@ -19,9 +19,13 @@
   // transform: rotate(90deg);
 }
 
+.window__header__more>svg{
+
+}
+
 .window__header__back>svg,
 .window__header__more>svg{
-  fill: $dark_gray;
+  fill: darken($gray,10);
 }
 
 .window__header__back:hover,

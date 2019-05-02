@@ -53,22 +53,22 @@ export default class ChatPreferencesUp extends React.Component<IChatPreferencesU
     return(
       <div className="chat-preferences-up">
         <div className="chat-preferences-up__body">
-            <div className="chat-preferences-up__body__avatar">
-              {this.state.input.substring(0, 2).toUpperCase()}
-            </div>
-            <div className="chat-preferences-up__body__info">
-              <input
-                tabIndex={-1}
-                type="text"
-                onChange={this.input}
-                placeholder={lang.up.placeholder}
-                value={this.state.input}
-              />
-              <div
-                dangerouslySetInnerHTML={{__html: saveIcon}}
-                onClick={this.save}
-              />
-            </div>
+          <div className="chat-preferences-up__body__header">
+            {lang.up.header}
+          </div>
+          <div className="chat-preferences-up__body__info">
+            <input
+              tabIndex={-1}
+              type="text"
+              onChange={this.input}
+              placeholder={lang.up.placeholder}
+              value={this.state.input}
+            />
+            <div
+              dangerouslySetInnerHTML={{__html: saveIcon}}
+              onClick={this.save}
+            />
+          </div>
         </div>
       </div>
     );

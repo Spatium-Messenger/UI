@@ -28,10 +28,11 @@ export default class Modals extends React.Component<IModalsProps> {
   }
 
   public close(e: React.MouseEvent<HTMLDivElement>) {
-    if ((e.target as HTMLDivElement) === this.modalBack.current ||
-    (e.target as HTMLDivElement) === this.closeRef.current) {
-      this.props.store.appStore.changeModal(MODALS_ID.NULL);
-    }
+    // if ((e.target as HTMLDivElement) === this.modalBack.current ||
+    // (e.target as HTMLDivElement) === this.closeRef.current) {
+    //   this.props.store.appStore.changeModal(MODALS_ID.NULL);
+    // }
+    this.props.store.appStore.changeModal(MODALS_ID.NULL);
   }
 
   public render() {

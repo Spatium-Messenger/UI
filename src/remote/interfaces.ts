@@ -2,6 +2,7 @@ export interface IMessageServer {
   content: string;
   documents: IMessageServerDoc[];
   type: string;
+  command: number;
 }
 
 export interface IMessageServerDoc {

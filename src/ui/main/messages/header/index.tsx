@@ -41,29 +41,25 @@ export default class WindowHeader extends React.Component<IWindowHeaderProps> {
     if (this.props.store.appStore.chatMenu) {
       right = closeIcon;
     }
-    let icon: string = chatIcon;
-    let iconClassName: string = "window__header__name-icon-";
-    switch (chatData.Type) {
-      case ChatTypes.Channel:
-        icon = channelIcon;
-        iconClassName += "channel";
-        break;
-      case ChatTypes.Dialog:
-        icon = dialogIcon;
-        iconClassName += "dialog";
-        break;
-      default:
-        iconClassName += "chat";
-        break;
-    }
+    // let icon: string = chatIcon;
+    // let iconClassName: string = "window__header__name-icon-";
+    // switch (chatData.Type) {
+    //   case ChatTypes.Channel:
+    //     icon = channelIcon;
+    //     iconClassName += "channel";
+    //     break;
+    //   case ChatTypes.Dialog:
+    //     icon = dialogIcon;
+    //     iconClassName += "dialog";
+    //     break;
+    //   default:
+    //     iconClassName += "chat";
+    //     break;
+    // }
 
     return(
       <div className="window__header">
         <div className="window__header__name">
-          <div
-            className={iconClassName}
-            dangerouslySetInnerHTML={{__html: icon}}
-          />
           <div className="window__header__name-labels">
             <div>{chatData.Name}</div>
             <div className="window__header__name-labels__online">

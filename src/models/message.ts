@@ -24,6 +24,7 @@ interface IMessageContent {
   Message: string;
   Documents: IMessageContentDoc[];
   Type: IMessageType;
+  Command: number;
 }
 
 export interface IMessageContentDoc {
@@ -38,4 +39,11 @@ export interface IMessageContentDoc {
 export enum IMessageType {
   User,
   System,
+}
+
+export enum IMessageSystemCommands {
+  UserInsertedInChat = 1,
+  UserCreatedChat,
+  UserInsertedToChannel,
+  UserCreatedChannel,
 }

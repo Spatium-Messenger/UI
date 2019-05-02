@@ -1,7 +1,7 @@
 import * as React from "react";
-import { observer, inject } from "mobx-react";
-import { IMessage, IMessageType } from "src/models/message";
+import { IMessage, IMessageType, IMessageSystemCommands } from "src/models/message";
 import DocMessage from "./doc";
+import { ILanguageMessagesWindow } from "src/language/interface";
 require("./styles.scss");
 
 interface IMessageUnitProps {
@@ -11,6 +11,7 @@ interface IMessageUnitProps {
   audioBuffers: Map<string, {el: HTMLAudioElement, d: number}>;
   getImage: (fileID: number, ext: string) => Promise<string>;
   downloadFile: (fileID: number,  name: string) => void;
+  messageLang: ILanguageMessagesWindow;
   getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
 }
 
@@ -21,11 +22,27 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
   public render() {
     const mess = this.props.data;
     const showAuthorName = (this.props.lastAuthorID !== mess.AuthorID);
+    const lang: ILanguageMessagesWindow = this.props.messageLang;
 
     if (mess.Content.Type === IMessageType.System) {
+      let content: string = "";
+      switch (mess.Content.Command) {
+        case IMessageSystemCommands.UserCreatedChat:
+          content = lang.messageCommands.userCreatedChat;
+          break;
+        case IMessageSystemCommands.UserCreatedChannel:
+          content = lang.messageCommands.userCreatedChannel;
+          break;
+        case IMessageSystemCommands.UserInsertedInChat:
+          content = lang.messageCommands.userInvitedChat;
+          break;
+        case IMessageSystemCommands.UserInsertedToChannel:
+          content = lang.messageCommands.userInvitedChannel;
+          break;
+      }
       return (
       <div className={"system-message"}>
-        <div className="system-message__content">{mess.AuthorName}{mess.Content.Message}</div>
+        <div className="system-message__content">{mess.AuthorName} {content}</div>
       </div>
       );
     }

@@ -4,6 +4,7 @@ export interface IWebSocket {
   SendMessage: (message: IMessageSend) => void;
   OnMessage: (data: IMessage) => void;
   OnActionOnlineUser: (data: IServerActionOnlineUser) => void;
+  OnUserInsertedToChat: (data: IServerActionUserInserted) => void;
   CreateConnection: () => void;
   Auth: () => void;
   CloseConnection: () => void;
@@ -48,7 +49,7 @@ export interface IWebSocketSystemMessage {
 export interface IWebSocketSystemMessageAuth {
   action: string;
   result: string;
-  type_a: "system";
+  type_a: string;
 }
 
 export interface IWebSocketSystemMessageOnline {
@@ -56,6 +57,20 @@ export interface IWebSocketSystemMessageOnline {
   chats: number[];
   self: boolean;
   type: string;
+  type_a: string;
+}
+
+export enum IwebSocketSystemCommands {
+  InsertedToChat = 1,
+  CreatedChat,
+  InsertedToChannel,
+  CreatedChannel,
+}
+
+export interface IWebSocketSystemMessageUserInsertedToChat {
+  action: string;
+  chat_id: number;
+  self: boolean;
   type_a: string;
 }
 
@@ -68,4 +83,8 @@ export interface IServerActionOnlineUser {
   Chats: number[];
   Self: boolean;
   Type: OnlineUserAction;
+}
+
+export interface IServerActionUserInserted {
+  ChatID: number;
 }

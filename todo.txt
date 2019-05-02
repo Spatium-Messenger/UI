@@ -6,9 +6,11 @@ Todo:
   + Сhannel creating
   + Auto open on wide screens chat-preferences
   + Redesign dialogs
+  Spoiled token
   Escape from dialog (ESC press)
   Online actions
   Fonts connect
   Dialog creating, find users in chats menu
   Dialog and channel view in chats menu
   Check name reducing in docs view
+  No Admin doesn't have chat's settings (name change is disable) 

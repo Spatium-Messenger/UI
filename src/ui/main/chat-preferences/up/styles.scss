@@ -31,7 +31,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 20px 10px;
-  align-items: center;
+  // align-items: center;
   border-bottom: 1px solid $gray;
 }
 
@@ -47,6 +47,11 @@
   align-items: center;
   color: #ffffff;
 
+}
+
+.chat-preferences-up__body__header{
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .chat-preferences-up__body__info{
