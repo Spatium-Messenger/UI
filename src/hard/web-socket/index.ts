@@ -23,10 +23,12 @@ const WS_AUTH_SUCCESS_RESULT = "Success";
 
 const WS_ACTION_ONLINE_USER_ADDED  = "+";
 
-const WS_SEND_LOG: string = "WS Sended message: ";
+const WS_SEND_LOG: string = "WS Sent message: ";
 const WS_RECIEVE_LOG: string = "WS Recieved message:";
 
-const WS_ACTION_AUTH = "authoriz";
+const WS_SYSTEM_MESSAGE: string = "system";
+
+const WS_ACTION_AUTH = "auth";
 const WS_ACTION_ONLINE_USER = "online_user";
 const WS_ACTION_USER_INVITED_CHAT = "user_inserted";
 
@@ -107,7 +109,7 @@ export default class WebSocketAPI implements IWebSocket {
       }
       if (this.onMessage &&  this.onActionOnlineUser) {
         const wmessage: IWebSocketSystemMessage | IIMessageServer = JSON.parse(event.data);
-        if ((wmessage as IWebSocketSystemMessage).type_a) {
+        if ((wmessage as IWebSocketSystemMessage).mtype) {
           this.HandleSystemMessage((wmessage as IWebSocketSystemMessage));
         } else {
           this.HandleUsersMessage((wmessage as IIMessageServer));
@@ -119,9 +121,9 @@ export default class WebSocketAPI implements IWebSocket {
   public Auth() {
     if (this.connected && this.data.Token !== "") {
       const serialMessage: string = JSON.stringify({
-        type: "system",
+        type: WS_SYSTEM_MESSAGE,
         Content: {
-          Type: "authoriz",
+          Type: WS_ACTION_AUTH,
           Token: this.data.Token,
         },
       });
