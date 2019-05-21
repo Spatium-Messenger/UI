@@ -77,7 +77,7 @@ export default class ChatStoreModule implements IChatStore {
     }
   }
 
-  public getChatData(id: number): IChat {
+  public getChatData(id: number): IChat | null {
     let final: IChat = null;
     this.chats.forEach((c) => {
       if (final != null) {return; }

@@ -14,3 +14,4 @@ Todo:
   Dialog and channel view in chats menu
   Check name reducing in docs view
   No Admin doesn't have chat's settings (name change is disable) 
+  Snackbars for notification

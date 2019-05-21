@@ -7,6 +7,7 @@ import WebSocketAPI from "./hard/web-socket";
 import { IWebSocket } from "./interfaces/web-socket";
 import { ILocalStorage } from "./interfaces/local-storage";
 import LocalStorage from "./hard/local-storage";
+import { GenerateKeys, Test } from "./hard/crypto";
 
 const URL = "http://localhost:3030";
 const LOGS = true;
@@ -20,6 +21,8 @@ const openLinkFunc = (link: string, name: string) => {
   a.click();
 };
 
+GenerateKeys();
+// Test();
 const storage: ILocalStorage = new LocalStorage();
 const cookie: ICookie = new Cookie();
 const rempoteAPIConfig = new APIData(URL, "", LOGS, IMITATION);
