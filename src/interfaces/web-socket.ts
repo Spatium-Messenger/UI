@@ -40,7 +40,7 @@ export interface IWebSocketUserMessageRecieve {
 
 export interface IWebSocketSystemMessage {
   action: string;
-  type_a: string;
+  mtype: string;
   result?: string;
   chats?: number[];
   self?: boolean;
@@ -49,7 +49,7 @@ export interface IWebSocketSystemMessage {
 export interface IWebSocketSystemMessageAuth {
   action: string;
   result: string;
-  type_a: string;
+  mtype: string;
 }
 
 export interface IWebSocketSystemMessageOnline {
@@ -57,7 +57,7 @@ export interface IWebSocketSystemMessageOnline {
   chats: number[];
   self: boolean;
   type: string;
-  type_a: string;
+  mtype: string;
 }
 
 export enum IwebSocketSystemCommands {
@@ -71,7 +71,7 @@ export interface IWebSocketSystemMessageUserInsertedToChat {
   action: string;
   chat_id: number;
   self: boolean;
-  type_a: string;
+  mtype: string;
 }
 
 export enum OnlineUserAction {
