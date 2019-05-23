@@ -10,6 +10,7 @@ export enum MODALS_ID {
   ADD_USERS,
   CREATE_CHAT,
   CREATE_CHANNEL,
+  USER_SETTINGS,
   NULL,
 }
 

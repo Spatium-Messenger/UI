@@ -6,6 +6,7 @@ import Create from "./create";
 import AddUserPopup from "./add-user";
 import Cache from "./cache";
 import LanguagePopup from "./language";
+import UserSettingsPopup from "./user-settings";
 import languages from "src/language";
 require("./styles.scss");
 
@@ -56,6 +57,12 @@ export default class Modals extends React.Component<IModalsProps> {
         break;
       case MODALS_ID.LANGUAGE:
         content = <LanguagePopup/>;
+        break;
+      case MODALS_ID.USER_SETTINGS:
+        content = <UserSettingsPopup/>;
+        break;
+      default:
+        content = <div>Modal didn't found</div>;
         break;
     }
           /* <div className="modal__header">

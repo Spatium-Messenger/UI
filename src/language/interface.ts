@@ -72,6 +72,7 @@ interface ILanguagePopups {
   addUsers: ILanguagePopupsAddUsers;
   cache: ILanguagePopupsCache;
   lang: ILanguagePopupsLang;
+  userSettings: ILanguageUserSettings;
 }
 
 interface ILanguagePopupsCreateChat {
@@ -102,4 +103,10 @@ interface ILanguagePopupsNewChannel {
   paragraph: string;
   placeholder: string;
   button: string;
+}
+
+interface ILanguageUserSettings {
+  header: string;
+  name: string;
+  saveButton: string;
 }

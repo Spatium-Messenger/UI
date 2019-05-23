@@ -1,7 +1,7 @@
-.cache-popup{
+.user_settings-popup{
   // padding: 0px 5px;
   // background: #F55501;
-  background: $primary-color;
+  background: $purple;
   border-radius: 5px;
   color:#ffffff;
   // user-select: ;
@@ -11,34 +11,34 @@
   }
 }
 
-.cache-popup__header{
+.user_settings-popup__header{
   // padding: 0px 5px;
 }
 
-.cache-popup__body__size{
+.user_settings-popup__body__name{
   width: 250px;
-  // height: 250px;
+  height: 100px;
   display: flex;
   justify-content: space-between;
   // padding: 5px;
-  align-items: center;
-
+  margin-top: 10px;
+  // align-items: center;
   div:nth-child(1){
     margin-top: 5px;
   }
 
-  div:nth-child(2){
-    font-size: 13px;
-    color: $middle_gray;
-    opacity: 0.7;
-  }
+  
 }
 
-.cache-popup__body{
+.user_settings-popup__body__name__input{
+  max-width: 150px;
+}
+
+.user_settings-popup__body{
   height: 120px;
 }
 
-.cache-popup__bottom{
+.user_settings-popup__bottom{
   margin: 10px;
   display: flex;
   justify-content: right;

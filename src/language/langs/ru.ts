@@ -81,6 +81,11 @@ const ru: ILanguage = {
     lang: {
       header: "Язык",
     },
+    userSettings: {
+      header: "Настройки профиля",
+      name: "Имя",
+      saveButton: "Сохранить",
+    },
   },
 };
 

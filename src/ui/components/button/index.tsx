@@ -7,6 +7,7 @@ interface IButtonProps {
   active: boolean;
   loading: boolean;
   tabindex?: number;
+  background?: string;
 }
 
 export default class Button extends React.Component<IButtonProps> {
@@ -19,6 +20,7 @@ export default class Button extends React.Component<IButtonProps> {
         className={this.props.active ? "default-button-active" : "default-button"}
         onClick={this.props.onClick}
         tabIndex={this.props.tabindex || -1}
+        style={{background: this.props.background}}
       >
         {this.props.text}
       </button>

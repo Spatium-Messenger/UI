@@ -81,6 +81,11 @@ const en: ILanguage = {
     lang: {
       header: "Language",
     },
+    userSettings: {
+      header: "User Settings",
+      name: "Nickname",
+      saveButton: "Save",
+    },
   },
 };
 
