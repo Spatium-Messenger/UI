@@ -7,6 +7,7 @@ import {
   OnlineUserAction,
   IWebSocketSystemMessageUserInsertedToChat,
   IServerActionUserInserted,
+  IWebSocketSystemMessageAuth,
 } from "src/interfaces/web-socket";
 import {
   IMessage,
@@ -17,7 +18,7 @@ import {
 import { IAPIData } from "src/interfaces/api";
 import { IDocumentUpload } from "src/models/document";
 import { IIMessageServer } from "src/remote/interfaces";
-import { publicKeyToJWT } from "../crypto";
+import { publicKeyToJWK, JWKToPublicKey } from "../crypto";
 
 const ERROR_CONNECTION_TRY_LIMIT: string = "WS Error connection limit";
 const ERROR_AUTH_CONNECT_OR_TOKEN: string =
@@ -45,6 +46,7 @@ export default class WebSocketAPI implements IWebSocket {
   private connected: boolean;
   private auth: boolean;
   private tryLimit: number;
+  private key: CryptoKey;
   constructor(data: IAPIData) {
     this.data = data;
     this.connected = false;
@@ -129,7 +131,7 @@ export default class WebSocketAPI implements IWebSocket {
         Content: {
           Type: WS_ACTION_AUTH,
           Token: this.data.Token,
-          PubKey: await publicKeyToJWT(),
+          PubKey: await publicKeyToJWK(),
         },
       });
       this.socket.send(serialMessage);
@@ -137,7 +139,8 @@ export default class WebSocketAPI implements IWebSocket {
         console.log(WS_SEND_LOG, serialMessage);
       }
     } else {
-      console.log(this.connected, this.data.Token);
+      // console.log(this.connected, this.data.Token);
+
       throw Error(ERROR_AUTH_CONNECT_OR_TOKEN);
     }
   }
@@ -178,10 +181,19 @@ export default class WebSocketAPI implements IWebSocket {
     this.onMessage(message);
   }
 
-  private HandleSystemMessage(message: IWebSocketSystemMessage) {
+  private async HandleSystemMessage(message: IWebSocketSystemMessage) {
     switch (message.action) {
       case WS_ACTION_AUTH:
         if (message.result === WS_AUTH_SUCCESS_RESULT) {
+          const mkey = (message as IWebSocketSystemMessageAuth).key;
+          const jsonkey: JsonWebKey = {
+            ext: true,
+            key_ops: ["encrypt"],
+            e: mkey.e,
+            kty: "RSA",
+            n: mkey.n,
+          };
+          this.key = await JWKToPublicKey(jsonkey);
           this.auth = true;
         }
         break;

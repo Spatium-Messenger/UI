@@ -27,12 +27,29 @@ export async function GenerateKeys(): Promise<void> {
   return;
 }
 
-export async function publicKeyToJWT(): Promise<JsonWebKey> {
+export async function publicKeyToJWK(): Promise<JsonWebKey> {
   if (!keyPair) {
     await new Promise((res) => setTimeout(res, 50));
-    return publicKeyToJWT();
+    return publicKeyToJWK();
   }
   return exportPublicKey(keyPair);
+}
+
+export async function JWKToPublicKey(key: JsonWebKey): Promise<CryptoKey> {
+  const cryptokey = await crypto.subtle.importKey(
+    "jwk",
+    key,
+    {
+      name: "RSA-OAEP",
+      hash: {
+        name: "SHA-1",
+      },
+    },
+    true,
+    ["encrypt"],
+  );
+
+  return cryptokey;
 }
 
 // export async function privateKeyToPem(): Promise<string> {
@@ -52,7 +69,7 @@ export async function Decrypt(toDecrypt: string): Promise<string> {
 
 export async function Test() {
   await GenerateKeys();
-  console.log(await publicKeyToJWT());
+  console.log(await publicKeyToJWK());
 
   const encrypted = await Encrypt("Hello");
   console.log(`Encrypted - ${encrypted}`);

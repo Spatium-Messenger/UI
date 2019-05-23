@@ -50,6 +50,10 @@ export interface IWebSocketSystemMessageAuth {
   action: string;
   result: string;
   mtype: string;
+  key: {
+    e: string;
+    n: string;
+  };
 }
 
 export interface IWebSocketSystemMessageOnline {
