@@ -8,6 +8,7 @@ import {
   IWebSocketSystemMessageUserInsertedToChat,
   IServerActionUserInserted,
   IWebSocketSystemMessageAuth,
+  IWebSocketEncryptedMessage,
 } from "src/interfaces/web-socket";
 import {
   IMessage,
@@ -18,7 +19,7 @@ import {
 import { IAPIData } from "src/interfaces/api";
 import { IDocumentUpload } from "src/models/document";
 import { IIMessageServer } from "src/remote/interfaces";
-import { publicKeyToJWK, JWKToPublicKey } from "../crypto";
+import { publicKeyToJWK, JWKToPublicKey, EncryptMessage, PEMTOKEY, DecryptMessage } from "../crypto";
 
 const ERROR_CONNECTION_TRY_LIMIT: string = "WS Error connection limit";
 const ERROR_AUTH_CONNECT_OR_TOKEN: string =
@@ -32,6 +33,8 @@ const WS_SEND_LOG: string = "WS Sent message: ";
 const WS_RECIEVE_LOG: string = "WS Recieved message:";
 
 const WS_SYSTEM_MESSAGE: string = "system";
+const WS_USER_MESSAGE: string = "user";
+const WS_ENCRYPTED_MESSAGE: string = "encrypted";
 
 const WS_ACTION_AUTH = "auth";
 const WS_ACTION_ONLINE_USER = "online_user";
@@ -66,21 +69,41 @@ export default class WebSocketAPI implements IWebSocket {
     this.onUserInsertedToChat = fn;
   }
 
-  public SendMessage(message: IMessageSend) {
+  public async SendMessage(message: IMessageSend) {
     if (this.connected) {
       const webSocketMessage: IWebSocketUserMessage = {
-        Type: "mes",
-        Content: {
-          Chat_Id: message.ChatID,
-          Content: {
+        mtype: WS_USER_MESSAGE,
+        content: {
+          chatID: message.ChatID,
+          content: {
             content: message.Content.Message,
             documents: message.Content.Documents,
             type: "u_msg",
           },
-          Token: this.data.Token,
+          token: this.data.Token,
         },
       };
-      const serialMessage: string = JSON.stringify(webSocketMessage);
+      let serialMessage: string = JSON.stringify(webSocketMessage);
+      try {
+        const encmesssage = await EncryptMessage(this.key, serialMessage);
+        const encwebsockermessage: IWebSocketEncryptedMessage = {
+          mtype: WS_ENCRYPTED_MESSAGE,
+          data: encmesssage.Data,
+          key: encmesssage.Key,
+          iv: encmesssage.IV,
+        };
+        serialMessage = JSON.stringify(encwebsockermessage);
+        // console.log(encmesssage);
+        // const aesKey = await GenerateAESKey();
+        // const encdata = await EncryptAES(aesKey, serialMessage);
+
+        // // console.log(this.key);
+        // const encrypted = await Encrypt(``, this.key);
+        // console.log(encrypted);
+      } catch (e) {
+        console.log(e);
+      }
+
       this.socket.send(serialMessage);
       if (this.data.Logs) {
         console.log(WS_SEND_LOG, serialMessage);
@@ -114,24 +137,23 @@ export default class WebSocketAPI implements IWebSocket {
         console.log(WS_RECIEVE_LOG, event.data);
       }
       if (this.onMessage &&  this.onActionOnlineUser) {
-        const wmessage: IWebSocketSystemMessage | IIMessageServer = JSON.parse(event.data);
-        if ((wmessage as IWebSocketSystemMessage).mtype) {
-          this.HandleSystemMessage((wmessage as IWebSocketSystemMessage));
-        } else {
-          this.HandleUsersMessage(wmessage as IIMessageServer);
-        }
+        this.MessageHandle(event.data);
       }
     };
   }
 
   public async Auth() {
     if (this.connected && this.data.Token !== "") {
+      const key = await publicKeyToJWK();
       const serialMessage: string = JSON.stringify({
-        type: WS_SYSTEM_MESSAGE,
-        Content: {
-          Type: WS_ACTION_AUTH,
-          Token: this.data.Token,
-          PubKey: await publicKeyToJWK(),
+        mtype: WS_SYSTEM_MESSAGE,
+        content: {
+          type: WS_ACTION_AUTH,
+          token: this.data.Token,
+          key: {
+            n: key.n,
+            e: key.e,
+          },
         },
       });
       this.socket.send(serialMessage);
@@ -149,6 +171,22 @@ export default class WebSocketAPI implements IWebSocket {
     this.socket.close();
     this.connected = false;
     this.auth = false;
+  }
+
+  private MessageHandle(data: string) {
+    // console.log("Handling Message - ", data);
+    const wmessage: IWebSocketSystemMessage | IIMessageServer | IWebSocketEncryptedMessage = JSON.parse(data);
+    switch ((wmessage as IWebSocketSystemMessage).mtype) {
+      case WS_SYSTEM_MESSAGE:
+        this.HandleSystemMessage((wmessage as IWebSocketSystemMessage));
+        break;
+      case WS_USER_MESSAGE:
+        this.HandleUsersMessage(wmessage as IIMessageServer);
+        break;
+      case WS_ENCRYPTED_MESSAGE:
+        this.HandleEncryptedMessage(wmessage as IWebSocketEncryptedMessage);
+        break;
+    }
   }
 
   private HandleUsersMessage(m: IIMessageServer) {
@@ -186,15 +224,12 @@ export default class WebSocketAPI implements IWebSocket {
       case WS_ACTION_AUTH:
         if (message.result === WS_AUTH_SUCCESS_RESULT) {
           const mkey = (message as IWebSocketSystemMessageAuth).key;
-          const jsonkey: JsonWebKey = {
-            ext: true,
-            key_ops: ["encrypt"],
-            e: mkey.e,
-            kty: "RSA",
-            n: mkey.n,
-          };
-          this.key = await JWKToPublicKey(jsonkey);
+          // this.key = await JWKToPublicKey(jsonkey);
+          this.key = await PEMTOKEY((message as IWebSocketSystemMessageAuth).key);
           this.auth = true;
+          if (this.data.Logs) {
+            console.log("User was authed with server by WS.");
+          }
         }
         break;
       case WS_ACTION_ONLINE_USER:
@@ -215,6 +250,15 @@ export default class WebSocketAPI implements IWebSocket {
         });
         break;
     }
+  }
+
+  private async HandleEncryptedMessage(message: IWebSocketEncryptedMessage) {
+    const decryptedData = await DecryptMessage({
+      Data: message.data,
+      IV: message.iv,
+      Key: message.key,
+    });
+    this.MessageHandle(decryptedData);
   }
 
   private push() {

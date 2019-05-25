@@ -11,16 +11,23 @@ export interface IWebSocket {
 }
 
 export interface IWebSocketUserMessage {
-  Type: string;
-  Content: {
-    Chat_Id: number;
-    Content: {
+  mtype: string;
+  content: {
+    chatID: number;
+    content: {
       content: string;
       documents: number[];
       type: string;
     };
-    Token: string;
+    token: string;
   };
+}
+
+export interface IWebSocketEncryptedMessage {
+  mtype: string;
+  key: string;
+  data: string;
+  iv: string;
 }
 
 export interface IWebSocketUserMessageRecieve {
@@ -50,10 +57,7 @@ export interface IWebSocketSystemMessageAuth {
   action: string;
   result: string;
   mtype: string;
-  key: {
-    e: string;
-    n: string;
-  };
+  key: string;
 }
 
 export interface IWebSocketSystemMessageOnline {

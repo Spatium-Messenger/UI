@@ -18,23 +18,23 @@ async function generateKey(
   });
 }
 
-// function arrayBufferToBase64String(arrayBuffer: ArrayBuffer) {
-//   const byteArray = new Uint8Array(arrayBuffer);
-//   let byteString = "";
-//   for (const byte of byteArray) {
-//     byteString += String.fromCharCode(byte);
-//   }
-//   return btoa(byteString);
-// }
+function arrayBufferToBase64String(arrayBuffer: ArrayBuffer) {
+  const byteArray = new Uint8Array(arrayBuffer);
+  let byteString = "";
+  for (const byte of byteArray) {
+    byteString += String.fromCharCode(byte);
+  }
+  return btoa(byteString);
+}
 
-// function base64StringToArrayBuffer(b64str: string): ArrayBuffer {
-//   const byteStr = atob(b64str);
-//   const bytes = new Uint8Array(byteStr.length);
-//   for (let i = 0; i < byteStr.length; i++) {
-//     bytes[i] = byteStr.charCodeAt(i);
-//   }
-//   return bytes.buffer;
-// }
+function base64StringToArrayBuffer(b64str: string): ArrayBuffer {
+  const byteStr = atob(b64str);
+  const bytes = new Uint8Array(byteStr.length);
+  for (let i = 0; i < byteStr.length; i++) {
+    bytes[i] = byteStr.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
 
 // function textToArrayBuffer(str: string): ArrayBuffer {
 //   const buf = unescape(encodeURIComponent(str));
@@ -121,13 +121,17 @@ async function exportPrivateKey(keys: IKeys): Promise<string> {
 //   });
 // }
 
-function ab2str(buf: ArrayBuffer) {
-  return String.fromCharCode.apply(null, new Uint16Array(buf));
+function buf2hex(buffer: ArrayBuffer) { // buffer is an ArrayBuffer
+  return Array.prototype.map.call(new Uint8Array(buffer), (x) => ("00" + x.toString(16)).slice(-2)).join("");
+}
+
+function ab2str(buf: ArrayBuffer): string {
+  return String.fromCharCode.apply(null, new Uint8Array(buf));
 }
 
 function str2ab(str: string): ArrayBuffer {
-  const buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
-  const bufView = new Uint16Array(buf);
+  const buf = new ArrayBuffer(str.length); // 2 bytes for each char
+  const bufView = new Uint8Array(buf);
   for (let i = 0, strLen = str.length; i < strLen; i++) {
     bufView[i] = str.charCodeAt(i);
   }
@@ -139,16 +143,30 @@ async function encryptData(
   key: CryptoKey,
   data: string,
 ): Promise<string> {
-  return ab2str(
+  return arrayBufferToBase64String(
     await crypto.subtle.encrypt(
       {
         name: "RSA-OAEP",
-        iv: vector,
+        iv: new Uint8Array([0x01, 0x00, 0x01]),
       },
       key,
       str2ab(data),
-    ),
-  );
+    ));
+
+  // console.log(key);
+  // const cryp =  crypto.subtle.encrypt(
+  //       {
+  //         name: "RSA-OAEP",
+  //         iv: crypto.getRandomValues(new Uint8Array(12)),
+  //       },
+  //       key,
+  //       str2ab(data),
+  //     );
+  // cryp
+  //   .then((enc) => console.log(enc));
+  //   // .catch((err) => {debugger; });
+  // console.log(ab2str(str2ab(data)));
+  // return "";
 }
 async function decryptData(
   vector: Uint8Array,
@@ -167,10 +185,63 @@ async function decryptData(
   );
 }
 
+async function generateAESKey(): Promise<CryptoKey> {
+  return crypto.subtle.generateKey(
+    {
+      name: "AES-GCM",
+      length: 256,
+    },
+    true,
+    ["encrypt", "decrypt"],
+  );
+}
+
+async function encryptAES(key: CryptoKey, data: string): Promise<{key: string, data: string, iv: string}> {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const encrypted = new Uint8Array(await crypto.subtle.encrypt({
+    name: "AES-GCM",
+    iv,
+    tagLength: 128,
+  },
+  key,
+  new TextEncoder().encode(data),
+  ));
+  const AESJWK = await crypto.subtle.exportKey("jwk", key);
+  // console.log(AESJWK);
+  // console.log("Encrypted Data without encode - ", encrypted);
+  return {
+    key: AESJWK.k,
+    data: buf2hex(encrypted),
+    iv: arrayBufferToBase64String(iv),
+  };
+  //
+}
+
+async function decryptAES(key: CryptoKey, iv: ArrayBuffer, data: ArrayBuffer): Promise<string> {
+  const decrypted = new Uint8Array(await crypto.subtle.decrypt(
+    {
+      name: "AES-GCM",
+      iv,
+      // additionalData: new Uint8Array(1),
+      // tagLength: 128,
+    },
+    key,
+    data,
+  ));
+  return new TextDecoder().decode(decrypted);
+}
+
 export {
   generateKey,
   encryptData,
   decryptData,
   exportPublicKey,
   exportPrivateKey,
+  str2ab,
+  ab2str,
+  base64StringToArrayBuffer,
+  generateAESKey,
+  encryptAES,
+  decryptAES,
+  buf2hex,
 };
