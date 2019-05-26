@@ -1,6 +1,6 @@
 import APIData from "./remote/data";
-import RemoteAPI from "./remote";
-import CreateUI from "./ui";
+import {RemoteAPI, IReqError, IServerInfo} from "./remote";
+import UI from "./ui";
 import Cookie from "./hard/cookie";
 import { ICookie } from "./interfaces/cookie";
 import WebSocketAPI from "./hard/web-socket";
@@ -8,8 +8,9 @@ import { IWebSocket } from "./interfaces/web-socket";
 import { ILocalStorage } from "./interfaces/local-storage";
 import LocalStorage from "./hard/local-storage";
 import { GenerateKeys, Test } from "./hard/crypto";
+import config from "./config";
 
-const URL = "http://localhost:3030";
+const URL = "https://192.168.1.38:3030";
 const LOGS = true;
 const IMITATION = false;
 
@@ -21,12 +22,29 @@ const openLinkFunc = (link: string, name: string) => {
   a.click();
 };
 
-GenerateKeys();
+const start = async () => {
+  const storage: ILocalStorage = new LocalStorage();
+  const cookie: ICookie = new Cookie();
+  const rempoteAPIConfig = new APIData(URL, "", LOGS, IMITATION);
+  const webSocketSystem: IWebSocket = new WebSocketAPI(rempoteAPIConfig);
+  const remoteAPI = new RemoteAPI(rempoteAPIConfig);
+  const ui = new UI(remoteAPI, cookie, webSocketSystem, storage, openLinkFunc);
+  const serverInfo = await remoteAPI.GetInfo();
+  if ((serverInfo as IReqError).type === "Error") {
+    console.error(serverInfo);
+  } else {
+    const sInfo = (serverInfo as IServerInfo);
+    config.files.maxSize = sInfo.maxFileSize;
+    if (!sInfo.cert) {
+      GenerateKeys();
+    }
+    ui.Render();
+  }
+};
+
+start();
+
+// GenerateKeys();
 // Test();
-const storage: ILocalStorage = new LocalStorage();
-const cookie: ICookie = new Cookie();
-const rempoteAPIConfig = new APIData(URL, "", LOGS, IMITATION);
-const webSocketSystem: IWebSocket = new WebSocketAPI(rempoteAPIConfig);
-const remoteAPI = new RemoteAPI(rempoteAPIConfig);
-const UI = CreateUI(remoteAPI, cookie, webSocketSystem, storage, openLinkFunc);
+
 // webSocketSystem.CreateConnection();

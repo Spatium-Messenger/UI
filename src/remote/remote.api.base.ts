@@ -26,7 +26,6 @@ export default class APIClass {
     try {
       xhr.open(data.type, this.netData.URL + data.uri, true);
     } catch (e) {
-      // console.log("hello");
       return ({result: "Error", type: e} as any);
     }
     xhr.send(JSON.stringify(data.payload));

@@ -21,6 +21,8 @@ export interface IAppStore {
   changeMenu: (val: boolean) => void;
   chatMenu: boolean;
   changeChatMenu: (val: boolean) => void;
+  loading: boolean;
+  changeLoading: (val: boolean) => void;
 }
 
 export interface IFileStore {

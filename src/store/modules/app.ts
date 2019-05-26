@@ -5,11 +5,13 @@ export default class AppStoreModule implements IAppStore {
   @observable public modal: MODALS_ID;
   @observable public menu: boolean;
   @observable public chatMenu: boolean;
+  @observable public loading: boolean;
 
   constructor(rootStore: any) {
     this.modal = MODALS_ID.NULL;
     this.menu = false;
     this.chatMenu = false;
+    this.loading = true;
   }
 
   @action
@@ -25,5 +27,10 @@ export default class AppStoreModule implements IAppStore {
   @action
   public changeChatMenu(val: boolean) {
     this.chatMenu = val;
+  }
+
+  @action
+  public changeLoading(val: boolean) {
+    this.loading = val;
   }
 }
