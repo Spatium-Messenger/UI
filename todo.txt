@@ -16,3 +16,5 @@ Todo:
   No Admin doesn't have chat's settings (name change is disable) 
   Snackbars for notification
   Notifications fot bad login
+
+  

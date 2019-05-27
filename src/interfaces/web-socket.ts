@@ -8,6 +8,7 @@ export interface IWebSocket {
   CreateConnection: () => void;
   Auth: () => void;
   CloseConnection: () => void;
+  GetKey: () => (CryptoKey | null);
 }
 
 export interface IWebSocketUserMessage {
@@ -95,4 +96,11 @@ export interface IServerActionOnlineUser {
 
 export interface IServerActionUserInserted {
   ChatID: number;
+}
+
+export interface IWebSocketData {
+  URL: string;
+  Token: string;
+  Logs: boolean;
+  Imitation: boolean;
 }

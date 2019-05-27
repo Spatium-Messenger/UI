@@ -1,4 +1,6 @@
 import { IAPIData } from "src/interfaces/api";
+import config from "src/config";
+import { EncryptMessage, DecryptMessage } from "src/hard/crypto";
 
 export interface IAPIClassCallProps {
   type: string;
@@ -20,19 +22,22 @@ export default class APIClass {
     };
   }
 
-  public Send(data: IAPIClassCallProps): Promise<any> {
+  public async Send(data: IAPIClassCallProps): Promise<any> {
     const xhr: XMLHttpRequest = new XMLHttpRequest();
-    // console.log("http://" + this.netData.IP + data.uri);
     try {
       xhr.open(data.type, this.netData.URL + data.uri, true);
     } catch (e) {
       return ({result: "Error", type: e} as any);
     }
-    xhr.send(JSON.stringify(data.payload));
+    const send = JSON.stringify(data.payload);
+    // if (!config.cert) {
+    //   send = JSON.stringify(await EncryptMessage(this.getKey(), send));
+    // }
+    xhr.send(send);
     return new Promise((resolve) => {
       const timeout =
       setTimeout(() => {xhr.abort(); resolve({result: "Error", type: "Timeout"}); }, this.config.timeout);
-      xhr.onreadystatechange = () => {
+      xhr.onreadystatechange = async () => {
       if (xhr.readyState !== 4) { return; }
       if (xhr.status === 200) {
         if (xhr.responseText === "null") {
@@ -42,6 +47,9 @@ export default class APIClass {
         }
         clearTimeout(timeout);
         const answer = JSON.parse(xhr.responseText);
+        // if (!config.cert) {
+        //   answer = await DecryptMessage(answer);
+        // }
         resolve(answer);
       }
     };

@@ -4,4 +4,5 @@ export interface IConfig {
   files: {
     maxSize: number;
   };
+  cert: boolean;
 }

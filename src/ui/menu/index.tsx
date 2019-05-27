@@ -32,6 +32,7 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
     this.close = this.close.bind(this);
     this.logout = this.logout.bind(this);
     this.lang = this.lang.bind(this);
+    this.settings = this.settings.bind(this);
   }
 
   public render() {
@@ -53,9 +54,8 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
         <MenuItem colorClassName={"menu-item-icon-white"} icon={backIcon} text={CL.back} click={this.close}/>
         <MenuItem colorClassName={"menu-item-icon-blue"} icon={messageIcon} text={CL.newChat} click={this.newChat}/>
         <MenuItem colorClassName={"menu-item-icon-orange"} icon={chanIcon} text={CL.newChannel}click={this.newChannel}/>
-        <MenuItem colorClassName={"menu-item-icon-green"} icon={profileIcon} text={CL.profile} click={this.profile}/>
         <MenuItem colorClassName={"menu-item-icon-pink"} icon={cacheIcon} text={CL.cache} click={this.cache}/>
-        <MenuItem colorClassName={"menu-item-icon-yellow"} icon={setIcon} text={CL.settings} click={this.profile}/>
+        <MenuItem colorClassName={"menu-item-icon-green"} icon={setIcon} text={CL.settings} click={this.settings}/>
         <MenuItem colorClassName={"menu-item-icon-purple"} icon={exitIcon} text={CL.logout} click={this.logout}/>
         </div>
         <div className="user-menu__lang">
@@ -72,20 +72,18 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
     this.props.store.appStore.changeMenu(false);
   }
 
-  private profile() {
-    //
-  }
-
   private cache() {
     this.close();
     this.props.store.appStore.changeModal(MODALS_ID.CACHE);
   }
 
   private settings() {
-    //
+    this.close();
+    this.props.store.appStore.changeModal(MODALS_ID.USER_SETTINGS);
   }
 
   private lang() {
+    this.close();
     this.props.store.appStore.changeModal(MODALS_ID.LANGUAGE);
   }
 

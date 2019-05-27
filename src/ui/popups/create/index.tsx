@@ -45,7 +45,6 @@ export default class Create extends React.Component<ICreateProps, ICreateState> 
       <div className="create-modal">
         <div className="modal-body">
           <div className="modal-header create-modal__header">{lang.header}</div>
-          <div className="modal-text create-modal__text">{lang.paragraph}</div>
         </div>
         <div className="create-modal__bottom">
           <InputField

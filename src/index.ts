@@ -25,9 +25,9 @@ const openLinkFunc = (link: string, name: string) => {
 const start = async () => {
   const storage: ILocalStorage = new LocalStorage();
   const cookie: ICookie = new Cookie();
-  const rempoteAPIConfig = new APIData(URL, "", LOGS, IMITATION);
-  const webSocketSystem: IWebSocket = new WebSocketAPI(rempoteAPIConfig);
-  const remoteAPI = new RemoteAPI(rempoteAPIConfig);
+  const remoteAPIConfig = new APIData(URL, "", LOGS, IMITATION);
+  const webSocketSystem: IWebSocket = new WebSocketAPI(remoteAPIConfig);
+  const remoteAPI = new RemoteAPI(remoteAPIConfig);
   const ui = new UI(remoteAPI, cookie, webSocketSystem, storage, openLinkFunc);
   const serverInfo = await remoteAPI.GetInfo();
   if ((serverInfo as IReqError).type === "Error") {
@@ -35,9 +35,6 @@ const start = async () => {
   } else {
     const sInfo = (serverInfo as IServerInfo);
     config.files.maxSize = sInfo.maxFileSize;
-    if (!sInfo.cert) {
-      GenerateKeys();
-    }
     ui.Render();
   }
 };

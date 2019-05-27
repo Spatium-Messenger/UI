@@ -7,11 +7,13 @@ import { IAPI, IAnswerError } from "src/interfaces/api";
 import { ChatsTypes } from "src/interfaces/api/chat";
 import { IRootStore } from "../interfeces";
 import { IWebSocket, IServerActionOnlineUser } from "src/interfaces/web-socket";
+import { IFolk } from "src/models/user";
 
 export default class ChatStoreModule implements IChatStore {
   @observable public chats: IChat[];
   @observable public currentChatID: number;
   @observable public users: Map<number, IChatUser[]>;
+  @observable public foundusers: IFolk[];
   @observable public loading: boolean;
   private remoteAPI: IAPI;
   private rootStore: IRootStore;
@@ -23,6 +25,7 @@ export default class ChatStoreModule implements IChatStore {
     this.webScoketConnection = rootStore.webScoketConnection;
     this.webScoketConnection.OnActionOnlineUser = this.newOnlineUser.bind(this);
     this.chats = [];
+    this.foundusers = [];
     this.currentChatID = 1;
     this.users = new Map<number, IChatUser[]>();
     this.loading = false;
@@ -131,6 +134,11 @@ export default class ChatStoreModule implements IChatStore {
   public async addUserToChat(userID: number): Promise<IAnswerError> {
     const chatID = this.currentChatID;
     return this.remoteAPI.chat.AddUsers([userID], chatID);
+  }
+
+  @action
+  public async findUsersForDialog(name: string) {
+    //
   }
 
   @action

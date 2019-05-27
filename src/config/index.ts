@@ -6,6 +6,7 @@ const config: IConfig = {
   files: {
     maxSize: 104857600, // 10 MB
   },
+  cert: true,
 };
 
 export default config;

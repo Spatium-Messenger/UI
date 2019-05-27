@@ -60,6 +60,7 @@ export interface IChatStore {
   addUserToChat: (userID: number) => Promise<IAnswerError>;
   setChatName: (name: string) => void;
   clear: () => void;
+  findUsersForDialog: (name: string) => void;
 }
 
 export interface IUserStore {
