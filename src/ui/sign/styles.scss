@@ -203,3 +203,13 @@
 .sign__form-bottom-button:active{
   background: linear-gradient(#f59500, #f5ae00) #f59500;
 }
+
+.sign__error{
+  padding: 10px;
+  color: $red;
+  background: rgba(0,0,0,0.15);
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0px 10px;
+}

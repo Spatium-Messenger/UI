@@ -1,10 +1,8 @@
 import { observable, action} from "mobx";
-// import { IAppStoreModule, IUser } from "../../../interfaces/app_state";
 import {IUser, IUserStore} from "src/interfaces/store";
 import { IAPI } from "src/interfaces/api";
 import { IRootStore } from "../interfeces";
 import { ICookie } from "src/interfaces/cookie";
-import Cookie from "src/hard/cookie";
 import { IWebSocket } from "src/interfaces/web-socket";
 import en from "src/language/langs/en";
 
@@ -13,6 +11,9 @@ const LOGIN_COOKIE_NAME = "login";
 
 export default class UserStoreModule implements IUserStore {
   @observable public data: IUser;
+  @observable public showSignInErrorMessage: boolean = true;
+  @observable public showSignUpErrorMessage: boolean = true;
+  @observable public errorCode: number = -1;
   private remoteAPI: IAPI;
   private rootStore: IRootStore;
   private cookie: ICookie;
@@ -29,9 +30,7 @@ export default class UserStoreModule implements IUserStore {
   @action
   public async checkUserWasSignIn(): Promise<boolean> {
     const token = this.cookie.Get(TOKEN_COOKIE_NAME);
-    // console.log(token);
     if (token) {
-      // console.log(token);
       const login = this.cookie.Get(LOGIN_COOKIE_NAME);
       await this.saveToken(token, login);
       return true;
@@ -41,20 +40,26 @@ export default class UserStoreModule implements IUserStore {
 
   @action
   public async enter(login: string, pass: string) {
-    const answer: {result: string} = await this.remoteAPI.user.Enter(login, pass);
-    // console.log(answer);
+    const answer: {result: string, code?: number} = await this.remoteAPI.user.Enter(login, pass);
     if (answer.result !== "Error") {
       await this.saveToken(answer["token"], login);
+      this.errorCode = -1;
+      this.showSignInErrorMessage = false;
+    } else {
+      this.errorCode = answer.code;
+      this.showSignInErrorMessage = true;
     }
-    // console.log(answer);
   }
 
   @action public async create(login: string, pass: string) {
-    const answer: {result: string} = await this.remoteAPI.user.CreateUser(login, pass);
-    // console.log(answer);
+    const answer: {result: string, code?: number} = await this.remoteAPI.user.CreateUser(login, pass);
     if (answer.result !== "Error") {
-      // console.log(answer["token"]);
       await this.saveToken(answer["token"], login);
+      this.errorCode = -1;
+      this.showSignUpErrorMessage = false;
+    } else {
+      this.errorCode = answer.code;
+      this.showSignUpErrorMessage = true;
     }
   }
 
@@ -84,7 +89,6 @@ export default class UserStoreModule implements IUserStore {
 
   private async getUserID() {
     const answer: {result: string} = await this.remoteAPI.user.GetMyData();
-    // console.log(answer);
     if (answer.result !== "Error") {
       this.data.ID = answer["id"];
     }
@@ -93,7 +97,6 @@ export default class UserStoreModule implements IUserStore {
   private async saveToken(token: string, login: string) {
     this.cookie.Set(TOKEN_COOKIE_NAME, token);
     this.cookie.Set(LOGIN_COOKIE_NAME, login);
-    // console.log(document.cookie);
     this.data.token = token;
     this.data.login = login;
     this.remoteAPI.data.Token = token;

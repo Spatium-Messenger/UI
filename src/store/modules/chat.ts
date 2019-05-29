@@ -138,6 +138,10 @@ export default class ChatStoreModule implements IChatStore {
 
   @action
   public async findUsersForDialog(name: string) {
+    if (name === "") {
+      this.usersForDialog = [];
+      return;
+    }
     const answer: IFolk[] = await this.remoteAPI.chat.GetUsersForDialog(name);
     this.usersForDialog = answer;
   }

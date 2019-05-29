@@ -5,6 +5,8 @@ import { IAppStore, IUserStore } from "src/interfaces/store";
 import { IRootStore } from "src/store/interfeces";
 import { ILanguage } from "src/language/interface";
 import languages from "src/language";
+import LangsChoose from "./langs";
+import SignError from "./error";
 require("./styles.scss");
 
 const anonIcon = require("assets/user.svg");
@@ -70,26 +72,11 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
 
   public render() {
     const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
-    const langs: ILanguage[] = [];
-    for (const l of languages.keys()) {
-      if (languages.get(l).id !== this.props.store.userStore.data.lang) {
-        langs.push(languages.get(l));
-      }
-    }
 
     const header: string = (this.state.InOrUp ? lang.sign.up : lang.sign.in);
     const bottom: string = (this.state.InOrUp ? lang.sign.in : lang.sign.up);
     const button: string = (this.state.InOrUp ? lang.sign.start : lang.sign.enter);
 
-    const langsEl: JSX.Element[] = langs.map((l, i) =>
-      <div
-        onClick={() => this.Language(l.id)}
-        key={i}
-        className="sign-lang-item"
-      >
-        <div dangerouslySetInnerHTML={{__html: l.icon}}/>
-        <div>{l.name}</div>
-      </div>);
     return(
       <div className="sign">
         <div className="sign__canvas-wrapper">
@@ -100,9 +87,7 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
             <div dangerouslySetInnerHTML={{__html: lang.icon}}/>
             <div>{lang.name}</div>
           </div>
-          <div className="sign__lang__content">
-            {langsEl}
-          </div>
+          <LangsChoose chooseLang={this.Language} currentLang={lang}/>
         </div>
         <img src="/assets/logo.png" alt="logo" className="sign__logo"/>
         <div className="sign__form">
@@ -134,6 +119,7 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
             <button className="sign__form-bottom-signup" onClick={this.Change}>{bottom}</button>
             <button className="sign__form-bottom-button" onClick={this.ButtonClick}>{button}</button>
           </div>
+         <SignError errorCode={this.props.store.userStore.errorCode} lang={lang} signInOrUp={this.state.InOrUp}/>
         </div>
       </div>
     );

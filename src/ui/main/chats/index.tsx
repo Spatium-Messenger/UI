@@ -1,6 +1,5 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import {IAppStore, IChatStore, MODALS_ID} from "src/interfaces/store";
 import UpPanel from "./up";
 import SideBarItem from "./item";
 import { IChat } from "src/models/chat";
@@ -8,6 +7,7 @@ import { IRootStore } from "src/store/interfeces";
 import languages from "src/language";
 import { ILanguage } from "src/language/interface";
 import Loader from "src/ui/components/loader";
+import UsersForDialog from "./users";
 
 require("./styles.scss");
 
@@ -78,6 +78,7 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
         <div className="sidebar__items__notfound">
           {(chats.length === 0 ? lang.chats.notFound : "")}
         </div>
+        <UsersForDialog/>
       </div>);
 
     return(

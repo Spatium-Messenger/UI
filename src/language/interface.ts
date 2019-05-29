@@ -20,6 +20,19 @@ interface ILanguageSign {
     login: string;
     pass: string;
   };
+  error: string;
+  signInErrors: {
+    0: string;
+    1: string;
+    2: string;
+  };
+  signUpErrors: {
+    0: string;
+    1: string;
+    2: string;
+    3: string;
+  };
+  undefinedError: string;
 }
 
 interface ILanguageChats {

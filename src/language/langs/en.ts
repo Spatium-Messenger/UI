@@ -14,6 +14,19 @@ const en: ILanguage = {
       login: "Login",
       pass: "Password",
     },
+    error: "Error: ",
+    signInErrors: {
+      0: "Failed decode client's message, appeal to the admin.",
+      1: "User with the login and the password doesn't exist.",
+      2: "Failed generate token, appeal to the admin.",
+    },
+    signUpErrors: {
+      0: "Failed decode client's message, appeal to the admin.",
+      1: "Login or password is incorect, check it.",
+      2: "Failed create new user, possibly user already exist.",
+      3: "Failed generate token, appeal to the admin.",
+    },
+    undefinedError: "Undefined error. Error's code - ",
   },
   chats: {
     search: "Search...",

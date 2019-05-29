@@ -3,6 +3,7 @@ import { IMessage } from "src/models/message";
 import { IDocument, IDocumentUpload } from "src/models/document";
 import { IAudioMessage } from "src/models/audio";
 import { IAnswerError } from "./api";
+import { IFolk } from "src/models/user";
 
 export enum MODALS_ID {
   LANGUAGE,
@@ -49,6 +50,7 @@ export interface IChatStore {
   chats: IChat[];
   currentChatID: number;
   users: Map<number, IChatUser[]>;
+  usersForDialog: IFolk[];
   loading: boolean;
   getChatData: (id: number) => IChat;
   chooseChat: (chat: IChat) => void;
@@ -71,6 +73,9 @@ export interface IUserStore {
   enterAsAnonymus: () => void;
   setLang: (lang: string) => void;
   logout: () => void;
+  showSignInErrorMessage: boolean;
+  showSignUpErrorMessage: boolean;
+  errorCode: number;
 }
 
 export interface IMessagesStore {

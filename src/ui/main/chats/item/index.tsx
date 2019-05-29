@@ -1,7 +1,5 @@
 import * as React from "react";
 import { IChat, ChatTypes } from "src/models/chat";
-// import { ChatsTypes } from "src/models/chat";
-// import { IAppStore } from "src/interfaces/store";
 require("./styles.scss");
 
 interface ISideBarItemProps {
@@ -43,7 +41,7 @@ export default class SideBarItem extends React.Component<ISideBarItemProps> {
           <div className="sidebar-item__info__name">{curChat.Name}</div>
         </div>
         <div>
-        {(curChat.New > 0 ? <div className="sidebar-item__additional__new">{curChat.New}</div> : <div/>)}
+          {(curChat.New > 0 ? <div className="sidebar-item__additional__new">{curChat.New}</div> : <div/>)}
         </div>
       </div>
     );
