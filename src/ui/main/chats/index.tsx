@@ -36,6 +36,7 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
     this.setState({
       search: n,
     });
+    this.props.store.chatStore.findUsersForDialog(n);
   }
 
   public chooseChat(chat: IChat) {

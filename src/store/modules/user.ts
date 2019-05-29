@@ -6,7 +6,7 @@ import { IRootStore } from "../interfeces";
 import { ICookie } from "src/interfaces/cookie";
 import Cookie from "src/hard/cookie";
 import { IWebSocket } from "src/interfaces/web-socket";
-import ru from "src/language/langs/ru";
+import en from "src/language/langs/en";
 
 const TOKEN_COOKIE_NAME = "token";
 const LOGIN_COOKIE_NAME = "login";
@@ -20,7 +20,7 @@ export default class UserStoreModule implements IUserStore {
 
   constructor(rootStore: IRootStore) {
     this.remoteAPI = rootStore.remoteAPI;
-    this.data = {token: "", login: "", ID: -1, lang: ru.id};
+    this.data = {token: "", login: "", ID: -1, lang: en.id};
     this.rootStore = rootStore;
     this.cookie = rootStore.cookie;
     this.webScoketConnection = rootStore.webScoketConnection;

@@ -1,5 +1,6 @@
 import { IChat, IChatUser } from "src/models/chat";
 import { IAnswerError } from ".";
+import { IFolk } from "src/models/user";
 
 export enum ChatsTypes {
   Chat,
@@ -33,4 +34,5 @@ export interface IAPIChat {
   DeleteFromDialog: (chatID: number) => Promise<void>;
   RecoveryUserInDialog: (chatID: number) => Promise<void>;
   DeleteChatFromList: (chatID: number) => Promise<void>;
+  GetUsersForDialog: (name: string) => Promise<IFolk[]>;
 }

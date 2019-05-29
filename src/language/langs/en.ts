@@ -30,7 +30,7 @@ const en: ILanguage = {
     signed: "SIGNED IN AS",
   },
   messages: {
-    choose: "Choose chat left or create new in menu",
+    choose: "Сhoose chat on the left or create a new one in the menu",
     input: {
       placeholder: "Message...",
     },

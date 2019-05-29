@@ -13,7 +13,7 @@ export default class ChatStoreModule implements IChatStore {
   @observable public chats: IChat[];
   @observable public currentChatID: number;
   @observable public users: Map<number, IChatUser[]>;
-  @observable public foundusers: IFolk[];
+  @observable public usersForDialog: IFolk[];
   @observable public loading: boolean;
   private remoteAPI: IAPI;
   private rootStore: IRootStore;
@@ -25,7 +25,7 @@ export default class ChatStoreModule implements IChatStore {
     this.webScoketConnection = rootStore.webScoketConnection;
     this.webScoketConnection.OnActionOnlineUser = this.newOnlineUser.bind(this);
     this.chats = [];
-    this.foundusers = [];
+    this.usersForDialog = [];
     this.currentChatID = 1;
     this.users = new Map<number, IChatUser[]>();
     this.loading = false;
@@ -138,7 +138,8 @@ export default class ChatStoreModule implements IChatStore {
 
   @action
   public async findUsersForDialog(name: string) {
-    //
+    const answer: IFolk[] = await this.remoteAPI.chat.GetUsersForDialog(name);
+    this.usersForDialog = answer;
   }
 
   @action

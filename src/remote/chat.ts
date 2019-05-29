@@ -3,6 +3,7 @@ import { IAPIData, IAnswerError } from "src/interfaces/api";
 import APIClass, { IAPIClassCallProps } from "./remote.api.base";
 import { IChat, IChatUser } from "src/models/chat";
 import { IChatServer } from "./interfaces";
+import { IFolk } from "src/models/user";
 
 export class APIChat extends APIClass implements IAPIChat {
   private getChatsURL: string;
@@ -17,6 +18,7 @@ export class APIChat extends APIClass implements IAPIChat {
   private fullDeleteFromDialogURL: string;
   private recoveryUserInDialogURL: string;
   private deleteChatFromList: string;
+  private getUsersForDialogURL: string;
 
   constructor(data: IAPIData) {
     super(data);
@@ -32,6 +34,7 @@ export class APIChat extends APIClass implements IAPIChat {
     this.recoveryUserInDialogURL = p + "recoveryUserInDialog";
     this.deleteChatFromList = p + "deleteFromList";
     this.setSettingsURL = p + "setSettings";
+    this.getUsersForDialogURL = p + "getUsersForDialog";
   }
 
   public async Get(): Promise<IAnswerError | IChat[]> {
@@ -159,5 +162,24 @@ export class APIChat extends APIClass implements IAPIChat {
 
   public async DeleteChatFromList(chatID: number): Promise<void > {
     //
+  }
+
+  public async GetUsersForDialog(name: string): Promise<IFolk[]> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.getUsersForDialogURL;
+    message.payload = {...message.payload, name};
+    const answer: IAnswerError | IAPIUsersForAdd[] = await super.Send(message);
+    if ((answer as IAnswerError).result !== "Error") {
+      return (answer as IAPIUsersForAdd[]).map((u): IFolk => {
+        return {
+          ID: u.id,
+          Login: u.login,
+          Name: u.name,
+        };
+      });
+    } else {
+      console.error(answer);
+    }
+    return [];
   }
 }
