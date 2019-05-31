@@ -16,6 +16,7 @@ interface IChatPreferencesPeopleProps {
 
 interface IChatPreferencesPeopleState {
   open: boolean;
+  choosen: number;
 }
 
 @inject("store")
@@ -26,9 +27,11 @@ export default class ChatPreferencesPeople extends React.Component<
     super(props);
     this.state = {
       open: true,
+      choosen: -1,
     };
     this.change = this.change.bind(this);
     this.addUser = this.addUser.bind(this);
+    this.choose = this.choose.bind(this);
   }
 
   public change() {
@@ -49,8 +52,7 @@ export default class ChatPreferencesPeople extends React.Component<
     }
     let users: JSX.Element[] = [];
     if (this.state.open) {
-
-      users = people.map((u, i) => <PeopleItem user={u} key={i + 1}/>);
+      users = people.map((u, i) => <PeopleItem user={u} key={i + 1} choosen={this.state.choosen} chose={this.choose}/>);
       const add =
       <div className="people-item-add" onClick={this.addUser} key={0}>
         <div
@@ -76,5 +78,11 @@ export default class ChatPreferencesPeople extends React.Component<
         </div>
       </div>
     );
+  }
+
+  private choose(id: number) {
+    this.setState({
+      choosen: id,
+    });
   }
 }

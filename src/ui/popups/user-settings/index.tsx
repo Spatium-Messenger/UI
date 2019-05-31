@@ -3,6 +3,7 @@ import { observer, inject } from "mobx-react";
 import { IRootStore } from "src/store/interfeces";
 import languages from "src/language";
 import { Button } from "src/ui/components";
+import { MODALS_ID } from "src/interfaces/store";
 require("./styles.scss");
 
 interface IUserSettingsProps {
@@ -19,7 +20,7 @@ export default class UserSettingsPopup extends React.Component<IUserSettingsProp
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.store.userStore.data.login,
+      name: this.props.store.userStore.data.name,
     };
     this.onChange = this.onChange.bind(this);
     this.save = this.save.bind(this);
@@ -56,10 +57,13 @@ export default class UserSettingsPopup extends React.Component<IUserSettingsProp
   }
 
   private save() {
-    //
+    this.props.store.userStore.saveSettings(this.state.name);
+    this.props.store.appStore.changeModal(MODALS_ID.NULL);
   }
 
   private onChange(eve: React.ChangeEvent<HTMLInputElement>) {
-    //
+    this.setState({
+      name: eve.target.value,
+    });
   }
 }

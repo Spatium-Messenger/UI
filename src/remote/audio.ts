@@ -40,12 +40,13 @@ export default class APIAudio implements IAPIAudio {
               resolve({result: "Error"});
             }
           } catch (e) {
-            const blob = this.getBlob(xhr.response, "audio/wav");
+            const blob = this.getBlob(xhr.response, "audio/ogg");
             const audioData = xhr.response;
 
             const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
 
             audioCtx.decodeAudioData(audioData, (buffer: AudioBuffer) => {
+              console.log(buffer.duration, blob.size);
               resolve({blob, duration: buffer.duration});
             });
           }
@@ -106,7 +107,7 @@ export default class APIAudio implements IAPIAudio {
     xhr.open("POST", this.data.URL + this.deletePath, true);
     xhr.send(JSON.stringify({Token: this.data.Token, FileID: file.fileID, FileLoadingKey: -1}));
     const answer: {result: string} = await new Promise((resolve, reject) => {
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = () => {
           if (xhr.readyState !== 4) { return; }
           if (xhr.status === 200) {
             const data: {result: string} = JSON.parse(xhr.responseText);
@@ -117,7 +118,7 @@ export default class APIAudio implements IAPIAudio {
             }
             resolve({result: "Error"});
           }
-        }.bind(this);
+        };
       });
     return (answer.result !== "Error" ? true : false);
   }

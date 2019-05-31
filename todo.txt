@@ -17,4 +17,12 @@ Todo:
   Snackbars for notification
   Notifications fot bad login
 
+
+  -----------------------------------
+  Audio message loading before sending
+  Users menu in chat menu
+  Delete from chat in chat menu
+  Audio message stop after 1 minute add time line!
+  
+
   

@@ -21,7 +21,7 @@ export default class UserStoreModule implements IUserStore {
 
   constructor(rootStore: IRootStore) {
     this.remoteAPI = rootStore.remoteAPI;
-    this.data = {token: "", login: "", ID: -1, lang: en.id};
+    this.data = {token: "", login: "", ID: -1, lang: en.id, name: ""};
     this.rootStore = rootStore;
     this.cookie = rootStore.cookie;
     this.webScoketConnection = rootStore.webScoketConnection;
@@ -64,6 +64,16 @@ export default class UserStoreModule implements IUserStore {
   }
 
   @action
+  public async saveSettings(name: string) {
+    const answer: {result: string, code?: number} = await this.remoteAPI.user.SetSettings(name);
+    if (answer.result !== "Error") {
+      this.data.name = name;
+    } else {
+      console.error(answer);
+    }
+  }
+
+  @action
   public enterAsAnonymus() {
     //
   }
@@ -91,6 +101,7 @@ export default class UserStoreModule implements IUserStore {
     const answer: {result: string} = await this.remoteAPI.user.GetMyData();
     if (answer.result !== "Error") {
       this.data.ID = answer["id"];
+      this.data.name = answer["name"];
     }
   }
 

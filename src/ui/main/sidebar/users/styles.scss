@@ -1,0 +1,64 @@
+.sidebar-users__header{
+  font-size: 12px;
+  text-align: center;
+  color: $font_gray;
+  padding-top: 10px;
+  border-top: 1px solid lighten($dark_gray, 20); 
+  margin: 0px 10px;
+}
+
+.sidebar-user{
+  display: flex;
+  user-select: none;
+  align-items: center;
+  height: 35px;
+  cursor: pointer;
+  padding: 0px 10px;
+  transition: 0.2s all ease-in-out;
+}
+
+.sidebar-user:hover,
+.sidebar-user-active:hover{
+  opacity: 0.8;
+}
+
+.sidebar-user__icon{
+  letter-spacing: 1px;
+  width: 20px;
+  height: 20px;
+  font-size: 9px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: $dark_gray;
+  color: #ffffff;
+
+  &>svg{
+    width: 15px;
+    height: 15px;
+    fill: $gray;
+  }
+}
+
+.sidebar-user__info{
+  width: calc(100% - 30px);
+  height: 20px;
+  margin-top: 7px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.sidebar-user__info__name{
+  font-size: 12px;
+  max-width: 100px;
+  display: inline-block;
+}
+
+.sidebar-user__info__login{
+  font-size: 12px;
+  float: right;
+  display: inline-block;
+  color: $dark_gray;
+}

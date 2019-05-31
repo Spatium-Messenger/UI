@@ -10,6 +10,7 @@ import SignError from "./error";
 require("./styles.scss");
 
 const anonIcon = require("assets/user.svg");
+const logo = require("assets/logo.svg");
 
 interface ISignProps {
   store?: IRootStore;
@@ -89,15 +90,10 @@ export default class Sign extends React.Component<ISignProps, ISignState> {
           </div>
           <LangsChoose chooseLang={this.Language} currentLang={lang}/>
         </div>
-        <img src="/assets/logo.png" alt="logo" className="sign__logo"/>
+        <div dangerouslySetInnerHTML={{__html: logo}} className="sign__logo"/>
         <div className="sign__form">
           <div className="sign__form-header">
             <div>{header}</div>
-            <div
-              dangerouslySetInnerHTML={{__html: anonIcon}}
-              onClick={this.Anon}
-              data-anon={lang.sign.anon}
-            />
           </div>
           <div>
             <input

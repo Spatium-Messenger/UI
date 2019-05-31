@@ -31,6 +31,7 @@ const en: ILanguage = {
   chats: {
     search: "Search...",
     notFound: "Not Found",
+    usersHeader: "Users for dialog",
   },
   menu: {
     back: "Back to Swap",

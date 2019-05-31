@@ -1,28 +1,30 @@
 /* (c) 2015 Felipe Astroza A.
 * Under BSD License
 */
+
 importScripts('ogg_encoder.js');
 
 self.do_write_data = function(bufferPtr, bufferLength) {
 	if(self.outputBufferSize - self.outputLength < bufferLength) {
-		self.outputBufferSize += 4096;
+		self.outputBufferSize += 8192;
 		var newOutputBuffer = new Uint8Array(self.outputBufferSize);
 		newOutputBuffer.set(self.outputBuffer, 0, self.outputLength);
 		self.outputBuffer = newOutputBuffer;
 	}
 	emMem = new Uint8Array(Module.HEAPU8.buffer, bufferPtr, bufferLength);
 	self.outputBuffer.set(emMem, self.outputLength, bufferLength);
-	self.outputLength += bufferLength;
+  self.outputLength += bufferLength;
+  // debugger
 }
 
 self.addEventListener('message', function(e) {
 	var params = e.data;
 	switch(params.cmd) {
 	case 'init':
-		self.outputBufferSize = 4096; // 4 kb
+		self.outputBufferSize = 8192; // 8 kb
 		self.outputLength = 0;
 		self.outputBuffer = new Uint8Array(self.outputBufferSize);
-		self.encoder = _ogg_encoder_init(params.sampleRate, 0.4);
+		self.encoder = _ogg_encoder_init(params.sampleRate, 0.9);
 		break;
 	case 'write':
 		// Copy buffers to Emscripten HEAP
@@ -37,7 +39,7 @@ self.addEventListener('message', function(e) {
 		var emHeap = [];
 		emHeap[0] = new Uint8Array(Module.HEAPU8.buffer, emBufferPtr[0], emBufferSize[0]);
 		emHeap[1] = new Uint8Array(Module.HEAPU8.buffer, emBufferPtr[1], emBufferSize[1]);
-		
+		// console.log(params.leftData.buffer.length)
 		emHeap[0].set(new Uint8Array(params.leftData.buffer));
 		emHeap[1].set(new Uint8Array(params.rightData.buffer));
 

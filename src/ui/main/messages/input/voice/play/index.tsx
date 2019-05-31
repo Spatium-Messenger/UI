@@ -75,7 +75,7 @@ export default class PlayVoiceMessage extends React.Component<IPlayVoiceMessageP
   }
 
   private formatTime(duration: number): string {
-    const minutes = Math.round(duration / 60);
+    const minutes = Math.floor(duration / 60);
     const seconds = Math.round(duration % 60);
     return minutes + ":" + (seconds > 9 ? seconds : "0" + seconds);
   }

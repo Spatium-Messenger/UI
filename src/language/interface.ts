@@ -38,6 +38,7 @@ interface ILanguageSign {
 interface ILanguageChats {
   search: string;
   notFound: string;
+  usersHeader: string;
 }
 
 export interface ILanguageMessagesWindow {

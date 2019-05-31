@@ -54,7 +54,7 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
         getImage={this.props.getImage}
         downloadFile={this.props.downloadFile}
         doc={d}
-        key={d.ID}
+        key={d.Path}
       />,
       );
     const up = (!showAuthorName ? <div/> :

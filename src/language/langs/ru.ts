@@ -31,6 +31,7 @@ const ru: ILanguage = {
   chats: {
     search: "Поиск...",
     notFound: "Не найдено",
+    usersHeader: "Создать диалог",
   },
   menu: {
     back: "Вернуться в Swap",

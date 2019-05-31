@@ -45,7 +45,7 @@ export default class MessagesStore implements IMessagesStore {
       chatMessagesInfo.loading = false;
       this.messages.set(chatID, chatMessagesInfo);
     } else {
-      console.log("Error", newMessages);
+      console.error(newMessages);
     }
   }
 

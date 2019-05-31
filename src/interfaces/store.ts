@@ -73,6 +73,7 @@ export interface IUserStore {
   enterAsAnonymus: () => void;
   setLang: (lang: string) => void;
   logout: () => void;
+  saveSettings: (name: string) => void;
   showSignInErrorMessage: boolean;
   showSignUpErrorMessage: boolean;
   errorCode: number;
@@ -109,4 +110,5 @@ export interface IUser {
   token: string;
   ID: number;
   lang: string;
+  name: string;
 }

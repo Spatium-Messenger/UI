@@ -139,13 +139,14 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
   private loaded(blob: Blob, duration: number) {
     const audioUrl = URL.createObjectURL(blob);
     const audioEl = new Audio(audioUrl);
+    // console.log("audio.tsx - ", duration);
     this.audio = audioEl;
     this.props.audioBuffers.set(this.props.doc.Path, {el: audioEl, d: duration});
     this.load();
   }
 
   private formatTime(duration: number): string {
-    const minutes = Math.round(duration / 60);
+    const minutes = Math.floor(duration / 60);
     const seconds = Math.round(duration % 60);
     return minutes + ":" + (seconds > 9 ? seconds : "0" + seconds);
   }

@@ -3,6 +3,7 @@ export interface IMessage {
   ChatID: number;
   Content: IMessageContent;
   AuthorName: string;
+  AuthorLogin: string;
   AuthorID: number;
   Time: number;
 }
@@ -30,7 +31,7 @@ interface IMessageContent {
 export interface IMessageContentDoc {
   ID: number;
   Name: string;
-  RatioSize: number;
+  Ratio: number;
   Size: number;
   Path: string;
   AdditionalContentLoaded: boolean;

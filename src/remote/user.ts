@@ -44,17 +44,27 @@ export class APIUser extends APIClass implements IAPIUser {
     const answer: {result: string} = await super.Send(message);
     return answer;
   }
+
   public async GetMyData(): Promise<{result: string}> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
     message.uri = this.getMyDataURL;
     const answer: {result: string} = await super.Send(message);
     return answer;
   }
+
   public async GetSettings(): Promise<void> {
     //
   }
-  public async SetSettings(name: string): Promise<void> {
-    //
+
+  public async SetSettings(name: string): Promise<{result: string}> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.setSettingsURL;
+    message.payload = {
+      ...message.payload,
+      name,
+    };
+    const answer: {result: string} = await super.Send(message);
+    return answer;
   }
 
 }

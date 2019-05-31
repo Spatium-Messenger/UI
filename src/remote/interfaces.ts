@@ -6,10 +6,11 @@ export interface IMessageServer {
 }
 
 export interface IMessageServerDoc {
-  file_id: number;
+  id: number;
   name: string;
+  author_id: number;
   path: string;
-  ratio_size: 0;
+  ratio: number;
   size: number;
 }
 

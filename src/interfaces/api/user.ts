@@ -4,5 +4,5 @@ export interface IAPIUser {
   CreateUser: (login: string, pass: string) => Promise<{result: string}>;
   GetMyData: () => Promise<{result: string}>;
   GetSettings: () => Promise<void>;
-  SetSettings: (name: string) => Promise<void>;
+  SetSettings: (name: string) => Promise<{result: string}>;
 }

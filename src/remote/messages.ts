@@ -28,10 +28,10 @@ export default class APIMessages extends APIClass implements IAPIMessages {
         if (e.message.documents) {
           e.message.documents.forEach((d) => {
             docs.push({
-              ID: d.file_id,
+              ID: d.id,
               Name: d.name,
               Path: d.path,
-              RatioSize: d.ratio_size,
+              Ratio: d.ratio,
               Size: d.size,
               AdditionalContentLoaded: false,
             });
@@ -39,7 +39,8 @@ export default class APIMessages extends APIClass implements IAPIMessages {
         }
         messages.push({
           AuthorID: e.author_id,
-          AuthorName: e.author_login,
+          AuthorLogin: e.author_login,
+          AuthorName: e.author_name,
           Content: {
             Documents: docs,
             Message: e.message.content,

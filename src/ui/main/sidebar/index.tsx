@@ -1,13 +1,13 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
 import UpPanel from "./up";
-import SideBarItem from "./item";
 import { IChat } from "src/models/chat";
 import { IRootStore } from "src/store/interfeces";
 import languages from "src/language";
 import { ILanguage } from "src/language/interface";
 import Loader from "src/ui/components/loader";
 import UsersForDialog from "./users";
+import Chats from "./chats";
 
 require("./styles.scss");
 
@@ -29,6 +29,7 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
     };
     this.searchChange = this.searchChange.bind(this);
     this.chooseChat = this.chooseChat.bind(this);
+    this.dialog = this.dialog.bind(this);
     this.menu = this.menu.bind(this);
   }
 
@@ -48,24 +49,7 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
   }
 
   public render() {
-    const search: string = this.state.search;
-    const chats: JSX.Element[] = [];
-    this.props.store.chatStore.chats.map(
-      (value, i) => {
-        const currentID = this.props.store.chatStore.currentChatID;
-        if  (value.Name.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-          chats.push(
-            <SideBarItem
-             chat={value}
-             key={i}
-             chooseChat={this.chooseChat}
-             active={(value.ID === currentID)}
-            />,
-          );
-        }
-      },
-    );
-
+    const chatStore = this.props.store.chatStore;
     const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
     const content: JSX.Element = (this.props.store.chatStore.loading ?
       <div className="sidebar__load-wrapper">
@@ -74,18 +58,28 @@ export default class SideBar extends React.Component<ISideBarProps, ISideBarStat
         </div>
       </div> :
       <div className="sidebar__items">
-        {chats}
-        <div className="sidebar__items__notfound">
-          {(chats.length === 0 ? lang.chats.notFound : "")}
-        </div>
-        <UsersForDialog/>
+        <Chats
+          lang={lang}
+          chats={chatStore.chats}
+          currentChat={chatStore.currentChatID}
+          search={this.state.search}
+          chooseChat={this.chooseChat}
+        />
       </div>);
 
     return(
       <div className="sidebar">
-          <UpPanel onChange={this.searchChange} menu={this.menu} placeholder={lang.chats.search}/>
+          <UpPanel
+            onChange={this.searchChange}
+            menu={this.menu}
+            placeholder={lang.chats.search}
+          />
           {content}
       </div>
     );
+  }
+
+  private dialog(id: number) {
+    console.log(id);
   }
 }

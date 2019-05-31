@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import SideBar from "./chats";
+import SideBar from "./sidebar";
 import Window from "./messages";
 import WindowsHeader from "./messages/header";
 import ChatMenu from "./chat-preferences";
