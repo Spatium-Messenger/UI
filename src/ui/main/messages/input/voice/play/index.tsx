@@ -64,7 +64,7 @@ export default class PlayVoiceMessage extends React.Component<IPlayVoiceMessageP
         <div  className="voice-record__play-timeline" onClick={this.rewind} ref={this.timelineRef}>
           <div
             className="voice-record__play-timeline__inner"
-            style={{width: (this.state.current / this.state.duration * 100) + "%"}}
+            style={{width: this.timelineWidth() + "%"}}
           />
         </div>
         <div className="voice-recoed-play__duration">
@@ -72,6 +72,14 @@ export default class PlayVoiceMessage extends React.Component<IPlayVoiceMessageP
         </div>
       </div>
     );
+  }
+
+  private timelineWidth(): number {
+    const width =  (this.state.current / this.state.duration * 100);
+    if (width > 100) {
+      return 100;
+    }
+    return width;
   }
 
   private formatTime(duration: number): string {

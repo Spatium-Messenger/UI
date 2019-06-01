@@ -136,11 +136,12 @@ export default class InputStoreModule implements IInputStore {
       };
 
       this.webSocketConnect.SendMessage(message);
+      this.chatsInputData.set(chatID, {
+        documents: [],
+        text: "",
+      });
     }
-    this.chatsInputData.set(chatID, {
-      documents: [],
-      text: "",
-    });
+
   }
 
   public clear() {

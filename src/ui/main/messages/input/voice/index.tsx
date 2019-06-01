@@ -19,10 +19,6 @@ export default class Voice extends React.Component<IVoiceProps> {
     this.stopRecording = this.stopRecording.bind(this);
   }
 
-  public stopRecording() {
-    this.props.store.audioStore.stopRecording();
-  }
-
   public render() {
     const voiceVolumes = this.props.store.audioStore.voiceVolumes;
     const timeLine: JSX.Element[] = voiceVolumes.slice(0).reverse().map((v, i) =>
@@ -36,6 +32,7 @@ export default class Voice extends React.Component<IVoiceProps> {
     const chatID = this.props.store.chatStore.currentChatID;
     const voiceMessage: IAudioMessage = this.props.store.audioStore.voiceMessages.get(chatID);
     if (voiceMessage) {
+      // console.log(voiceMessage);
       if (voiceMessage.load === 1) {
         return(<VoiceLoading />);
       }
@@ -43,13 +40,37 @@ export default class Voice extends React.Component<IVoiceProps> {
     }
     return(
       <div className={"voice-record" + (this.props.store.audioStore.voiceRecording ? "-active" : "")}>
-        <div className="voice-record__stop" onClick={this.stopRecording}>
-          <div/>
-        </div>
-        <div  className="voice-record__timeline">
-          {timeLine}
+        <div className="voice-record__timeline-wrapper">
+          <div className="voice-record__stop" onClick={this.stopRecording}>
+            <div/>
+          </div>
+          <div className="voice-record__timeline">
+            {timeLine}
+          </div>
+          <div className="voice-record__timestop">
+            {this.timeStopWidth()}
+          </div>
         </div>
       </div>
     );
   }
+
+  private stopRecording() {
+    this.props.store.audioStore.stopRecording();
+  }
+
+  private timeStopWidth(): number {
+    if (this.props.store.audioStore.recoredingStartedAt) {
+      let d: number = (new Date()).getTime() - this.props.store.audioStore.recoredingStartedAt.getTime();
+      d = Math.floor(60 - d / 1000);
+      if (d <= 0) {
+        this.stopRecording();
+      }
+      return d;
+    } else {
+      return 0;
+    }
+    // const date = this.props.store.audioStore.
+  }
+
 }

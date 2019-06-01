@@ -46,7 +46,6 @@ export default class APIAudio implements IAPIAudio {
             const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
 
             audioCtx.decodeAudioData(audioData, (buffer: AudioBuffer) => {
-              console.log(buffer.duration, blob.size);
               resolve({blob, duration: buffer.duration});
             });
           }

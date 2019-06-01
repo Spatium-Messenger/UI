@@ -200,10 +200,10 @@ export default class WebSocketAPI implements IWebSocket {
     if (m.message.documents) {
       m.message.documents.forEach((v) => {
         docs.push({
-          ID: v.file_id,
+          ID: v.id,
           Name: v.name,
           Path: v.path,
-          RatioSize: v.ratio_size,
+          Ratio: v.ratio,
           Size: v.size,
           AdditionalContentLoaded: false,
         });
@@ -212,6 +212,7 @@ export default class WebSocketAPI implements IWebSocket {
     const message: IMessage = {
       AuthorID: m.author_id,
       AuthorName: m.author_name,
+      AuthorLogin: m.author_login,
       ChatID: m.chat_id,
       Content: {
         Documents: docs,

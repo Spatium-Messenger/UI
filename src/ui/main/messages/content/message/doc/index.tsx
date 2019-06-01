@@ -25,7 +25,7 @@ export default class DocMessage extends React.Component<IDocMessageProps> {
   }
   public render() {
     const dName: string = this.props.doc.Name;
-    const fileExt: string = dName.slice((Math.max(0, dName.lastIndexOf(".")) || Infinity) + 1);
+    const fileExt: string = this.fileExt(dName);
     switch (fileExt.toLowerCase()) {
       case EXTENSION_IMAGE_JPEG:
       case EXTENSION_IMAGE_JPG:
@@ -45,6 +45,7 @@ export default class DocMessage extends React.Component<IDocMessageProps> {
     return(
       <div className="message-document">
         <div
+          onClick={() => (this.props.downloadFile(this.props.doc.ID, fileExt))}
           className="message-document__download"
           dangerouslySetInnerHTML={{__html: downloadIcon}}
         />
@@ -54,6 +55,10 @@ export default class DocMessage extends React.Component<IDocMessageProps> {
         </div>
       </div>
     );
+  }
+
+  private fileExt(name: string): string {
+    return name.slice((Math.max(0, name.lastIndexOf(".")) || Infinity) + 1);
   }
 
   private size(bytes: number, point: number): string {

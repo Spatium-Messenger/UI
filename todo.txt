@@ -19,10 +19,12 @@ Todo:
 
 
   -----------------------------------
-  Audio message loading before sending
+  + Audio message loading before sending
+  + Check file download
+  + Audio message stop after 1 minute add time line!
+  Auto websocket reconnect
   Users menu in chat menu
   Delete from chat in chat menu
-  Audio message stop after 1 minute add time line!
   
 
   

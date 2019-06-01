@@ -39,6 +39,7 @@ export interface IAudioStore {
   voiceRecording: boolean;
   voiceVolumes: number[];
   voiceMessages: Map<number, IAudioMessage>;
+  recoredingStartedAt: Date;
   cancelVoiceRecording: () => void;
   changeRecording: (val: boolean) => void;
   stopRecording: () => void;

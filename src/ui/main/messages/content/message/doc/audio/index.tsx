@@ -126,7 +126,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
         <div className="message-audio__timeline" onClick={this.rewind} ref={this.timelineRef}>
           <div
             className="message-audio__timeline-inner"
-            style={{width: (this.state.current / this.state.duration * 100) + "%"}}
+            style={{width: this.timelineWidth() + "%"}}
           />
         </div>
         <div className="message-audio__duration">
@@ -134,6 +134,14 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
         </div>
       </div>
     );
+  }
+
+  private timelineWidth(): number {
+    const width =  (this.state.current / this.state.duration * 100);
+    if (width > 100) {
+      return 100;
+    }
+    return width;
   }
 
   private loaded(blob: Blob, duration: number) {

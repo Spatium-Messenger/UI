@@ -11,6 +11,7 @@ export default class AudioStoreModule implements IAudioStore {
   @observable public voiceRecording: boolean;
   @observable public voiceVolumes: number[];
   @observable public voiceMessages: Map<number, IAudioMessage>;
+  @observable public recoredingStartedAt: Date;
   private remoteApi: IAPI;
   private rootStore: IRootStore;
   private webSocketConnect: IWebSocket;
@@ -29,6 +30,7 @@ export default class AudioStoreModule implements IAudioStore {
     // from 0.1 to 0.9
     const smooth = 0.5;
     if (value) {
+      this.recoredingStartedAt = new Date();
       startRecording((progress: any) => {
         if (!this.voiceRecording) {return; }
         const arr = [...this.voiceVolumes];
@@ -54,9 +56,11 @@ export default class AudioStoreModule implements IAudioStore {
         })();
         this.voiceVolumes = arr;
       }, (error: Error) => {
+        this.recoredingStartedAt = null;
         this.cancelVoiceRecording();
       });
     } else {
+      this.recoredingStartedAt = null;
       stopRecording();
       return;
     }
@@ -88,6 +92,7 @@ export default class AudioStoreModule implements IAudioStore {
 
   @action
   public stopRecording() {
+    this.recoredingStartedAt = null;
     doneRecording(this.AudioRendered.bind(this));
   }
 
@@ -157,6 +162,7 @@ export default class AudioStoreModule implements IAudioStore {
         const nowRecord: IAudioMessage = this.voiceMessages.get(chatID);
         if (!nowRecord) {return; }
         nowRecord.uploaded = bytes;
+        // nowRecord.load = 2;
         this.voiceMessages.set(chatID, nowRecord);
       });
 

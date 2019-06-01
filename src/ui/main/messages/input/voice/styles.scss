@@ -3,11 +3,20 @@
 }
 
 .voice-record-active{
-  height: 33px;
+  height: 35px;
   width: calc(100% - 70px);
   display: flex;
   background: $gray;
   border-radius: 20px;
+  // flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.voice-record__timeline-wrapper{
+  height: 33px;
+  width: 100%;
+  display: flex;
   align-items: center;
   justify-content: space-between;
 }
@@ -42,7 +51,7 @@
 }
 
 .voice-record__timeline{
-  width: calc(100% - 20px);
+  width: calc(100% - 30px);
   height: 33px;
   // display: flex;
   // align-items: center;
@@ -64,4 +73,11 @@
   width: 2.5px;
   max-height: 20px;
   border-radius: 1px;
+}
+
+.voice-record__timestop{
+  font-size: 12px;
+  width: 30px;
+  text-align: center;
+  color: $font_gray;
 }
