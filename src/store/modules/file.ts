@@ -6,7 +6,7 @@ import { ILocalStorage } from "src/interfaces/local-storage";
 import { LZString } from "src/hard/string-compress";
 
 export default class FileStoreModule implements IFileStore {
-  @observable public audioBuffers: Map<string, {el: HTMLAudioElement, d: number}>;
+  @observable public audioBuffers: Map<string, {el: HTMLAudioElement, timeoff: Date}>;
   private remoteApi: IAPI;
   private rootStore: IRootStore;
   // private webSocketConnect: IWebSocket;
@@ -19,7 +19,7 @@ export default class FileStoreModule implements IFileStore {
     ) {
     this.remoteApi = rootStore.remoteAPI;
     this.storage = rootStore.storage;
-    this.audioBuffers = new Map<string, {el: HTMLAudioElement, d: number}>();
+    this.audioBuffers = new Map<string, {el: HTMLAudioElement, timeoff: Date}>();
     this.getAudio = this.getAudio.bind(this);
     this.getImage = this.getImage.bind(this);
     this.downloadFile = this.downloadFile.bind(this);

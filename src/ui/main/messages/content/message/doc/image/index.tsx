@@ -55,7 +55,7 @@ export default class ImageMessage extends React.Component<IImageMessageProps, II
       background: "url('" + this.state.body + "') 0% 0% / cover",
       width:  Math.floor(Number(this.props.doc.Ratio) * 180),
     };
-  
+
     return(
       <div
         className="message-image"

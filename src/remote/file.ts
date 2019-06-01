@@ -86,7 +86,7 @@ export default class APIFile extends APIClass implements IAPIFile {
       xhr.open("POST", this.data.URL + this.deleteFileURL, true);
       xhr.send(JSON.stringify({token: this.data.Token, file_id: file.id, FileLoadingKey: file.loadKey}));
       const answer: {result: string} = await new Promise((resolve, reject) => {
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = () => {
           if (xhr.readyState !== 4) { return; }
           if (xhr.status === 200) {
             const data: {result: string} = JSON.parse(xhr.responseText);
@@ -97,7 +97,7 @@ export default class APIFile extends APIClass implements IAPIFile {
             }
             resolve({result: "Error"});
           }
-        }.bind(this);
+        };
       });
       return (answer.result !== "Error" ? true : false);
     }
@@ -174,6 +174,7 @@ export default class APIFile extends APIClass implements IAPIFile {
       formData.append("type", this.getExt(file.src.name).toLowerCase());
       formData.append("ratio_size", ((file.width / file.height as any) || 0));
       formData.append("chat_id", (file.chatID as any));
+      formData.append("duration", (file.duration as any));
       return formData;
     }
 

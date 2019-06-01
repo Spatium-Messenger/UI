@@ -34,6 +34,7 @@ export interface IMessageContentDoc {
   Ratio: number;
   Size: number;
   Path: string;
+  Duration: number;
   AdditionalContentLoaded: boolean;
 }
 

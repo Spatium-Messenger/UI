@@ -34,6 +34,7 @@ export default class APIMessages extends APIClass implements IAPIMessages {
               Ratio: d.ratio,
               Size: d.size,
               AdditionalContentLoaded: false,
+              Duration: d.duration,
             });
           });
         }

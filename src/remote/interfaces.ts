@@ -11,6 +11,7 @@ export interface IMessageServerDoc {
   author_id: number;
   path: string;
   ratio: number;
+  duration: number;
   size: number;
 }
 

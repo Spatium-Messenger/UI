@@ -92,7 +92,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
       const lang: ILanguage = languages.get(this.props.store.userStore.data.lang);
       messagesComponents.push(<IMessageUnit
         audioBuffers={this.props.store.fileStore.audioBuffers}
-        getAudio={this.props.store.fileStore.getAudio}
+        getAudio={this.props.store.audioStore.getLink}
         downloadFile={this.props.store.fileStore.downloadFile}
         getImage={this.props.store.fileStore.getImage}
         data={v}

@@ -189,6 +189,7 @@ export default class WebSocketAPI implements IWebSocket {
           Ratio: v.ratio,
           Size: v.size,
           AdditionalContentLoaded: false,
+          Duration: v.duration,
         });
       });
     }

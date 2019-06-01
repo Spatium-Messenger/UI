@@ -6,7 +6,7 @@ Todo:
   + Сhannel creating
   + Auto open on wide screens chat-preferences
   + Redesign dialogs
-  Spoiled token
+  
   Escape from dialog (ESC press)
   Online actions
   Fonts connect
@@ -23,6 +23,7 @@ Todo:
   + Check file download
   + Audio message stop after 1 minute add time line!
   + Auto websocket reconnect
+  Spoiled token
   Users menu in chat menu
   Delete from chat in chat menu
   

@@ -8,11 +8,11 @@ interface IMessageUnitProps {
   data: IMessage;
   userID: number;
   lastAuthorID: number;
-  audioBuffers: Map<string, {el: HTMLAudioElement, d: number}>;
+  audioBuffers: Map<string, {el: HTMLAudioElement, timeoff: Date}>;
   getImage: (fileID: number, ext: string) => Promise<string>;
   downloadFile: (fileID: number,  name: string) => void;
   messageLang: ILanguageMessagesWindow;
-  getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
+  getAudio(fileID: number): Promise<{link: string, timeoff: Date} | {result: string}>;
 }
 
 export default class MessageUnit extends React.Component<IMessageUnitProps> {

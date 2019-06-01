@@ -3,22 +3,35 @@ import { IAudioMessage } from "src/models/audio";
 import { IAPIData } from "src/interfaces/api";
 
 import {TESTUPLOADSPEED} from "./test.config";
+import APIClass, { IAPIClassCallProps } from "./remote.api.base";
 
-export default class APIAudio implements IAPIAudio {
+export default class APIAudio  extends APIClass implements IAPIAudio {
   private data: IAPIData;
   private uploadPath: string;
   private getPath: string;
   private deletePath: string;
   private getAudioURL: string;
+  private getLinkURL: string;
+
   constructor(data: IAPIData) {
+    super(data);
     this.data = data;
     this.uploadPath = "/api/file/uploadFile";
     this.deletePath = "/api/file/deleteFile";
     this.getAudioURL = "/api/file/getFile";
+    this.getLinkURL = "/api/file/getFileLink";
     if (this.data.Imitation) {
       this.Upload = this.UploadTest;
       this.Delete = this.DeleteTest;
     }
+  }
+
+  public async GetLink(fileID: number): Promise<{link: string, timeoff: number} | {result: string}> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.getLinkURL;
+    message.payload = {...message.payload,
+                       file_id: fileID};
+    return super.Send(message);
   }
 
   public async Get(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}> {
@@ -179,6 +192,7 @@ export default class APIAudio implements IAPIAudio {
     formData.append("type", "audio/ogg");
     formData.append("ratio_size", (0 as any));
     formData.append("chat_id", (file.chatID as any));
+    formData.append("duration", (Math.floor(file.src.duration * 1000) as any));
     return formData;
   }
 

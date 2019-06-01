@@ -27,7 +27,7 @@ export interface IAppStore {
 }
 
 export interface IFileStore {
-  audioBuffers: Map<string, {el: HTMLAudioElement, d: number}>;
+  audioBuffers: Map<string, {el: HTMLAudioElement, timeoff: Date}>;
   getAudio: (fileID: number) => Promise<{duration: number, blob: Blob} | {result: string}>;
   getImage: (fileID: number, ext: string) => Promise<string>;
   downloadFile: (fileID: number,  name: string) => void;
@@ -45,6 +45,7 @@ export interface IAudioStore {
   stopRecording: () => void;
   sendVoiceMessage: (chatID: number) => void;
   clear: () => void;
+  getLink(fileID: number): Promise<{link: string, timeoff: Date} | {result: string}>;
 }
 
 export interface IChatStore {

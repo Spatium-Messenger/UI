@@ -23,6 +23,7 @@ export default class AudioStoreModule implements IAudioStore {
     this.voiceRecording = false;
     this.voiceVolumes = [];
     this.voiceMessages = new Map<number, IAudioMessage>();
+    this.getLink = this.getLink.bind(this);
   }
 
   @action
@@ -68,6 +69,20 @@ export default class AudioStoreModule implements IAudioStore {
     this.voiceRecording = value;
   }
 
+  public async getLink(fileID: number): Promise<{link: string, timeoff: Date} | {result: string}> {
+    const answer = await this.remoteApi.audio.GetLink(fileID);
+    if (answer["result"] === "Error") {
+      return {...answer, link: "", timeoff: new Date()};
+    } else {
+      // console.log(answer["link"]);
+      return {
+        link: this.remoteApi.data.URL + "/getFile/" + answer["link"] + "/",
+        timeoff: new Date(answer["timeoff"]),
+      };
+    }
+    //
+  }
+
   public AudioRendered(data: {blob: Blob, duration: number}) {
     if (!this.voiceRecording) {return; }
     this.voiceVolumes = [];
@@ -84,6 +99,7 @@ export default class AudioStoreModule implements IAudioStore {
         del: false,
         uploaded: 0,
         fileID: -1,
+        duration: 0,
       };
     }
     if (message.load === 1) {return; }
@@ -125,6 +141,7 @@ export default class AudioStoreModule implements IAudioStore {
       del: false,
       uploaded: 0,
       fileID: -1,
+      duration: 0,
     };
 
     if (!this.voiceMessages.has(chatID)) {
@@ -133,6 +150,7 @@ export default class AudioStoreModule implements IAudioStore {
           reject(data);
         });
       });
+      // record.duration = record.src.duration;
     } else {
       if (this.voiceMessages.get(chatID).load === 1) { return; }
       record =  this.voiceMessages.get(chatID);
@@ -141,19 +159,21 @@ export default class AudioStoreModule implements IAudioStore {
     this.remoteApi.audio.Upload(
       record,
       this.rootStore.userStore.data.ID,
-      (file: IAudioMessage, err: boolean) => {
+
+      (f: IAudioMessage, err: boolean) => {
         const message: IMessageSend = {
           AuthorID: this.rootStore.userStore.data.ID,
           AuthorName: this.rootStore.userStore.data.login,
-          ChatID: file.chatID,
+          ChatID: f.chatID,
           Content: {
             Type: IMessageType.User,
-            Documents: [file.fileID],
+            Documents: [f.fileID],
             Message: "",
           },
           ID: -1,
           Time: -1,
         };
+
         this.webSocketConnect.SendMessage(message);
         this.voiceMessages.delete(chatID);
         this.voiceRecording = false;

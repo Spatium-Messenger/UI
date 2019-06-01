@@ -5,6 +5,7 @@ import { IRootStore } from "../interfeces";
 import { ICookie } from "src/interfaces/cookie";
 import { IWebSocket } from "src/interfaces/web-socket";
 import en from "src/language/langs/en";
+import { UserErrors } from "src/remote/errors";
 
 const TOKEN_COOKIE_NAME = "token";
 const LOGIN_COOKIE_NAME = "login";
@@ -98,10 +99,14 @@ export default class UserStoreModule implements IUserStore {
   }
 
   private async getUserID() {
-    const answer: {result: string} = await this.remoteAPI.user.GetMyData();
+    const answer: {result: string, code?: number} = await this.remoteAPI.user.GetMyData();
     if (answer.result !== "Error") {
       this.data.ID = answer["id"];
       this.data.name = answer["name"];
+    } else {
+      if (answer.code === UserErrors.BasicErrors.WrongToken) {
+        this.logout();
+      }
     }
   }
 

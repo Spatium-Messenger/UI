@@ -10,8 +10,8 @@ let LAST_CURRENT_PLAY_POSITION = "-1";
 
 interface IAudioMessageProps {
   doc: IMessageContentDoc;
-  audioBuffers: Map<string, {el: HTMLAudioElement, d: number}>;
-  getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
+  audioBuffers: Map<string, {el: HTMLAudioElement, timeoff: Date}>;
+  getAudio(fileID: number): Promise<{link: string, timeoff: Date} | {result: string}>;
 }
 
 interface IAudioMessageState {
@@ -31,7 +31,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     super(props);
     this.state = {
       loaded: false,
-      duration: 1,
+      duration: this.props.doc.Duration / 1000,
       current: 0,
       play: false,
       error: false,
@@ -52,11 +52,10 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
   public async load() {
     // Check buffers to loaded audio elements
     if (this.state.loaded) {return; }
-    const audioElement: {el: HTMLAudioElement, d: number} = this.props.audioBuffers.get(this.props.doc.Path);
+    const audioElement: {el: HTMLAudioElement, timeoff: Date} = this.props.audioBuffers.get(this.props.doc.Path);
     if (audioElement && !COMPONENT_WAS_UNMOUNTED) {
       this.audio = audioElement.el;
       this.setState({
-        duration: audioElement.d,
         loaded: true,
         current: 0,
       });
@@ -66,14 +65,14 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
 
     const {ID} = this.props.doc;
     new Promise(async (res, rej) => {
-      const data: {duration: number, blob: Blob} | {result: string} = await this.props.getAudio(ID);
+      const data: {link: string, timeoff: Date} | {result: string} = await this.props.getAudio(ID);
       if ((data as {result: string}).result !== "Error") {
         res(data);
       } else {
         rej(data);
       }
-    }).then((data: {duration: number, blob: Blob}) => {
-      this.loaded(data.blob, data.duration);
+    }).then((data: {link: string, timeoff: Date}) => {
+      this.loaded(data.link, data.timeoff);
     }, () => {
       if (COMPONENT_WAS_UNMOUNTED) {return; }
       this.setState({
@@ -144,12 +143,11 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     return width;
   }
 
-  private loaded(blob: Blob, duration: number) {
-    const audioUrl = URL.createObjectURL(blob);
-    const audioEl = new Audio(audioUrl);
-    // console.log("audio.tsx - ", duration);
-    this.audio = audioEl;
-    this.props.audioBuffers.set(this.props.doc.Path, {el: audioEl, d: duration});
+  private loaded(link: string, timeoff: Date) {
+    const audiEL = new Audio(link + this.props.doc.Name);
+    audiEL.preload = "none";
+    this.audio = audiEL;
+    this.props.audioBuffers.set(this.props.doc.Path, {el: audiEL, timeoff});
     this.load();
   }
 

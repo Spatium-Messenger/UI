@@ -7,4 +7,5 @@ export interface IAPIAudio {
            progress: (uploadedSize: number) => void) => void;
   Delete: (file: IAudioMessage) => void;
   Get: (fileID: number) => Promise<{duration: number, blob: Blob} | {result: string}>;
+  GetLink: (fileID: number) => Promise<{link: string, timeoff: number} | {result: string}>;
 }

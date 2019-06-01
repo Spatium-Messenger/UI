@@ -8,10 +8,11 @@ const downloadIcon: string = require("assets/download.svg");
 
 interface IDocMessageProps {
   doc: IMessageContentDoc;
-  audioBuffers: Map<string, {el: HTMLAudioElement, d: number}>;
+  audioBuffers: Map<string, {el: HTMLAudioElement, timeoff: Date}>;
   getImage: (fileID: number, ext: string) => Promise<string>;
   downloadFile: (fileID: number,  name: string) => void;
-  getAudio(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}>;
+  getAudio(fileID: number): Promise<{link: string, timeoff: Date} | {result: string}>;
+
 }
 
 const EXTENSION_AUDIO = "ogg";

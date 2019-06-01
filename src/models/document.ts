@@ -7,6 +7,7 @@ export interface IDocument {
   type: string;
   url: string;
   width: number;
+  duration: number;
   height: number;
 }
 
@@ -22,6 +23,7 @@ export interface IDocumentUpload {
   key: string;
   uploadedSize: number;
   loadKey: string;
+  duration: number;
   abortLoad: () => void;
 }
 

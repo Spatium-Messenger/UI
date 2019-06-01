@@ -9,4 +9,5 @@ export interface IAudioMessage {
   abortLoad: () => void;
   fileID: number;
   del: boolean;
+  duration: number;
 }
