@@ -7,7 +7,6 @@ import {
   OnlineUserAction,
   IWebSocketSystemMessageUserInsertedToChat,
   IServerActionUserInserted,
-  IWebSocketSystemMessageAuth,
   IWebSocketEncryptedMessage,
   IWebSocketData,
 } from "src/interfaces/web-socket";
@@ -17,10 +16,8 @@ import {
   IMessageSend,
   IMessageContentDoc,
 } from "src/models/message";
-import { IAPIData } from "src/interfaces/api";
-import { IDocumentUpload } from "src/models/document";
 import { IIMessageServer } from "src/remote/interfaces";
-import { publicKeyToJWK, JWKToPublicKey, EncryptMessage, PEMTOKEY, DecryptMessage } from "../crypto";
+import { DecryptMessage } from "../crypto";
 
 const ERROR_CONNECTION_TRY_LIMIT: string = "WS Error connection limit";
 const ERROR_AUTH_CONNECT_OR_TOKEN: string =
@@ -90,19 +87,6 @@ export default class WebSocketAPI implements IWebSocket {
         },
       };
       const serialMessage: string = JSON.stringify(webSocketMessage);
-      // try {
-      //   const encmesssage = await EncryptMessage(this.key, serialMessage);
-      //   const encwebsockermessage: IWebSocketEncryptedMessage = {
-      //     mtype: WS_ENCRYPTED_MESSAGE,
-      //     data: encmesssage.Data,
-      //     key: encmesssage.Key,
-      //     iv: encmesssage.IV,
-      //   };
-      //   serialMessage = JSON.stringify(encwebsockermessage);
-      // } catch (e) {
-      //   console.log(e);
-      // }
-
       this.socket.send(serialMessage);
       if (this.data.Logs) {
         console.log(WS_SEND_LOG, serialMessage);
@@ -119,16 +103,14 @@ export default class WebSocketAPI implements IWebSocket {
         console.log("WebSocket successfull connected");
       }
       this.connected = true;
+      this.tryLimit = 5;
       this.Auth();
     };
 
-    this.socket.onerror = () => {
-      this.tryLimit--;
-      if (this.tryLimit > 0) {
-        this.CreateConnection();
-      } else {
-        throw Error(ERROR_CONNECTION_TRY_LIMIT);
-      }
+    this.socket.onclose = () => {
+      this.connected = false;
+      this.auth = false;
+      this.deferredConnection();
     };
 
     this.socket.onmessage = (event) => {
@@ -141,12 +123,6 @@ export default class WebSocketAPI implements IWebSocket {
     };
   }
 
-  // public async KeyExchange() {
-  //   if (this.connected) {
-
-  //   }
-  // }
-
   public async Auth() {
     if (this.connected) {
       console.log(this.data.Token);
@@ -154,7 +130,6 @@ export default class WebSocketAPI implements IWebSocket {
         setTimeout(this.Auth, 500);
         return;
       }
-      // const key = await publicKeyToJWK();
       const serialMessage: string = JSON.stringify({
         mtype: WS_SYSTEM_MESSAGE,
         content: {
@@ -167,8 +142,6 @@ export default class WebSocketAPI implements IWebSocket {
         console.log(WS_SEND_LOG, serialMessage);
       }
     } else {
-      // console.log(this.connected, this.data.Token);
-
       throw Error(ERROR_AUTH_CONNECT_OR_TOKEN);
     }
   }
@@ -179,8 +152,18 @@ export default class WebSocketAPI implements IWebSocket {
     this.auth = false;
   }
 
+  private async deferredConnection() {
+    await new Promise((res) => setTimeout(res, 3000));
+    this.tryLimit--;
+    if (this.tryLimit > 0) {
+      this.CreateConnection();
+      return;
+    } else {
+      throw Error(ERROR_CONNECTION_TRY_LIMIT);
+    }
+  }
+
   private MessageHandle(data: string) {
-    // console.log("Handling Message - ", data);
     const wmessage: IWebSocketSystemMessage | IIMessageServer | IWebSocketEncryptedMessage = JSON.parse(data);
     switch ((wmessage as IWebSocketSystemMessage).mtype) {
       case WS_SYSTEM_MESSAGE:
@@ -230,9 +213,6 @@ export default class WebSocketAPI implements IWebSocket {
     switch (message.action) {
       case WS_ACTION_AUTH:
         if (message.result === WS_AUTH_SUCCESS_RESULT) {
-          // const mkey = (message as IWebSocketSystemMessageAuth).key;
-          // this.key = await JWKToPublicKey(jsonkey);
-          // this.key = await PEMTOKEY((message as IWebSocketSystemMessageAuth).key);
           this.auth = true;
           if (this.data.Logs) {
             console.log("User was authed with server by WS.");
