@@ -1,6 +1,7 @@
 import * as React from "react";
-import { observer, inject } from "mobx-react";
+
 import { IChatUser } from "src/models/chat";
+import PeopleItemMenu from "./menu";
 require("./styles.scss");
 
 interface IPeopleItemProps {
@@ -11,9 +12,6 @@ interface IPeopleItemProps {
 
 export default function PeopleItem(props: IPeopleItemProps) {
   const choosen = (props.choosen === props.user.ID);
-  const menu = <div>
-    Menu
-  </div>;
 
   return  <div className={choosen ? "people-item-active" : "people-item"}>
   <div onClick={() => props.chose(props.user.ID)} className="people-item__info">
@@ -24,7 +22,7 @@ export default function PeopleItem(props: IPeopleItemProps) {
       {props.user.Name}
     </div>
   </div>
-  {(choosen ? menu : <div/>)}
+  {(choosen ? <PeopleItemMenu user={props.user}/> : <div/>)}
 </div>;
 }
 

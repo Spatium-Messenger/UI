@@ -1,4 +1,4 @@
-export interface IAudioMessage {
+export interface IAudioUpload {
   chatID: number;
   src: {
     blob: Blob,

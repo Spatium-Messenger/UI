@@ -59,7 +59,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
         loaded: true,
         current: 0,
       });
-      this.intervals = setInterval(this.timer, 200);
+      this.intervals = setInterval(this.timer, 16);
       return;
     }
 
@@ -163,14 +163,19 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
         current: this.audio.currentTime,
         play: this.state.play,
       };
+      // console.log((data.current + 0.1).toFixed(1), this.state.duration.toFixed(1));
       if (
-        data.current.toFixed(1) === this.state.duration.toFixed(1) ||
-        LAST_CURRENT_PLAY_POSITION  === data.current.toFixed(1)
+        data.current + 0.1 >= this.state.duration ||
+        // data.current > this.state.duration
+        LAST_CURRENT_PLAY_POSITION  === this.state.duration.toFixed(1)
       ) {
         data.play = false;
-        data.current = this.state.duration;
+        data.current = 0;
+        this.audio.currentTime = 0;
         this.audio.pause();
         LAST_CURRENT_PLAY_POSITION = "-1";
+        this.setState(data);
+        return;
       }
       LAST_CURRENT_PLAY_POSITION = data.current.toFixed(1);
       this.setState(data);

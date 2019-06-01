@@ -1,5 +1,5 @@
 import { observable, action} from "mobx";
-import { IAudioMessage } from "src/models/audio";
+import { IAudioUpload } from "src/models/audio";
 import { IAudioStore } from "src/interfaces/store";
 import { IRootStore } from "../interfeces";
 import { IAPI } from "src/interfaces/api";
@@ -10,7 +10,7 @@ import { IWebSocket } from "src/interfaces/web-socket";
 export default class AudioStoreModule implements IAudioStore {
   @observable public voiceRecording: boolean;
   @observable public voiceVolumes: number[];
-  @observable public voiceMessages: Map<number, IAudioMessage>;
+  @observable public voiceMessages: Map<number, IAudioUpload>;
   @observable public recoredingStartedAt: Date;
   private remoteApi: IAPI;
   private rootStore: IRootStore;
@@ -22,8 +22,9 @@ export default class AudioStoreModule implements IAudioStore {
     this.webSocketConnect = rootStore.webScoketConnection;
     this.voiceRecording = false;
     this.voiceVolumes = [];
-    this.voiceMessages = new Map<number, IAudioMessage>();
+    this.voiceMessages = new Map<number, IAudioUpload>();
     this.getLink = this.getLink.bind(this);
+    this.sendToSocket = this.sendToSocket.bind(this);
   }
 
   @action
@@ -87,20 +88,11 @@ export default class AudioStoreModule implements IAudioStore {
     if (!this.voiceRecording) {return; }
     this.voiceVolumes = [];
     const chatID = this.rootStore.chatStore.currentChatID;
-    let message: IAudioMessage = this.voiceMessages.get(chatID);
+    let message: IAudioUpload = this.voiceMessages.get(chatID);
     if (!message) {
-      message = {
-        src: data,
-        chatID,
-        load: 0,
-        abortLoad: () => {
-          //
-        },
-        del: false,
-        uploaded: 0,
-        fileID: -1,
-        duration: 0,
-      };
+      message = this.defaultAudioUpload();
+      message.src = data;
+      message.chatID = chatID;
     }
     if (message.load === 1) {return; }
     this.voiceMessages.set(chatID, message);
@@ -115,7 +107,7 @@ export default class AudioStoreModule implements IAudioStore {
   @action
   public cancelVoiceRecording() {
     const chatID = this.rootStore.chatStore.currentChatID;
-    const data: IAudioMessage = this.voiceMessages.get(chatID);
+    const data: IAudioUpload = this.voiceMessages.get(chatID);
     if (data) {
       if (data.load === 1) {
         data.abortLoad();
@@ -131,18 +123,8 @@ export default class AudioStoreModule implements IAudioStore {
   public async sendVoiceMessage(chatID: number) {
     this.voiceVolumes = [];
 
-    let record: IAudioMessage = {
-      src: null,
-      chatID,
-      load: 0,
-      abortLoad: () => {
-        //
-      },
-      del: false,
-      uploaded: 0,
-      fileID: -1,
-      duration: 0,
-    };
+    let record = this.defaultAudioUpload();
+    record.chatID = chatID;
 
     if (!this.voiceMessages.has(chatID)) {
       record.src =  await new Promise((reject) => {
@@ -159,27 +141,12 @@ export default class AudioStoreModule implements IAudioStore {
     this.remoteApi.audio.Upload(
       record,
       this.rootStore.userStore.data.ID,
-
-      (f: IAudioMessage, err: boolean) => {
-        const message: IMessageSend = {
-          AuthorID: this.rootStore.userStore.data.ID,
-          AuthorName: this.rootStore.userStore.data.login,
-          ChatID: f.chatID,
-          Content: {
-            Type: IMessageType.User,
-            Documents: [f.fileID],
-            Message: "",
-          },
-          ID: -1,
-          Time: -1,
-        };
-
-        this.webSocketConnect.SendMessage(message);
-        this.voiceMessages.delete(chatID);
-        this.voiceRecording = false;
-      },
+      this.sendToSocket,
+      // (f: IAudioUpload, err: boolean) => {
+      //
+      // },
       (bytes: number) => {
-        const nowRecord: IAudioMessage = this.voiceMessages.get(chatID);
+        const nowRecord: IAudioUpload = this.voiceMessages.get(chatID);
         if (!nowRecord) {return; }
         nowRecord.uploaded = bytes;
         // nowRecord.load = 2;
@@ -194,6 +161,38 @@ export default class AudioStoreModule implements IAudioStore {
     this.voiceRecording = false;
     this.voiceMessages.clear();
     this.voiceVolumes = [];
+  }
+
+  private defaultAudioUpload(): IAudioUpload {
+    return {
+      src: null,
+      chatID: -1,
+      load: 0,
+      abortLoad: () => {/* */},
+      del: false,
+      uploaded: 0,
+      fileID: -1,
+      duration: 0,
+    };
+  }
+
+  private sendToSocket(audio: IAudioUpload) {
+    const message: IMessageSend = {
+      AuthorID: this.rootStore.userStore.data.ID,
+      AuthorName: this.rootStore.userStore.data.login,
+      ChatID: audio.chatID,
+      Content: {
+        Type: IMessageType.User,
+        Documents: [audio.fileID],
+        Message: "",
+      },
+      ID: -1,
+      Time: -1,
+    };
+
+    this.webSocketConnect.SendMessage(message);
+    this.voiceMessages.delete(audio.chatID);
+    this.voiceRecording = false;
   }
 
 }

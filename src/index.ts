@@ -10,7 +10,7 @@ import LocalStorage from "./hard/local-storage";
 import { GenerateKeys, Test } from "./hard/crypto";
 import config from "./config";
 
-const URL = "https://192.168.1.38:3030";
+const URL = "https://192.168.1.52:3030";
 const LOGS = true;
 const IMITATION = false;
 
