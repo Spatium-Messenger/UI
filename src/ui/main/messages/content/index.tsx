@@ -46,6 +46,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
 
   public render() {
     const chatID = this.props.store.chatStore.currentChatID;
+
     const messagesInfo = this.props.store.messagesStore.messages.get(chatID);
     if (!messagesInfo || messagesInfo.loading) {
       return(<div className="window__content" ref={this.contentRef} >

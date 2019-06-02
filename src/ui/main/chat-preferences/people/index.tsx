@@ -45,14 +45,16 @@ export default class ChatPreferencesPeople extends React.Component<
   }
 
   public render() {
-    const lang = languages.get(this.props.store.userStore.data.lang).chatPreferences.people;
+    const language = languages.get(this.props.store.userStore.data.lang);
+    const lang = language.chatPreferences.people;
     const people = this.props.store.chatStore.users.get(this.props.store.chatStore.currentChatID);
     if (!people) {
       return <div/>;
     }
     let users: JSX.Element[] = [];
     if (this.state.open) {
-      users = people.map((u, i) => <PeopleItem user={u} key={i + 1} choosen={this.state.choosen} chose={this.choose}/>);
+      users = people.map((u, i) =>
+        <PeopleItem user={u} key={i + 1} choosen={this.state.choosen} chose={this.choose} lang={language}/>);
       const add =
       <div className="people-item-add" onClick={this.addUser} key={0}>
         <div

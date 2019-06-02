@@ -43,6 +43,7 @@ interface ILanguageChats {
 
 export interface ILanguageMessagesWindow {
   choose: string;
+  banned: string;
   input: {
     placeholder: string;
   };
@@ -77,7 +78,10 @@ interface ILanguageChatPreferences {
   people: {
     header: string;
     add: string;
+    ban: string;
+    unban: string;
   };
+  deleteFromChat: string;
 }
 
 interface ILanguagePopups {

@@ -23,10 +23,14 @@ Todo:
   + Check file download
   + Audio message stop after 1 minute add time line!
   + Auto websocket reconnect
-  ~ Change audio acrhitecture
-  Spoiled token
-  Users menu in chat menu
+  + Change audio acrhitecture
+  + Spoiled token
+  ~ Users menu in chat menu
   Delete from chat in chat menu
+  Fix bug in inbite people, after adding new user admin is show
+  Notifications about invitation and block in chat
+  Only admin should have access to user's menu in chat preferences
+  
   
 
   

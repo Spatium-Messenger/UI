@@ -101,8 +101,8 @@ export class APIChat extends APIClass implements IAPIChat {
        return {
          ID: u.id,
          Login: u.login,
-         Blocked: (u.blocked !== 0),
-         Delete: (u.delete !== 0),
+         Blocked: u.ban,
+         Delete: (u.delete_last !== 0),
          Name: u.name,
        };
       });
@@ -131,12 +131,18 @@ export class APIChat extends APIClass implements IAPIChat {
     //
   }
 
-  public async DeleteUsers(chatID: number, IDs: number[]): Promise<void> {
-    //
+  public async DeleteUsers(chatID: number, IDs: number[]): Promise<IAnswerError> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.deleteUsersURL;
+    message.payload = {...message.payload, ids: IDs, chat_id: chatID};
+    return super.Send(message);
   }
 
-  public async RecoveryUsers(chatID: number, IDs: number[]): Promise<void> {
-    //
+  public async RecoveryUsers(chatID: number, IDs: number[]): Promise<IAnswerError> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.recoveryUsersURL;
+    message.payload = {...message.payload, ids: IDs, chat_id: chatID};
+    return super.Send(message);
   }
 
   public async GetChatSettings(chatID: number): Promise<void> {

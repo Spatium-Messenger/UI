@@ -8,8 +8,8 @@ export enum ChatsTypes {
 }
 
 export interface IAPIChatsUser {
-  blocked: number;
-  delete: number;
+  ban: boolean;
+  delete_last: number;
   id: number;
   login: string;
   name: string;
@@ -27,8 +27,8 @@ export interface IAPIChat {
   AddUsers: (IDs: number[], chatID: number) => Promise<IAnswerError>;
   GetUsers: (chatID: number) => Promise<IAnswerError | IChatUser[]>;
   GetUsersForAdd: (chatID: number, name: string) => Promise<IAnswerError |  IChatUser[]>;
-  DeleteUsers: (chatID: number, IDs: number[]) => Promise<void>;
-  RecoveryUsers: (chatID: number, IDs: number[]) => Promise<void>;
+  DeleteUsers: (chatID: number, IDs: number[]) => Promise<IAnswerError>;
+  RecoveryUsers: (chatID: number, IDs: number[]) => Promise<IAnswerError>;
   GetChatSettings: (chatID: number) => Promise<void>;
   SetChatSettings: (chatID: number, name: string) => Promise<IAnswerError>;
   DeleteFromDialog: (chatID: number) => Promise<void>;

@@ -1,7 +1,7 @@
 import { IChat, IChatUser } from "src/models/chat";
 import { IMessage } from "src/models/message";
 import { IDocument, IDocumentUpload } from "src/models/document";
-import { IAudioMessage } from "src/models/audio";
+import { IAudioUpload } from "src/models/audio";
 import { IAnswerError } from "./api";
 import { IFolk } from "src/models/user";
 
@@ -38,7 +38,7 @@ export interface IFileStore {
 export interface IAudioStore {
   voiceRecording: boolean;
   voiceVolumes: number[];
-  voiceMessages: Map<number, IAudioMessage>;
+  voiceMessages: Map<number, IAudioUpload>;
   recoredingStartedAt: Date;
   cancelVoiceRecording: () => void;
   changeRecording: (val: boolean) => void;
@@ -65,6 +65,8 @@ export interface IChatStore {
   setChatName: (name: string) => void;
   clear: () => void;
   findUsersForDialog: (name: string) => void;
+  blockUser: (userID: number) => void;
+  unblockUser: (userID: number) => void;
 }
 
 export interface IUserStore {

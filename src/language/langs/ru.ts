@@ -45,6 +45,7 @@ const ru: ILanguage = {
   },
   messages: {
     choose: "Выберите чат слева или создайте новый в меню",
+    banned: "Вы были забанены в этом чате",
     input: {
       placeholder: "Сообщение...",
     },
@@ -67,7 +68,10 @@ const ru: ILanguage = {
     people: {
       header: "Участники",
       add: "Пригласить",
+      ban: "Заблокировать",
+      unban: "Разблокировать",
     },
+    deleteFromChat: "Выйти из беседы",
   },
   popups: {
     createChat: {

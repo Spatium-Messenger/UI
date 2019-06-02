@@ -45,6 +45,7 @@ const en: ILanguage = {
   },
   messages: {
     choose: "Сhoose chat on the left or create a new one in the menu",
+    banned: "You have been banned in the chat",
     input: {
       placeholder: "Message...",
     },
@@ -67,7 +68,10 @@ const en: ILanguage = {
     people: {
       header: "People",
       add: "Invite People",
+      ban: "Ban user",
+      unban: "Unban user",
     },
+    deleteFromChat: "Get out of the conversationt",
   },
   popups: {
     createChat: {

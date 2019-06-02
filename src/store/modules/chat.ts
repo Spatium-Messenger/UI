@@ -1,8 +1,6 @@
 import { observable, action} from "mobx";
-// import { IAppStoreModule, IUser } from "../../../interfaces/app_state";
 import { IChatStore, MODALS_ID} from "src/interfaces/store";
 import { IChat, IChatUser } from "src/models/chat";
-import {IMessage} from "src/models/message";
 import { IAPI, IAnswerError } from "src/interfaces/api";
 import { ChatsTypes } from "src/interfaces/api/chat";
 import { IRootStore } from "../interfeces";
@@ -160,6 +158,26 @@ export default class ChatStoreModule implements IChatStore {
       });
     } else {
       console.log("setChatName", answer);
+    }
+  }
+
+  @action
+  public async blockUser(userID: number) {
+    const answer = await this.remoteAPI.chat.DeleteUsers(this.currentChatID, [userID]);
+    if (answer.result === "Error") {
+      console.error(answer);
+    } else {
+      this.getChatUsers();
+    }
+  }
+
+  @action
+  public async unblockUser(userID: number) {
+    const answer = await this.remoteAPI.chat.RecoveryUsers(this.currentChatID, [userID]);
+    if (answer.result === "Error") {
+      console.error(answer);
+    } else {
+      this.getChatUsers();
     }
   }
 

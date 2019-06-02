@@ -2,11 +2,13 @@ import * as React from "react";
 
 import { IChatUser } from "src/models/chat";
 import PeopleItemMenu from "./menu";
+import { ILanguage } from "src/language/interface";
 require("./styles.scss");
 
 interface IPeopleItemProps {
  user: IChatUser;
  choosen: number;
+ lang: ILanguage;
  chose: (id: number) => void;
 }
 
@@ -18,11 +20,14 @@ export default function PeopleItem(props: IPeopleItemProps) {
     <div>
       {props.user.Name.substring(0, 2).toUpperCase()}
     </div>
-    <div>
+    <div className="people-item__info-name">
       {props.user.Name}
     </div>
+    <div className="people-item__info-login">
+      {props.user.Login}
+    </div>
   </div>
-  {(choosen ? <PeopleItemMenu user={props.user}/> : <div/>)}
+  {(choosen ? <PeopleItemMenu user={props.user} lang={props.lang}/> : <div/>)}
 </div>;
 }
 
