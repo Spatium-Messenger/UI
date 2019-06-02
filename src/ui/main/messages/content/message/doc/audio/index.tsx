@@ -91,6 +91,12 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     if (this.state.play) {
       this.audio.pause();
     } else {
+      if (LAST_CURRENT_PLAY_POSITION === "-1") {
+        this.audio.currentTime = 0;
+        this.setState({
+          current: 0,
+        });
+      }
       this.audio.play();
     }
     if (COMPONENT_WAS_UNMOUNTED) {return; }
@@ -159,19 +165,20 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
 
   private timer() {
     if (this.state.play) {
-      const data: {play: boolean, current: number} = {
+      const data: {play: boolean, current: number, duration: number} = {
         current: this.audio.currentTime,
         play: this.state.play,
+        duration: this.state.duration,
       };
-      // console.log((data.current + 0.1).toFixed(1), this.state.duration.toFixed(1));
+      // First off we have not accurate(1-2 after float point) duration of audio record(not audio record in audio el)
+      // But audio el know it's duration better, and we wait while it process audio record
+      if (this.audio.duration && this.audio.duration !== this.state.duration) {
+        data.duration = this.audio.duration;
+      }
       if (
-        data.current + 0.1 >= this.state.duration ||
-        // data.current > this.state.duration
-        LAST_CURRENT_PLAY_POSITION  === this.state.duration.toFixed(1)
+        data.current >= this.state.duration
       ) {
         data.play = false;
-        data.current = 0;
-        this.audio.currentTime = 0;
         this.audio.pause();
         LAST_CURRENT_PLAY_POSITION = "-1";
         this.setState(data);

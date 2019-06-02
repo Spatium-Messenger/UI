@@ -23,6 +23,7 @@ Todo:
   + Check file download
   + Audio message stop after 1 minute add time line!
   + Auto websocket reconnect
+  ~ Change audio acrhitecture
   Spoiled token
   Users menu in chat menu
   Delete from chat in chat menu
