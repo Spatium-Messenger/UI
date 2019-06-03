@@ -17,7 +17,8 @@ export interface IMessageServerDoc {
 
 export interface IChatServer {
   admin_id: number;
-  delete: boolean;
+  deleted: boolean;
+  banned: boolean;
   id: number;
   last_message: IMessageServer;
   last_message_time: number;

@@ -11,6 +11,8 @@
   // transition: 0.3s margin ease-in-out;
   border-left: 1px solid $gray;
   margin-right: 0px;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-preferences-close,
@@ -30,6 +32,35 @@
 .chat-preferences-loader{
   width: 30px;
   height: 20px;
+}
+
+.chat-preferences__exit{
+  display: flex;
+  justify-content: left;
+  padding-left: 10px;
+  height: 40px;
+  align-items: center;
+  cursor: pointer;
+
+  &>div:nth-child(1){
+    display: inline-block;
+    &>svg{
+      width: 18px;
+      height: 18px;
+      fill: $red;
+    }
+  }
+
+  &>div:nth-child(2){
+    font-size: 12px;
+    margin-left: 10px;
+    display: inline-block;
+    color: $red;
+  }
+
+  &:hover>div:nth-child(2){
+    text-decoration: underline;
+  }
 }
 
 

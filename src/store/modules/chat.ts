@@ -181,6 +181,26 @@ export default class ChatStoreModule implements IChatStore {
     }
   }
 
+  @action
+  public async deleteChatFromList(chatID: number) {
+    const answer: IAnswerError = await this.remoteAPI.chat.DeleteChatFromList(chatID);
+    if (answer.result !== "Error") {
+      this.loadChats();
+    } else {
+      console.error(answer);
+    }
+  }
+
+  @action
+  public async leaveChat(chatID: number) {
+    const answer: IAnswerError = await this.remoteAPI.chat.LeaveChat(chatID);
+    if (answer.result !== "Error") {
+      this.loadChats();
+    } else {
+      console.error(answer);
+    }
+  }
+
   public clear() {
     this.chats = [];
     this.currentChatID = -1;

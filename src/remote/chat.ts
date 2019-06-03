@@ -17,7 +17,8 @@ export class APIChat extends APIClass implements IAPIChat {
   private deleteFromDialogURL: string;
   private fullDeleteFromDialogURL: string;
   private recoveryUserInDialogURL: string;
-  private deleteChatFromList: string;
+  private deleteChatFromListURL: string;
+  private leaveChatURL: string;
   private getUsersForDialogURL: string;
 
   constructor(data: IAPIData) {
@@ -32,9 +33,10 @@ export class APIChat extends APIClass implements IAPIChat {
     this.recoveryUsersURL = p + "recoveryUsers";
     this.deleteFromDialogURL = p + "deleteFromDialog";
     this.recoveryUserInDialogURL = p + "recoveryUserInDialog";
-    this.deleteChatFromList = p + "deleteFromList";
+    this.deleteChatFromListURL = p + "deleteFromList";
     this.setSettingsURL = p + "setSettings";
     this.getUsersForDialogURL = p + "getUsersForDialog";
+    this.leaveChatURL = p + "leaveChat";
   }
 
   public async Get(): Promise<IAnswerError | IChat[]> {
@@ -49,7 +51,8 @@ export class APIChat extends APIClass implements IAPIChat {
           Name: e.name,
           New: e.view,
           AdminID: e.admin_id,
-          Delete: e.delete,
+          Deleted: e.deleted,
+          Banned: e.banned,
           Online: e.online,
           Type: e.type,
         });
@@ -166,8 +169,20 @@ export class APIChat extends APIClass implements IAPIChat {
     //
   }
 
-  public async DeleteChatFromList(chatID: number): Promise<void > {
-    //
+  public async LeaveChat(chatID: number): Promise<IAnswerError> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.leaveChatURL;
+    message.payload = {...message.payload,
+                       chat_id: chatID};
+    return super.Send(message);
+  }
+
+  public async DeleteChatFromList(chatID: number): Promise<IAnswerError > {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.deleteChatFromListURL;
+    message.payload = {...message.payload,
+                       chat_id: chatID};
+    return super.Send(message);
   }
 
   public async GetUsersForDialog(name: string): Promise<IFolk[]> {

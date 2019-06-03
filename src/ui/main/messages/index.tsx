@@ -38,7 +38,7 @@ export default class Window extends React.Component<IWindowProps> {
       );
     }
     const chat = this.props.store.chatStore.getChatData(chatID);
-    if (chat && chat.Delete) {
+    if (chat && chat.Banned) {
       return  <div className="window">
       <div className="window__empty"><div>
           <div

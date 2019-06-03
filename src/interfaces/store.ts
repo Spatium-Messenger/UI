@@ -67,6 +67,8 @@ export interface IChatStore {
   findUsersForDialog: (name: string) => void;
   blockUser: (userID: number) => void;
   unblockUser: (userID: number) => void;
+  deleteChatFromList: (chatID: number) => void;
+  leaveChat: (chatID: number) => void;
 }
 
 export interface IUserStore {

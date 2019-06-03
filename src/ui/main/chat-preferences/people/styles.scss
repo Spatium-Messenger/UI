@@ -1,5 +1,6 @@
 .chat-preferences-people{
-  height: calc(100% - 165px);
+  // height: calc(100% - 165px);
+  flex-grow: 1;
 }
 
 .chat-preferences-people__header{

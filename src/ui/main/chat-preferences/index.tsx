@@ -5,44 +5,45 @@ import ChatPreferencesUp from "./up";
 import ChatPreferencesPeople from "./people";
 import Loader from "src/ui/components/loader";
 import { IChat } from "src/models/chat";
+import languages from "src/language";
 require("./styles.scss");
+
+const exitIcon: string = require("assets/exit.svg");
 
 interface IChatPreferencesProps {
   store?: IRootStore;
 }
 
-@inject("store")
-@observer
-export default class ChatPreferences extends React.Component<IChatPreferencesProps> {
-  constructor(props) {
-    super(props);
+export default inject("store")(observer((props: IChatPreferencesProps) => {
+  if (props.store.chatStore.currentChatID === -1) {
+    return(<div/>);
   }
-  public render() {
-    if (this.props.store.chatStore.currentChatID === -1) {
-      return(<div/>);
-    }
-    const userID = this.props.store.userStore.data.ID;
-    const chatID = this.props.store.chatStore.currentChatID;
-    const messagesInfo = this.props.store.messagesStore.messages.get(chatID);
-    const currentChat: IChat | null = this.props.store.chatStore.getChatData(chatID);
-    if (!currentChat) {
-      return(<div/>);
-    }
 
-    const classname = "chat-preferences" + (this.props.store.appStore.chatMenu ? "-open" : "-close");
-    if (!messagesInfo || messagesInfo.loading) {
-      return <div className={classname + "-loading"}>
-              <div className="chat-preferences-loader">
-                <Loader/>
-              </div>
-            </div>;
-    }
-    const up = (currentChat.AdminID === userID ? <ChatPreferencesUp /> : <div/>);
-    return(
-      <div className={classname}>
-        {up}
-        <ChatPreferencesPeople />
-      </div>
-    );
+  const lang = languages.get(props.store.userStore.data.lang).chatPreferences;
+  const userID = props.store.userStore.data.ID;
+  const chatID = props.store.chatStore.currentChatID;
+  const messagesInfo = props.store.messagesStore.messages.get(chatID);
+  const currentChat: IChat | null = props.store.chatStore.getChatData(chatID);
+
+  const classname = "chat-preferences" + (props.store.appStore.chatMenu ? "-open" : "-close");
+  if (!messagesInfo || messagesInfo.loading) {
+    return <div className={classname + "-loading"}>
+            <div className="chat-preferences-loader">
+              <Loader/>
+            </div>
+          </div>;
   }
-}
+  const deleteFromChat = () => props.store.chatStore.leaveChat(chatID);
+  const up = (currentChat.AdminID === userID ? <ChatPreferencesUp /> : <div/>);
+
+  return(
+    <div className={classname}>
+      {up}
+      <ChatPreferencesPeople />
+      <div className="chat-preferences__exit" onClick={deleteFromChat}>
+        <div dangerouslySetInnerHTML={{__html: exitIcon}}/>
+        <div>{lang.deleteFromChat}</div>
+      </div>
+    </div>
+  );
+}));

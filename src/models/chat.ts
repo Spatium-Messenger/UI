@@ -12,7 +12,8 @@ export interface IChat {
   New: number;
   Online: number;
   AdminID: number;
-  Delete: boolean;
+  Deleted: boolean;
+  Banned: boolean;
   Type: ChatTypes;
 }
 
