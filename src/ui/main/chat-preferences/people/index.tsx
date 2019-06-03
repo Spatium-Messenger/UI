@@ -83,6 +83,14 @@ export default class ChatPreferencesPeople extends React.Component<
   }
 
   private choose(id: number) {
+    const chatStore = this.props.store.chatStore;
+    if (
+      chatStore.currentChatID !== -1 &&
+      chatStore.getChatData(chatStore.currentChatID) &&
+      chatStore.getChatData(chatStore.currentChatID).AdminID !== this.props.store.userStore.data.ID
+      ) {
+        return;
+    }
     this.setState({
       choosen: id,
     });
