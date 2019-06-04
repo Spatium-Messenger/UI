@@ -23,10 +23,12 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
     const mess = this.props.data;
     const showAuthorName = (this.props.lastAuthorID !== mess.AuthorID);
     const lang: ILanguageMessagesWindow = this.props.messageLang;
-
     if (mess.Content.Type === IMessageType.System) {
       let content: string = "";
       switch (mess.Content.Command) {
+        case IMessageSystemCommands.Null:
+          content = lang.messageCommands.null;
+          break;
         case IMessageSystemCommands.UserCreatedChat:
           content = lang.messageCommands.userCreatedChat;
           break;
@@ -39,9 +41,21 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
         case IMessageSystemCommands.UserInsertedToChannel:
           content = lang.messageCommands.userInvitedChannel;
           break;
+        case IMessageSystemCommands.UserInsertedToDialog:
+          content = lang.messageCommands.userInsertedToDialog;
+          break;
+        case IMessageSystemCommands.UserCreatedDialog:
+          content = lang.messageCommands.userCreatedDialog;
+          break;
+        case IMessageSystemCommands.UserLeaveChat:
+          content = lang.messageCommands.userLeaveChat;
+          break;
+        case IMessageSystemCommands.UserReturnsToChat:
+          content = lang.messageCommands.userReturnsToChat;
+          break;
       }
       return (
-      <div className={"system-message"}>
+      <div className="system-message">
         <div className="system-message__content">{mess.AuthorName} {content}</div>
       </div>
       );

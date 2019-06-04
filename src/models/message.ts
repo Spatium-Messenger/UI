@@ -44,8 +44,15 @@ export enum IMessageType {
 }
 
 export enum IMessageSystemCommands {
-  UserInsertedInChat = 1,
+  Null = 0,
+  UserInsertedInChat,
   UserCreatedChat,
   UserInsertedToChannel,
   UserCreatedChannel,
+  UserInsertedToDialog,
+  UserCreatedDialog,
+  UserLeaveChat,
+  UserReturnsToChat,
+  UserWasBanned,
+  UserWasUnbanned,
 }

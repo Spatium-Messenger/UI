@@ -52,10 +52,17 @@ export interface ILanguageMessagesWindow {
     online: string;
   };
   messageCommands: {
+    null: string;
     userCreatedChat: string;
     userCreatedChannel: string;
     userInvitedChat: string;
     userInvitedChannel: string;
+    userInsertedToDialog: string;
+    userCreatedDialog: string;
+    userLeaveChat: string;
+    userReturnsToChat: string;
+    userWasBanned: string;
+    userWasUnbanned: string;
   };
 }
 

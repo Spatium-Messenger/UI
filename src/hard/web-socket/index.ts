@@ -81,7 +81,7 @@ export default class WebSocketAPI implements IWebSocket {
           content: {
             content: message.Content.Message,
             documents: message.Content.Documents,
-            type: "u_msg",
+            type: IMessageType.User,
           },
           token: this.data.Token,
         },
@@ -201,7 +201,7 @@ export default class WebSocketAPI implements IWebSocket {
       Content: {
         Documents: docs,
         Message: m.message.content,
-        Type: IMessageType.User,
+        Type: m.message.type,
         Command: m.message.command,
       },
       ID: m.id,

@@ -74,7 +74,7 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
         if (earlyMessage.Content.Type !==  IMessageType.User) {
           lastAuhtorID = -1;
         }
-        if (v.Time - earlyMessage.Time > 60) {
+        if (v.Time - earlyMessage.Time > SECONDS_IN_DAY * 1000) {
           // IF messages were sended in different days
           if (Math.round(v.Time / SECONDS_IN_DAY) !== Math.round(earlyMessage.Time / SECONDS_IN_DAY)) {
             messagesComponents.push(
@@ -125,7 +125,8 @@ export default class WindowContent extends React.Component<IWindowContentProps> 
     this.contentRef.current.scrollTo(0, needScroll);
   }
 
-  private getDate(unixTimestamp): string {
+  private getDate(unixNanoTimestamp): string {
+    const unixTimestamp = unixNanoTimestamp / 1000;
     const monthNames: string[] = languages.get(this.props.store.userStore.data.lang).messages.months;
     const now = new Date();
     /* convert to msec

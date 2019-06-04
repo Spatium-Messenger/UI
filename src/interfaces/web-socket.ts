@@ -18,7 +18,7 @@ export interface IWebSocketUserMessage {
     content: {
       content: string;
       documents: number[];
-      type: string;
+      type: number;
     };
     token: string;
   };
@@ -37,7 +37,7 @@ export interface IWebSocketUserMessageRecieve {
   message: {
     content: string;
     documents: number[];
-    type: string;
+    type: number;
   };
   author_id: number;
   author_name: string;

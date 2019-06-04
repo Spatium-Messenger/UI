@@ -54,10 +54,17 @@ const ru: ILanguage = {
       online: "Онлайн",
     },
     messageCommands: {
+      null: "что-то сделал ...",
       userCreatedChat: "создал чат",
       userCreatedChannel: "создал канал",
       userInvitedChat: "был приглашен в чат",
       userInvitedChannel: "был приглашен в канал",
+      userInsertedToDialog: "был приглашен в диалог",
+      userCreatedDialog: "создал диалог",
+      userLeaveChat: "покинул чат",
+      userReturnsToChat: "вернулся в чат",
+      userWasBanned: "был забанен",
+      userWasUnbanned: "был разбанен",
     },
   },
   chatPreferences: {

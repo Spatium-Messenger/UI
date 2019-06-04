@@ -1,7 +1,7 @@
 export interface IMessageServer {
   content: string;
   documents: IMessageServerDoc[];
-  type: string;
+  type: number;
   command: number;
 }
 
