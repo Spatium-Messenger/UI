@@ -10,8 +10,6 @@ export default class Loader extends React.Component<{}> {
       <div className="loader">
         <div/>
         <div/>
-        <div/>
-        <div/>
       </div>
     );
   }
