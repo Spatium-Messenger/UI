@@ -27,9 +27,16 @@ export default class MessagesStore implements IMessagesStore {
 
   @action
   public async loadMessages(chatID: number) {
-    const chatMessagesInfo: IChatsMessages = this.messages.get(chatID);
-    if (chatMessagesInfo.allLoaded) {
+    let chatMessagesInfo: IChatsMessages = this.messages.get(chatID);
+    if (chatMessagesInfo && chatMessagesInfo.allLoaded) {
       return;
+    }
+    if (!chatMessagesInfo) {
+      chatMessagesInfo = {
+        allLoaded: false,
+        loading: true,
+        messages: [],
+      };
     }
     const lastID: number = (chatMessagesInfo.messages.length === 0 ?
       0 :
@@ -55,6 +62,7 @@ export default class MessagesStore implements IMessagesStore {
 
   private newMessage(data: IMessage) {
     const chatMessagesInfo: IChatsMessages = this.messages.get(data.ChatID);
+    if (!chatMessagesInfo) {return; }
     chatMessagesInfo.messages = [...chatMessagesInfo.messages, data];
     this.messages.set(data.ChatID, chatMessagesInfo);
   }

@@ -94,7 +94,10 @@ export default class ChatStoreModule implements IChatStore {
     const answer: IAnswerError = await this.remoteAPI.chat.Create(ChatsTypes.Chat, name);
     if (answer.result !== "Error") {
       this.rootStore.appStore.changeModal(MODALS_ID.NULL);
-      this.loadChats();
+      await this.pureLoadChats();
+
+    } else {
+      console.error(answer);
     }
   }
 
@@ -226,6 +229,19 @@ export default class ChatStoreModule implements IChatStore {
     if ((chats as IAnswerError).result !== "Error") {
       this.chats = (chats as IChat[]);
     }
+    this.chats.forEach((v) => {
+      if (!this.rootStore.messagesStore.messages.get(v.ID)) {
+        this.rootStore.messagesStore.messages.set(v.ID, {
+          allLoaded: false,
+          messages: [],
+          loading: false,
+        });
+        this.rootStore.inputStore.chatsInputData.set(v.ID, {
+          documents: [],
+          text: "",
+        });
+      }
+    });
   }
 
 }
