@@ -7,7 +7,7 @@ import WebSocketAPI from "./hard/web-socket";
 import { IWebSocket } from "./interfaces/web-socket";
 import { ILocalStorage } from "./interfaces/local-storage";
 import LocalStorage from "./hard/local-storage";
-import { GenerateKeys, Test } from "./hard/crypto";
+// import { GenerateKeys, Test } from "./hard/crypto";
 import config from "./config";
 
 const URL = "https://192.168.1.38:3030";

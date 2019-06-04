@@ -20,7 +20,6 @@ export default class MessagesStore implements IMessagesStore {
     this.remoteApi = rootStore.remoteAPI;
     this.webSocketConnect = rootStore.webScoketConnection;
     this.webSocketConnect.OnMessage = this.newMessage.bind(this);
-    this.webSocketConnect.OnUserInsertedToChat = this.userInsertedToChat.bind(this);
 
     this.messages = new Map<number, IChatsMessages>();
   }
@@ -67,7 +66,4 @@ export default class MessagesStore implements IMessagesStore {
     this.messages.set(data.ChatID, chatMessagesInfo);
   }
 
-  private userInsertedToChat(message: IServerActionUserInserted) {
-    this.loadMessages(message.ChatID);
-  }
 }

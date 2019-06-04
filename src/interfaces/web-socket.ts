@@ -1,12 +1,13 @@
 import { IMessage, IMessageSend } from "src/models/message";
+import { OnlineUserAction } from "./store";
 
 export interface IWebSocket {
   SendMessage: (message: IMessageSend) => void;
   OnMessage: (data: IMessage) => void;
-  OnActionOnlineUser: (data: IServerActionOnlineUser) => void;
-  OnUserInsertedToChat: (data: IServerActionUserInserted) => void;
+  OnActionOnlineUser: (chats: number[], w: OnlineUserAction) => void;
+  OnUserInsertedToChat: () => void;
+  OnClosed: () => void;
   CreateConnection: () => void;
-  Auth: () => void;
   CloseConnection: () => void;
   GetKey: () => (CryptoKey | null);
 }
@@ -64,9 +65,8 @@ export interface IWebSocketSystemMessageAuth {
 export interface IWebSocketSystemMessageOnline {
   action: string;
   chats: number[];
-  self: boolean;
-  type: string;
   mtype: string;
+  move: OnlineUserAction;
 }
 
 export enum IwebSocketSystemCommands {
@@ -83,14 +83,8 @@ export interface IWebSocketSystemMessageUserInsertedToChat {
   mtype: string;
 }
 
-export enum OnlineUserAction {
-  Reduce,
-  Increase,
-}
-
 export interface IServerActionOnlineUser {
   Chats: number[];
-  Self: boolean;
   Type: OnlineUserAction;
 }
 

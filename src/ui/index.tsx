@@ -1,10 +1,10 @@
 import * as React from "react";
-import Store from "src/store";
+import Store from "src/ui/store";
 
 import { IAPI } from "src/interfaces/api";
-import {IRootStore} from "src/store/interfeces";
+import {IRootStore} from "src/ui/store/interfeces";
 import { render } from "react-dom";
-import { observer, inject, Provider } from "mobx-react";
+import { Provider } from "mobx-react";
 
 import { ICookie } from "src/interfaces/cookie";
 

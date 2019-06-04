@@ -15,6 +15,11 @@ export enum MODALS_ID {
   NULL,
 }
 
+export enum OnlineUserAction {
+  Reduce,
+  Increase,
+}
+
 export interface IAppStore {
   modal: MODALS_ID;
   changeModal: (type: MODALS_ID) => void;

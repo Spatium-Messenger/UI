@@ -48,6 +48,10 @@
 
 .sidebar-item__info__name{
   font-size: 12px;
+  width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .sidebar-item__additional__new{

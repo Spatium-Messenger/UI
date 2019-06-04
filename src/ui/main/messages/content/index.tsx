@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
 import IMessageUnit from "./message";
-import { IRootStore } from "src/store/interfeces";
+import { IRootStore } from "src/ui/store/interfeces";
 import { IMessageType, IMessage } from "src/models/message";
 import languages from "src/language";
 import Loader from "src/ui/components/loader";

@@ -4,7 +4,6 @@ import {
   IWebSocketSystemMessage,
   IWebSocketSystemMessageOnline,
   IServerActionOnlineUser,
-  OnlineUserAction,
   IWebSocketSystemMessageUserInsertedToChat,
   IServerActionUserInserted,
   IWebSocketEncryptedMessage,
@@ -18,6 +17,7 @@ import {
 } from "src/models/message";
 import { IIMessageServer } from "src/remote/interfaces";
 import { DecryptMessage } from "../crypto";
+import { OnlineUserAction } from "src/interfaces/store";
 
 const ERROR_CONNECTION_TRY_LIMIT: string = "WS Error connection limit";
 const ERROR_AUTH_CONNECT_OR_TOKEN: string =
@@ -38,38 +38,42 @@ const WS_ENCRYPTED_MESSAGE: string = "encrypted";
 const WS_ACTION_AUTH = "auth";
 const WS_ACTION_ONLINE_USER = "online_user";
 const WS_ACTION_USER_INVITED_CHAT = "user_inserted";
+const WS_ACTION_USER_ADDED_TO_CHAT = "add_in_chat";
 
 export default class WebSocketAPI implements IWebSocket {
-  private data: IWebSocketData;
-  private socket: WebSocket;
-  private onMessage: (message: IMessage) => void;
-  private onActionOnlineUser: (data: IServerActionOnlineUser) => void;
-  private onUserInsertedToChat: (data: IServerActionUserInserted) => void;
-  private connected: boolean;
-  private auth: boolean;
-  private tryLimit: number;
-  private key: CryptoKey;
-  constructor(data: IWebSocketData) {
-    this.data = data;
-    this.connected = false;
-    this.auth = false;
-    this.tryLimit = 5;
-  }
-
-  public GetKey() {
-    return this.key;
-  }
 
   set OnMessage(fn: (data: IMessage) => void) {
     this.onMessage = fn;
   }
 
-  set OnActionOnlineUser(fn: (data: IServerActionOnlineUser) => void) {
+  set OnActionOnlineUser(fn: (chats: number[]) => void) {
     this.onActionOnlineUser = fn;
   }
 
-  set OnUserInsertedToChat(fn: (data: IServerActionUserInserted) => void) {
+  set OnUserInsertedToChat(fn: () => void) {
     this.onUserInsertedToChat = fn;
+  }
+
+  set OnClosed(fn: () => void) {
+    this.closed = fn;
+  }
+
+  private data: IWebSocketData;
+  private socket: WebSocket;
+  private onMessage: (message: IMessage) => void;
+  private onActionOnlineUser: (chats: number[], w: OnlineUserAction) => void;
+  private onUserInsertedToChat: () => void;
+  private closed: () => void;
+  private connected: boolean = false;
+  private authed: boolean = false;
+  private tryLimit: number = 5;
+  private key: CryptoKey;
+  constructor(data: IWebSocketData) {
+    this.data = data;
+  }
+
+  public GetKey() {
+    return this.key;
   }
 
   public async SendMessage(message: IMessageSend) {
@@ -104,12 +108,13 @@ export default class WebSocketAPI implements IWebSocket {
       }
       this.connected = true;
       this.tryLimit = 5;
-      this.Auth();
+      this.auth();
     };
 
     this.socket.onclose = () => {
+      this.closed();
       this.connected = false;
-      this.auth = false;
+      this.authed = false;
       this.deferredConnection();
     };
 
@@ -123,11 +128,17 @@ export default class WebSocketAPI implements IWebSocket {
     };
   }
 
-  public async Auth() {
+  public CloseConnection() {
+    this.connected = false;
+    this.authed = false;
+    this.socket.close();
+  }
+
+  private async auth() {
     if (this.connected) {
-      console.log(this.data.Token);
+      // console.log(this.data.Token);
       if (this.data.Token === "") {
-        setTimeout(this.Auth, 500);
+        setTimeout(this.auth, 500);
         return;
       }
       const serialMessage: string = JSON.stringify({
@@ -146,12 +157,6 @@ export default class WebSocketAPI implements IWebSocket {
     }
   }
 
-  public CloseConnection() {
-    this.socket.close();
-    this.connected = false;
-    this.auth = false;
-  }
-
   private async deferredConnection() {
     await new Promise((res) => setTimeout(res, 3000));
     this.tryLimit--;
@@ -164,6 +169,7 @@ export default class WebSocketAPI implements IWebSocket {
   }
 
   private MessageHandle(data: string) {
+    if (!this.connected) {return; }
     const wmessage: IWebSocketSystemMessage | IIMessageServer | IWebSocketEncryptedMessage = JSON.parse(data);
     switch ((wmessage as IWebSocketSystemMessage).mtype) {
       case WS_SYSTEM_MESSAGE:
@@ -214,7 +220,7 @@ export default class WebSocketAPI implements IWebSocket {
     switch (message.action) {
       case WS_ACTION_AUTH:
         if (message.result === WS_AUTH_SUCCESS_RESULT) {
-          this.auth = true;
+          this.authed = true;
           if (this.data.Logs) {
             console.log("User was authed with server by WS.");
           }
@@ -222,20 +228,10 @@ export default class WebSocketAPI implements IWebSocket {
         break;
       case WS_ACTION_ONLINE_USER:
         const WAOUmessage: IWebSocketSystemMessageOnline = message as IWebSocketSystemMessageOnline;
-        const OUmessage: IServerActionOnlineUser = {
-          Chats: WAOUmessage.chats,
-          Self: WAOUmessage.self,
-          Type:
-            WAOUmessage.type === WS_ACTION_ONLINE_USER_ADDED
-              ? OnlineUserAction.Increase
-              : OnlineUserAction.Reduce,
-        };
-        this.onActionOnlineUser(OUmessage);
+        this.onActionOnlineUser(WAOUmessage.chats, WAOUmessage.move);
         break;
-      case WS_ACTION_USER_INVITED_CHAT:
-        this.onUserInsertedToChat({
-          ChatID: (message as IWebSocketSystemMessageUserInsertedToChat).chat_id,
-        });
+      case WS_ACTION_USER_ADDED_TO_CHAT:
+        this.onUserInsertedToChat();
         break;
     }
   }

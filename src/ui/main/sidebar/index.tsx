@@ -2,7 +2,7 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import UpPanel from "./up";
 import { IChat } from "src/models/chat";
-import { IRootStore } from "src/store/interfeces";
+import { IRootStore } from "src/ui/store/interfeces";
 import languages from "src/language";
 import { ILanguage } from "src/language/interface";
 import Loader from "src/ui/components/loader";

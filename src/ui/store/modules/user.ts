@@ -119,7 +119,6 @@ export default class UserStoreModule implements IUserStore {
     this.webScoketConnection.CreateConnection();
     await this.getUserID();
     await this.loadAllData();
-    this.webScoketConnection.Auth();
   }
 
   private async loadAllData() {

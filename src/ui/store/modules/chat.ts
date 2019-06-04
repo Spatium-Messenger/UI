@@ -1,5 +1,5 @@
 import { observable, action} from "mobx";
-import { IChatStore, MODALS_ID} from "src/interfaces/store";
+import { IChatStore, MODALS_ID, OnlineUserAction} from "src/interfaces/store";
 import { IChat, IChatUser } from "src/models/chat";
 import { IAPI, IAnswerError } from "src/interfaces/api";
 import { ChatsTypes } from "src/interfaces/api/chat";
@@ -22,6 +22,8 @@ export default class ChatStoreModule implements IChatStore {
     this.rootStore = rootStore;
     this.webScoketConnection = rootStore.webScoketConnection;
     this.webScoketConnection.OnActionOnlineUser = this.newOnlineUser.bind(this);
+    this.webScoketConnection.OnUserInsertedToChat = this.userInsertedInChat.bind(this);
+    this.webScoketConnection.OnClosed = this.onlineNullabel.bind(this);
     this.chats = [];
     this.usersForDialog = [];
     this.currentChatID = 1;
@@ -220,8 +222,27 @@ export default class ChatStoreModule implements IChatStore {
     this.users.clear();
   }
 
-  private newOnlineUser(data: IServerActionOnlineUser) {
-    // Useless now
+  private newOnlineUser(chats: number[], w: OnlineUserAction) {
+    console.log("NewOnlineUser - ", chats);
+    chats.forEach((v) => {
+      this.chats.forEach((c) => {
+        if (v === c.ID) {
+          (w === OnlineUserAction.Increase ?
+          c.Online++ :
+          (c.Online > 0 ? c.Online-- : c.Online = c.Online));
+        }
+      });
+    });
+  }
+
+  private onlineNullabel() {
+      this.chats.forEach((c) => {
+        c.Online = 0;
+      });
+  }
+
+  private userInsertedInChat() {
+    this.pureLoadChats();
   }
 
   private async pureLoadChats() {
