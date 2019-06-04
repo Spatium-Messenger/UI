@@ -9,6 +9,8 @@ import languages from "src/language";
 require("./styles.scss");
 
 const exitIcon: string = require("assets/exit.svg");
+const back: string = require("assets/back-arrow.svg");
+const arhive: string = require("assets/archive-black-box.svg");
 
 interface IChatPreferencesProps {
   store?: IRootStore;
@@ -20,7 +22,7 @@ export default inject("store")(observer((props: IChatPreferencesProps) => {
   }
 
   const lang = languages.get(props.store.userStore.data.lang).chatPreferences;
-  const userID = props.store.userStore.data.ID;
+  // const userID = props.store.userStore.data.ID;
   const chatID = props.store.chatStore.currentChatID;
   const messagesInfo = props.store.messagesStore.messages.get(chatID);
   const currentChat: IChat | null = props.store.chatStore.getChatData(chatID);
@@ -33,12 +35,29 @@ export default inject("store")(observer((props: IChatPreferencesProps) => {
             </div>
           </div>;
   }
+
+  if (currentChat && currentChat.Deleted) {
+    const returnToChat = () => props.store.chatStore.turnBackToChat(chatID);
+    const deleteFromList = () => props.store.chatStore.deleteChatFromList(chatID);
+
+    return <div className={classname}>
+     <ChatPreferencesUp />
+       <div className="chat-preferences__return-to-chat" onClick={returnToChat}>
+        <div dangerouslySetInnerHTML={{__html: back}}/>
+        <div>{lang.turnBackToChat}</div>
+      </div>
+      <div className="chat-preferences__delete_from_list" onClick={deleteFromList}>
+        <div dangerouslySetInnerHTML={{__html: arhive}}/>
+        <div>{lang.deleteFromList}</div>
+      </div>
+    </div>;
+  }
+
   const deleteFromChat = () => props.store.chatStore.leaveChat(chatID);
-  const up = (currentChat.AdminID === userID ? <ChatPreferencesUp /> : <div/>);
 
   return(
     <div className={classname}>
-      {up}
+      <ChatPreferencesUp />
       <ChatPreferencesPeople />
       <div className="chat-preferences__exit" onClick={deleteFromChat}>
         <div dangerouslySetInnerHTML={{__html: exitIcon}}/>

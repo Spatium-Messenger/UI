@@ -195,7 +195,17 @@ export default class ChatStoreModule implements IChatStore {
   public async leaveChat(chatID: number) {
     const answer: IAnswerError = await this.remoteAPI.chat.LeaveChat(chatID);
     if (answer.result !== "Error") {
-      this.loadChats();
+      this.pureLoadChats();
+    } else {
+      console.error(answer);
+    }
+  }
+
+  @action
+  public async turnBackToChat(chatID: number) {
+    const answer: IAnswerError = await this.remoteAPI.chat.TurnBackToChat(chatID);
+    if (answer.result !== "Error") {
+      this.pureLoadChats();
     } else {
       console.error(answer);
     }
@@ -209,6 +219,13 @@ export default class ChatStoreModule implements IChatStore {
 
   private newOnlineUser(data: IServerActionOnlineUser) {
     // Useless now
+  }
+
+  private async pureLoadChats() {
+    const chats: IAnswerError | IChat[] = await this.remoteAPI.chat.Get();
+    if ((chats as IAnswerError).result !== "Error") {
+      this.chats = (chats as IChat[]);
+    }
   }
 
 }

@@ -72,6 +72,8 @@ const en: ILanguage = {
       unban: "Unban user",
     },
     deleteFromChat: "Get out of the conversationt",
+    deleteFromList: "Delete chat from menu",
+    turnBackToChat: "Return to chat",
   },
   popups: {
     createChat: {

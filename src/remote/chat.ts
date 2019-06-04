@@ -1,5 +1,5 @@
 import { IAPIChat, ChatsTypes, IAPIChatsUser, IAPIUsersForAdd } from "src/interfaces/api/chat";
-import { IAPIData, IAnswerError } from "src/interfaces/api";
+import { IAPIData, IAnswerError, IAPI } from "src/interfaces/api";
 import APIClass, { IAPIClassCallProps } from "./remote.api.base";
 import { IChat, IChatUser } from "src/models/chat";
 import { IChatServer } from "./interfaces";
@@ -20,6 +20,7 @@ export class APIChat extends APIClass implements IAPIChat {
   private deleteChatFromListURL: string;
   private leaveChatURL: string;
   private getUsersForDialogURL: string;
+  private turnBackToChatURL: string;
 
   constructor(data: IAPIData) {
     super(data);
@@ -37,6 +38,7 @@ export class APIChat extends APIClass implements IAPIChat {
     this.setSettingsURL = p + "setSettings";
     this.getUsersForDialogURL = p + "getUsersForDialog";
     this.leaveChatURL = p + "leaveChat";
+    this.turnBackToChatURL = p + "turnBackToChat";
   }
 
   public async Get(): Promise<IAnswerError | IChat[]> {
@@ -172,6 +174,14 @@ export class APIChat extends APIClass implements IAPIChat {
   public async LeaveChat(chatID: number): Promise<IAnswerError> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
     message.uri = this.leaveChatURL;
+    message.payload = {...message.payload,
+                       chat_id: chatID};
+    return super.Send(message);
+  }
+
+  public async TurnBackToChat(chatID: number): Promise<IAnswerError> {
+    const message: IAPIClassCallProps = super.GetDefaultMessage();
+    message.uri = this.turnBackToChatURL;
     message.payload = {...message.payload,
                        chat_id: chatID};
     return super.Send(message);

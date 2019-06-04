@@ -82,6 +82,8 @@ interface ILanguageChatPreferences {
     unban: string;
   };
   deleteFromChat: string;
+  deleteFromList: string;
+  turnBackToChat: string;
 }
 
 interface ILanguagePopups {

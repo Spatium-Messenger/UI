@@ -34,7 +34,9 @@
   height: 20px;
 }
 
-.chat-preferences__exit{
+.chat-preferences__exit,
+.chat-preferences__return-to-chat,
+.chat-preferences__delete_from_list{
   display: flex;
   justify-content: left;
   padding-left: 10px;
@@ -63,6 +65,29 @@
   }
 }
 
+.chat-preferences__return-to-chat{
+  &>div:nth-child(1){
+    &>svg{
+      fill: $green;
+    }
+  }
+
+  &>div:nth-child(2){
+    color: $green;
+  }
+}
+
+.chat-preferences__delete_from_list{
+  &>div:nth-child(1){
+    &>svg{
+      fill: $ultra_active;
+    }
+  }
+
+  &>div:nth-child(2){
+    color: $ultra_active;
+  }
+}
 
 @media screen and (min-width: 992px) {
   .chat-preferences-close,

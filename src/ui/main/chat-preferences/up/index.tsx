@@ -50,25 +50,32 @@ export default class ChatPreferencesUp extends React.Component<IChatPreferencesU
 
   public render() {
     const lang = languages.get(this.props.store.userStore.data.lang).chatPreferences;
+    let info =  <div className="chat-preferences-up__body__info">
+      <input
+        tabIndex={-1}
+        type="text"
+        onChange={this.input}
+        placeholder={lang.up.placeholder}
+        value={this.state.input}
+      />
+      <div
+        dangerouslySetInnerHTML={{__html: saveIcon}}
+        onClick={this.save}
+      />
+    </div>;
+    const chatData = this.props.store.chatStore.getChatData(this.props.store.chatStore.currentChatID);
+    if (chatData && chatData.AdminID !== this.props.store.userStore.data.ID) {
+      info = <div/>;
+    }
+    // info = (this.props.store.userStore.data.ID )
+
     return(
       <div className="chat-preferences-up">
         <div className="chat-preferences-up__body">
           <div className="chat-preferences-up__body__header">
             {lang.up.header}
           </div>
-          <div className="chat-preferences-up__body__info">
-            <input
-              tabIndex={-1}
-              type="text"
-              onChange={this.input}
-              placeholder={lang.up.placeholder}
-              value={this.state.input}
-            />
-            <div
-              dangerouslySetInnerHTML={{__html: saveIcon}}
-              onClick={this.save}
-            />
-          </div>
+          {info}
         </div>
       </div>
     );

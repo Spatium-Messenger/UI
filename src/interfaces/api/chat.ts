@@ -35,5 +35,6 @@ export interface IAPIChat {
   RecoveryUserInDialog: (chatID: number) => Promise<void>;
   DeleteChatFromList: (chatID: number) => Promise<IAnswerError>;
   GetUsersForDialog: (name: string) => Promise<IFolk[]>;
-  LeaveChat: (cahtID: number) => Promise<IAnswerError>;
+  LeaveChat: (chatID: number) => Promise<IAnswerError>;
+  TurnBackToChat: (chatID: number) => Promise<IAnswerError>;
 }

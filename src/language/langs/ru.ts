@@ -72,6 +72,8 @@ const ru: ILanguage = {
       unban: "Разблокировать",
     },
     deleteFromChat: "Выйти из беседы",
+    deleteFromList: "Удалить чат из меню",
+    turnBackToChat: "Вернуться в чат",
   },
   popups: {
     createChat: {
