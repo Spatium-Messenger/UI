@@ -6,6 +6,8 @@ export interface IWebSocket {
   OnMessage: (data: IMessage) => void;
   OnActionOnlineUser: (chats: number[], w: OnlineUserAction) => void;
   OnUserInsertedToChat: () => void;
+  OnUserLeaveChat: () => void;
+  OnUserReturnChat: () => void;
   OnClosed: () => void;
   CreateConnection: () => void;
   CloseConnection: () => void;

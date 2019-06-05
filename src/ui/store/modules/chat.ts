@@ -21,9 +21,7 @@ export default class ChatStoreModule implements IChatStore {
     this.remoteAPI = rootStore.remoteAPI;
     this.rootStore = rootStore;
     this.webScoketConnection = rootStore.webScoketConnection;
-    this.webScoketConnection.OnActionOnlineUser = this.newOnlineUser.bind(this);
-    this.webScoketConnection.OnUserInsertedToChat = this.userInsertedInChat.bind(this);
-    this.webScoketConnection.OnClosed = this.onlineNullabel.bind(this);
+    this.bindCallbacks();
     this.chats = [];
     this.usersForDialog = [];
     this.currentChatID = 1;
@@ -222,6 +220,17 @@ export default class ChatStoreModule implements IChatStore {
     this.users.clear();
   }
 
+  private bindCallbacks() {
+    if (!this.webScoketConnection) {
+      return;
+    }
+    this.webScoketConnection.OnActionOnlineUser = this.newOnlineUser.bind(this);
+    this.webScoketConnection.OnUserInsertedToChat = this.userInsertedInChat.bind(this);
+    this.webScoketConnection.OnUserLeaveChat = this.userReturnOrLeaveChat.bind(this);
+    this.webScoketConnection.OnUserReturnChat = this.userReturnOrLeaveChat.bind(this);
+    this.webScoketConnection.OnClosed = this.onlineNullabel.bind(this);
+  }
+
   private newOnlineUser(chats: number[], w: OnlineUserAction) {
     console.log("NewOnlineUser - ", chats);
     chats.forEach((v) => {
@@ -242,6 +251,10 @@ export default class ChatStoreModule implements IChatStore {
   }
 
   private userInsertedInChat() {
+    this.pureLoadChats();
+  }
+
+  private userReturnOrLeaveChat() {
     this.pureLoadChats();
   }
 

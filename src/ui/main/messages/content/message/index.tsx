@@ -53,6 +53,12 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
         case IMessageSystemCommands.UserReturnsToChat:
           content = lang.messageCommands.userReturnsToChat;
           break;
+        case IMessageSystemCommands.UserWasBanned:
+          content = lang.messageCommands.userWasBanned;
+          break;
+        case IMessageSystemCommands.UserWasUnbanned:
+          content = lang.messageCommands.userWasUnbanned;
+          break;
       }
       return (
       <div className="system-message">

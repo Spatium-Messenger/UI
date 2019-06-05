@@ -26,11 +26,12 @@ Todo:
   + Delete from chat in chat menu
   + If user delete from chat, show "delete chat from list" and "recovery"
   Fix bug in invite people, after adding new user admin is show
-  Notifications about invitation and block in chat
+  + Notifications about invitation and block in chat
   + Only admin should have access to user's menu in chat preferences
   Disposabel link checking in audio message
-  Check online number change in chat header, WS recieve system messages but number doesnt change
-  Update after invite user
+  + Check online number change in chat header, WS recieve system messages but number doesnt change
+  + Update after invite user
+  Dont show "return to chat" if user was banned
 
   
 

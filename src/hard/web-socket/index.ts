@@ -25,20 +25,18 @@ const ERROR_AUTH_CONNECT_OR_TOKEN: string =
 
 const WS_AUTH_SUCCESS_RESULT = "Success";
 
-const WS_ACTION_ONLINE_USER_ADDED = "+";
-
 const WS_SEND_LOG: string = "WS Sent message: ";
 const WS_RECIEVE_LOG: string = "WS Recieved message:";
 
 const WS_SYSTEM_MESSAGE: string = "system";
 const WS_USER_MESSAGE: string = "user";
 const WS_ENCRYPTED_MESSAGE: string = "encrypted";
-// const WS_ACTION_
 
 const WS_ACTION_AUTH = "auth";
 const WS_ACTION_ONLINE_USER = "online_user";
-const WS_ACTION_USER_INVITED_CHAT = "user_inserted";
 const WS_ACTION_USER_ADDED_TO_CHAT = "add_in_chat";
+const WS_ACTION_USER_LEAVE_CHAT = "leave_chat";
+const WS_ACTION_USER_RETURN_CHAT = "return_chat";
 
 export default class WebSocketAPI implements IWebSocket {
 
@@ -58,11 +56,21 @@ export default class WebSocketAPI implements IWebSocket {
     this.closed = fn;
   }
 
+  set OnUserLeaveChat(fn: () => void) {
+    this.onUserLeaveChat = fn;
+  }
+
+  set OnUserReturnChat(fn: () => void) {
+    this.onUserReturnChat = fn;
+  }
+
   private data: IWebSocketData;
   private socket: WebSocket;
   private onMessage: (message: IMessage) => void;
   private onActionOnlineUser: (chats: number[], w: OnlineUserAction) => void;
   private onUserInsertedToChat: () => void;
+  private onUserLeaveChat: () => void;
+  private onUserReturnChat: () => void;
   private closed: () => void;
   private connected: boolean = false;
   private authed: boolean = false;
@@ -228,10 +236,24 @@ export default class WebSocketAPI implements IWebSocket {
         break;
       case WS_ACTION_ONLINE_USER:
         const WAOUmessage: IWebSocketSystemMessageOnline = message as IWebSocketSystemMessageOnline;
-        this.onActionOnlineUser(WAOUmessage.chats, WAOUmessage.move);
+        if (this.onActionOnlineUser) {
+          this.onActionOnlineUser(WAOUmessage.chats, WAOUmessage.move);
+        }
         break;
       case WS_ACTION_USER_ADDED_TO_CHAT:
-        this.onUserInsertedToChat();
+        if (this.onUserInsertedToChat) {
+          this.onUserInsertedToChat();
+        }
+        break;
+      case WS_ACTION_USER_LEAVE_CHAT:
+        if (this.onUserLeaveChat) {
+          this.onUserLeaveChat();
+        }
+        break;
+      case WS_ACTION_USER_RETURN_CHAT:
+        if (this.onUserReturnChat) {
+          this.onUserReturnChat();
+        }
         break;
     }
   }

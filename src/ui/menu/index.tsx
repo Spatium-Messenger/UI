@@ -1,21 +1,16 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import RootStore from "src/store";
+import RootStore from "src/ui/store";
 import MenuItem from "./item";
 import { MODALS_ID } from "src/interfaces/store";
 import languages from "src/language";
-import { ILanguage } from "src/language/interface";
 require("./styles.scss");
 
-// const iconClose: string = require("assets/cancel.svg");
 const messageIcon: string = require("assets/envelope.svg");
 const backIcon: string = require("assets/back-arrow.svg");
-const profileIcon: string = require("assets/user.svg");
 const cacheIcon: string = require("assets/archive-black-box.svg");
 const setIcon: string = require("assets/settings-work-tool.svg");
 const exitIcon: string = require("assets/exit.svg");
-const dialogIcon: string = require("assets/friends.svg");
-const chanIcon: string = require("assets/rss-symbol.svg");
 
 interface IUserMenuProps {
   store?: RootStore;
@@ -53,7 +48,6 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
         <div className="user-menu__body">
         <MenuItem colorClassName={"menu-item-icon-white"} icon={backIcon} text={CL.back} click={this.close}/>
         <MenuItem colorClassName={"menu-item-icon-blue"} icon={messageIcon} text={CL.newChat} click={this.newChat}/>
-        <MenuItem colorClassName={"menu-item-icon-orange"} icon={chanIcon} text={CL.newChannel}click={this.newChannel}/>
         <MenuItem colorClassName={"menu-item-icon-pink"} icon={cacheIcon} text={CL.cache} click={this.cache}/>
         <MenuItem colorClassName={"menu-item-icon-green"} icon={setIcon} text={CL.settings} click={this.settings}/>
         <MenuItem colorClassName={"menu-item-icon-purple"} icon={exitIcon} text={CL.logout} click={this.logout}/>
