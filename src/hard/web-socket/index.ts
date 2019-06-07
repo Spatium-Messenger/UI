@@ -130,9 +130,7 @@ export default class WebSocketAPI implements IWebSocket {
       if (this.data.Logs) {
         console.log(WS_RECIEVE_LOG, event.data);
       }
-      if (this.onMessage &&  this.onActionOnlineUser) {
-        this.MessageHandle(event.data);
-      }
+      this.MessageHandle(event.data);
     };
   }
 
@@ -194,6 +192,7 @@ export default class WebSocketAPI implements IWebSocket {
 
   private HandleUsersMessage(m: IIMessageServer) {
     const docs: IMessageContentDoc[] = [];
+    if (!this.onMessage) {return; }
     if (m.message.documents) {
       m.message.documents.forEach((v) => {
         docs.push({

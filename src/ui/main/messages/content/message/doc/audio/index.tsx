@@ -7,6 +7,7 @@ const pauseButton: string = require("assets/pause.svg");
 
 let COMPONENT_WAS_UNMOUNTED = false;
 let LAST_CURRENT_PLAY_POSITION = "-1";
+let AUTO_PLAY = false;
 
 interface IAudioMessageProps {
   doc: IMessageContentDoc;
@@ -20,6 +21,7 @@ interface IAudioMessageState {
   current: number;
   play: boolean;
   error: boolean;
+  timeoff: Date;
 }
 
 export default class AudioMessage extends React.Component<IAudioMessageProps, IAudioMessageState> {
@@ -35,6 +37,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
       current: 0,
       play: false,
       error: false,
+      timeoff: new Date(),
     };
     this.audio = null;
     this.timelineRef = React.createRef();
@@ -51,18 +54,21 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
 
   public async load() {
     // Check buffers to loaded audio elements
-    if (this.state.loaded) {return; }
+    // if (this.state.loaded) {return; }
     const audioElement: {el: HTMLAudioElement, timeoff: Date} = this.props.audioBuffers.get(this.props.doc.Path);
-    if (audioElement && !COMPONENT_WAS_UNMOUNTED) {
+    if (audioElement && audioElement.timeoff > new Date() && !COMPONENT_WAS_UNMOUNTED) {
       this.audio = audioElement.el;
       this.setState({
         loaded: true,
-        current: 0,
+        play: (AUTO_PLAY ? true : false),
+        timeoff: audioElement.timeoff,
       });
+      AUTO_PLAY = false;
       this.intervals = setInterval(this.timer, 16);
       return;
     }
 
+    clearInterval(this.intervals);
     const {ID} = this.props.doc;
     new Promise(async (res, rej) => {
       const data: {link: string, timeoff: Date} | {result: string} = await this.props.getAudio(ID);
@@ -86,7 +92,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     this.load();
   }
 
-  public change() {
+  public async change() {
     if (!this.state.loaded) {return; }
     if (this.state.play) {
       this.audio.pause();
@@ -96,6 +102,12 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
         this.setState({
           current: 0,
         });
+      }
+      if (this.state.timeoff <= new Date()) {
+        AUTO_PLAY = true;
+        this.load();
+        this.setState({loaded: false});
+        return;
       }
       this.audio.play();
     }
@@ -116,6 +128,7 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
   }
 
   public render() {
+
     let classname = (this.state.play ? "message-audio__pause-button" : "message-audio__play-button");
     if (!this.state.loaded) {
       classname = "message-audio__load-button";
@@ -154,6 +167,10 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
     audiEL.preload = "none";
     this.audio = audiEL;
     this.props.audioBuffers.set(this.props.doc.Path, {el: audiEL, timeoff});
+    if (AUTO_PLAY) {
+      this.audio.currentTime = this.state.current;
+      this.audio.play();
+    }
     this.load();
   }
 

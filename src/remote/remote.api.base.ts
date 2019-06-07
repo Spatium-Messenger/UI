@@ -30,9 +30,6 @@ export default class APIClass {
       return ({result: "Error", type: e} as any);
     }
     const send = JSON.stringify(data.payload);
-    // if (!config.cert) {
-    //   send = JSON.stringify(await EncryptMessage(this.getKey(), send));
-    // }
     xhr.send(send);
     return new Promise((resolve) => {
       const timeout =
@@ -47,14 +44,10 @@ export default class APIClass {
         }
         clearTimeout(timeout);
         const answer = JSON.parse(xhr.responseText);
-        // if (!config.cert) {
-        //   answer = await DecryptMessage(answer);
-        // }
         resolve(answer);
       }
     };
     });
-
   }
 
   protected GetDefaultMessage(): IAPIClassCallProps {

@@ -76,9 +76,10 @@ export default class AudioStoreModule implements IAudioStore {
       return {...answer, link: "", timeoff: new Date()};
     } else {
       // console.log(answer["link"]);
+
       return {
         link: this.remoteApi.data.URL + "/getFile/" + answer["link"] + "/",
-        timeoff: new Date(answer["timeoff"]),
+        timeoff: new Date(answer["timeoff"] * 1000), // seconds to miliseconds for date constructor
       };
     }
     //

@@ -23,12 +23,13 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
     const mess = this.props.data;
     const showAuthorName = (this.props.lastAuthorID !== mess.AuthorID);
     const lang: ILanguageMessagesWindow = this.props.messageLang;
+    console.log(mess.Content.Type);
     if (mess.Content.Type === IMessageType.System) {
       let content: string = "";
       switch (mess.Content.Command) {
-        case IMessageSystemCommands.Null:
-          content = lang.messageCommands.null;
-          break;
+        // case IMessageSystemCommands.Null:
+        //   content = lang.messageCommands.null;
+        //   break;
         case IMessageSystemCommands.UserCreatedChat:
           content = lang.messageCommands.userCreatedChat;
           break;
@@ -93,15 +94,16 @@ export default class MessageUnit extends React.Component<IMessageUnitProps> {
     );
   }
 
-  private getTime(unixTimestamp: number): string {
+  private getTime(unixMiliTimestamp: number): string {
     // console.log();
+    unixMiliTimestamp = unixMiliTimestamp / 1000;
     const d = new Date();
     /* convert to msec
 	   subtract local time zone offset
 	   get UTC time in msec */
     const gmtHours = -d.getTimezoneOffset() / 60;
     const then = new Date(1970, 0, 1); // Epoch
-    then.setSeconds(unixTimestamp + gmtHours * 60 * 60);
+    then.setSeconds(unixMiliTimestamp + gmtHours * 60 * 60);
     let final: string;
     const minutes = (then.getMinutes() < 10) ? "0" + then.getMinutes() : then.getMinutes();
     const  hours = (then.getHours() < 10) ? "0" + then.getHours() : then.getHours();

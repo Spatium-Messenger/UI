@@ -28,10 +28,12 @@ Todo:
   Fix bug in invite people, after adding new user admin is show
   + Notifications about invitation and block in chat
   + Only admin should have access to user's menu in chat preferences
-  Disposabel link checking in audio message
+  + Disposabel link checking in audio message
   + Check online number change in chat header, WS recieve system messages but number doesnt change
   + Update after invite user
   Dont show "return to chat" if user was banned
+  Save language choosen to server
+  After people inveite close window and update details
 
   
 

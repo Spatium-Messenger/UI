@@ -1,7 +1,6 @@
 const OGG_WORKER_PATH_GZIP = "/ogg/ogg_encoder_worker.js";
 
 export interface IOGG {
-  // Init: () => Promise<boolean>;
   Write: (leftData: Float32Array, rightData: Float32Array, samplesCount: number) => void;
   Flush: () => void;
   Init: (sampleRate: number) => void;

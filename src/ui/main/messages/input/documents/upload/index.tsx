@@ -2,7 +2,7 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import Config from "src/config";
 import { IDocumentUpload } from "src/models/document";
-import { IRootStore } from "src/store/interfeces";
+import { IRootStore } from "src/ui/store/interfeces";
 require("./styles.scss");
 
 const attauchIcon: string = require("assets/clip.svg");
@@ -53,6 +53,7 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
           key: file.name + file.size,
           uploadedSize: 0,
           loadKey: file.name + file.size + chatID + new Date().getTime(),
+          duration: 0,
           abortLoad() {/**/},
         };
         sendFiles.push(uploadFile);
@@ -107,10 +108,10 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
   private async pFileReader(file: IDocumentUpload): Promise<IDocumentUpload> {
     return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onloadend = async function() {
+      reader.onloadend = async () => {
         file = await this.readImage(file, reader.result);
         resolve(file);
-      }.bind(this);
+      };
       reader.readAsDataURL((file.src as any));
     });
 
@@ -120,13 +121,13 @@ export default class DocumentsUpload extends React.Component<IDocumentsUploadPro
     return new Promise((resolve) => {
       const img = new Image();
       img.src = (result as any);
-      img.onload = function() {
+      img.onload = () => {
           file.load = 1;
           file.url = (result as string);
           file.width = img.width;
           file.height = img.height;
           resolve(file);
-        }.bind(this);
+        };
     });
   }
 }

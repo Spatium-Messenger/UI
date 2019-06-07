@@ -1,5 +1,5 @@
 import { IAPIAudio } from "src/interfaces/api/audio";
-import { IAudioMessage } from "src/models/audio";
+import { IAudioUpload } from "src/models/audio";
 import { IAPIData } from "src/interfaces/api";
 
 import {TESTUPLOADSPEED} from "./test.config";
@@ -71,9 +71,9 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
   }
 
   public async Upload(
-    file: IAudioMessage,
+    file: IAudioUpload,
     userID: number,
-    answer: (file: IAudioMessage, err: boolean) => void,
+    answer: (file: IAudioUpload, err: boolean) => void,
     progress: (uploadedSize: number) => void) {
       const xhr: XMLHttpRequest = new XMLHttpRequest();
       const body = this.pack(file, this.data.Token, userID);
@@ -114,7 +114,7 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
       }
     }
 
-  public async Delete(file: IAudioMessage): Promise<boolean> {
+  public async Delete(file: IAudioUpload): Promise<boolean> {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", this.data.URL + this.deletePath, true);
     xhr.send(JSON.stringify({Token: this.data.Token, FileID: file.fileID, FileLoadingKey: -1}));
@@ -136,9 +136,9 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
   }
 
   public async UploadTest(
-    file: IAudioMessage,
+    file: IAudioUpload,
     userID: number,
-    answer: (file: IAudioMessage, err: boolean) => void,
+    answer: (file: IAudioUpload, err: boolean) => void,
     progress: (uploadedSize: number) => void) {
     const form = this.pack(file, this.data.Token, userID);
     if (this.data.Logs) {
@@ -162,7 +162,7 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
     }
   }
 
-  public async DeleteTest(file: IAudioMessage) {
+  public async DeleteTest(file: IAudioUpload) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return true;
   }
@@ -183,7 +183,7 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
     // return newBlob;
   }
 
-  private pack(file: IAudioMessage, token: string, userID: number): FormData {
+  private pack(file: IAudioUpload, token: string, userID: number): FormData {
     const fileName = file.src.blob.size + "_" + file.chatID + "_" + userID + ".ogg";
     const formData = new FormData();
     formData.append("file", (file.src.blob as any), fileName);
