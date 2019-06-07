@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { IRootStore } from "src/store/interfeces";
+import { IRootStore } from "src/ui/store/interfeces";
 import ChatPreferencesUp from "./up";
 import ChatPreferencesPeople from "./people";
 import Loader from "src/ui/components/loader";
@@ -39,13 +39,15 @@ export default inject("store")(observer((props: IChatPreferencesProps) => {
   if (currentChat && currentChat.Deleted) {
     const returnToChat = () => props.store.chatStore.turnBackToChat(chatID);
     const deleteFromList = () => props.store.chatStore.deleteChatFromList(chatID);
-
-    return <div className={classname}>
-     <ChatPreferencesUp />
-       <div className="chat-preferences__return-to-chat" onClick={returnToChat}>
+    const turnBack = (currentChat.Banned ? <div/> :
+      <div className="chat-preferences__return-to-chat" onClick={returnToChat}>
         <div dangerouslySetInnerHTML={{__html: back}}/>
         <div>{lang.turnBackToChat}</div>
       </div>
+    );
+    return <div className={classname}>
+     <ChatPreferencesUp />
+     {turnBack}
       <div className="chat-preferences__delete_from_list" onClick={deleteFromList}>
         <div dangerouslySetInnerHTML={{__html: arhive}}/>
         <div>{lang.deleteFromList}</div>

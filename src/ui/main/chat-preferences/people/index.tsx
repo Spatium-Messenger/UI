@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { IRootStore } from "src/store/interfeces";
+import { IRootStore } from "src/ui/store/interfeces";
 import languages from "src/language";
 
 import PeopleItem from "./item";

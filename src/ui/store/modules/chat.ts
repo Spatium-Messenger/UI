@@ -134,7 +134,9 @@ export default class ChatStoreModule implements IChatStore {
   @action
   public async addUserToChat(userID: number): Promise<IAnswerError> {
     const chatID = this.currentChatID;
-    return this.remoteAPI.chat.AddUsers([userID], chatID);
+    const answer = await this.remoteAPI.chat.AddUsers([userID], chatID);
+    this.getChatUsers();
+    return answer;
   }
 
   @action
