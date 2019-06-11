@@ -14,10 +14,10 @@ export default class APIFile extends APIClass implements IAPIFile {
   constructor(data: IAPIData) {
       super(data);
       this.data = data;
-      this.uploadFileURL = "/api/file/uploadFile";
-      this.deleteFileURL = "/api/file/deleteFile";
-      this.getImageURL = "/api/file/getFile";
-      this.getDownloadLink  = "/api/file/getFileLink";
+      this.uploadFileURL = "/api/file/upload";
+      this.deleteFileURL = "/api/file/delete";
+      this.getImageURL = "/api/file/get";
+      this.getDownloadLink  = "/api/file/link";
       if (this.data.Imitation) {
         this.Upload = this.UploadTest;
         this.Delete = this.DeleteTest;
@@ -29,7 +29,7 @@ export default class APIFile extends APIClass implements IAPIFile {
     answer: (file: IDocumentUpload, err: boolean) => void,
     progress: (uploadedSize: number) => void) {
       const xhr: XMLHttpRequest = new XMLHttpRequest();
-      const body = this.pack(file, this.data.Token);
+      const body = this.pack(file);
       xhr.upload.onprogress = (evt: ProgressEvent) => {
         progress(evt.loaded);
         if (this.data.Logs) {
@@ -37,6 +37,7 @@ export default class APIFile extends APIClass implements IAPIFile {
         }
       };
       xhr.open("POST", this.data.URL + this.uploadFileURL, true);
+      xhr.setRequestHeader("X-Auth-Token",  this.netData.Token);
       xhr.send(body);
 
       file.abortLoad = function() {
@@ -80,31 +81,41 @@ export default class APIFile extends APIClass implements IAPIFile {
       answer(file, false);
     }
 
-  public async Delete(file: IDocumentUpload): Promise<boolean> {
-      const xhr = new XMLHttpRequest();
+  public async Delete(file: IDocumentUpload): Promise<IAnswerError> {
+      const message = super.GetDefaultMessage();
+      message.uri = this.data.URL + this.deleteFileURL;
+      message.payload = {
+        file_id: file.id,
+      };
+      return  super.Send(message);
 
-      xhr.open("POST", this.data.URL + this.deleteFileURL, true);
-      xhr.send(JSON.stringify({token: this.data.Token, file_id: file.id, FileLoadingKey: file.loadKey}));
-      const answer: {result: string} = await new Promise((resolve, reject) => {
-        xhr.onreadystatechange = () => {
-          if (xhr.readyState !== 4) { return; }
-          if (xhr.status === 200) {
-            const data: {result: string} = JSON.parse(xhr.responseText);
-            resolve(data);
-          } else {
-            if (this.data.Logs) {
-              console.log("Deleting file: " + file.src.name + " failed ");
-            }
-            resolve({result: "Error"});
-          }
-        };
-      });
-      return (answer.result !== "Error" ? true : false);
+      // const xhr = new XMLHttpRequest();
+
+      // xhr.open("POST", this.data.URL + this.deleteFileURL, true);
+      // xhr.send(JSON.stringify({token: this.data.Token, file_id: file.id, FileLoadingKey: file.loadKey}));
+      // const answer: {result: string} = await new Promise((resolve, reject) => {
+      //   xhr.onreadystatechange = () => {
+      //     if (xhr.readyState !== 4) { return; }
+      //     if (xhr.status === 200) {
+      //       const data: {result: string} = JSON.parse(xhr.responseText);
+      //       resolve(data);
+      //     } else {
+      //       if (this.data.Logs) {
+      //         console.log("Deleting file: " + file.src.name + " failed ");
+      //       }
+      //       resolve({result: "Error"});
+      //     }
+      //   };
+      // });
+      // return (answer.result !== "Error" ? true : false);
     }
 
-  public async DeleteTest(file: IDocumentUpload) {
+  public async DeleteTest(file: IDocumentUpload): Promise<IAnswerError> {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    return true;
+    return {
+      result: "Success",
+      type: "system",
+    };
   }
 
   public async GetImage(fileID: number, extension: string): Promise<string> {
@@ -166,11 +177,10 @@ export default class APIFile extends APIClass implements IAPIFile {
     }
   }
 
-  private pack(file: IDocumentUpload, token: string): FormData {
+  private pack(file: IDocumentUpload): FormData {
       const formData = new FormData();
       formData.append("file", (file.src as any), file.src.name);
       formData.append("name", file.src.name);
-      formData.append("token", token);
       formData.append("type", this.getExt(file.src.name).toLowerCase());
       formData.append("ratio_size", ((file.width / file.height as any) || 0));
       formData.append("chat_id", (file.chatID as any));

@@ -1,4 +1,5 @@
 import { IDocumentUpload } from "src/models/document";
+import { IAnswerError } from ".";
 
 export interface IAPIFile {
   Upload: (
@@ -7,7 +8,7 @@ export interface IAPIFile {
     progress: (uploadedSize: number) => void,
   ) => void;
 
-  Delete: (file: IDocumentUpload) => Promise<boolean>;
+  Delete: (file: IDocumentUpload) => Promise<IAnswerError>;
   GetImage: (fileID: number, extension: string) => Promise<string>;
   Download: (fileID: number) => Promise<string>;
 }

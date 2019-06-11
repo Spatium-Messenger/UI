@@ -9,15 +9,15 @@ export class APIUser extends APIClass implements IAPIUser {
   private getMyDataURL: string;
   private getSettingsURL: string;
   private setSettingsURL: string;
+  private settingsURL: string;
   constructor(data: IAPIData) {
     super(data);
     const p: string = "/api/user/";
     this.enterURL = p + "enter";
-    this.proveToeknURL = p + "testToken";
+    this.proveToeknURL = p + "tokencheck";
     this.createUserURL = p + "create";
-    this.getMyDataURL = p + "myData";
-    this.getSettingsURL = p + "getSettings";
-    this.setSettingsURL = p + "setSettings";
+    this.getMyDataURL = p + "data";
+    this.settingsURL = p + "settings";
 
   }
 
@@ -48,6 +48,7 @@ export class APIUser extends APIClass implements IAPIUser {
   public async GetMyData(): Promise<{result: string}> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
     message.uri = this.getMyDataURL;
+    message.type = "GET";
     const answer: {result: string} = await super.Send(message);
     return answer;
   }
@@ -56,12 +57,13 @@ export class APIUser extends APIClass implements IAPIUser {
     //
   }
 
-  public async SetSettings(name: string): Promise<{result: string}> {
+  public async SetSettings(name: string, language: string): Promise<{result: string}> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
-    message.uri = this.setSettingsURL;
+    message.uri = this.settingsURL;
     message.payload = {
       ...message.payload,
       name,
+      language,
     };
     const answer: {result: string} = await super.Send(message);
     return answer;

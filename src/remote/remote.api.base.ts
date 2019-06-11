@@ -29,6 +29,7 @@ export default class APIClass {
     } catch (e) {
       return ({result: "Error", type: e} as any);
     }
+    xhr.setRequestHeader("X-Auth-Token",  this.netData.Token);
     const send = JSON.stringify(data.payload);
     xhr.send(send);
     return new Promise((resolve) => {

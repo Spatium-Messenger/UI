@@ -9,7 +9,7 @@ export default class APIMessages extends APIClass implements IAPIMessages {
   constructor(data: IAPIData) {
     super(data);
     const p: string = "/api/messages/";
-    this.getMessagesURL = p + "getMessages";
+    this.getMessagesURL = p + "messages";
   }
 
   public async Get(lastID: number, chatID: number): Promise<IAnswerError | IMessage[]> {

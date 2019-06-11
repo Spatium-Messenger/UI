@@ -1,5 +1,5 @@
 import { IAPIChat, ChatsTypes, IAPIChatsUser, IAPIUsersForAdd } from "src/interfaces/api/chat";
-import { IAPIData, IAnswerError, IAPI } from "src/interfaces/api";
+import { IAPIData, IAnswerError } from "src/interfaces/api";
 import APIClass, { IAPIClassCallProps } from "./remote.api.base";
 import { IChat, IChatUser } from "src/models/chat";
 import { IChatServer } from "./interfaces";
@@ -8,37 +8,41 @@ import { IFolk } from "src/models/user";
 export class APIChat extends APIClass implements IAPIChat {
   private getChatsURL: string;
   private createChatURL: string;
-  private addUsersURL: string;
+  // private addUsersURL: string;
   private getUsersURL: string;
-  private getUsersForAddURL: string;
+  // private getUsersForAddURL: string;
   private setSettingsURL: string;
   private deleteUsersURL: string;
   private recoveryUsersURL: string;
-  private deleteFromDialogURL: string;
-  private fullDeleteFromDialogURL: string;
-  private recoveryUserInDialogURL: string;
+  // private deleteFromDialogURL: string;
+  // private fullDeleteFromDialogURL: string;
+  // private recoveryUserInDialogURL: string;
   private deleteChatFromListURL: string;
   private leaveChatURL: string;
-  private getUsersForDialogURL: string;
+  // private getUsersForDialogURL: string;
   private turnBackToChatURL: string;
+
+  private invite: string;
 
   constructor(data: IAPIData) {
     super(data);
     const p: string = "/api/chat/";
-    this.getChatsURL = "/api/user/getMyChats";
-    this.getUsersForAddURL = p + "getUsersForAdd";
+    this.getChatsURL = "/api/user/chats";
+    // this.getUsersForAddURL = p + "getUsersForAdd";
     this.createChatURL = p + "create";
-    this.addUsersURL = p + "addUsersInChat";
-    this.getUsersURL = p + "getUsers";
-    this.deleteUsersURL = p + "deleteUsers";
-    this.recoveryUsersURL = p + "recoveryUsers";
-    this.deleteFromDialogURL = p + "deleteFromDialog";
-    this.recoveryUserInDialogURL = p + "recoveryUserInDialog";
+    // this.addUsersURL = p + "invite";
+    this.getUsersURL = p + "users";
+    this.deleteUsersURL = p + "block";
+    this.recoveryUsersURL = p + "unblock";
+    // this.deleteFromDialogURL = p + "deleteFromDialog";
+    // this.recoveryUserInDialogURL = p + "recoveryUserInDialog";
     this.deleteChatFromListURL = p + "deleteFromList";
-    this.setSettingsURL = p + "setSettings";
-    this.getUsersForDialogURL = p + "getUsersForDialog";
-    this.leaveChatURL = p + "leaveChat";
-    this.turnBackToChatURL = p + "turnBackToChat";
+    this.setSettingsURL = p + "settings";
+    // this.getUsersForDialogURL = p + "getUsersForDialog";
+    this.leaveChatURL = p + "leave";
+    this.turnBackToChatURL = p + "return";
+
+    this.invite = p + "invite";
   }
 
   public async Get(): Promise<IAnswerError | IChat[]> {
@@ -88,7 +92,7 @@ export class APIChat extends APIClass implements IAPIChat {
 
   public async AddUsers(IDs: number[], chatID: number): Promise<IAnswerError> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
-    message.uri = this.addUsersURL;
+    message.uri = this.invite;
     message.payload = {...message.payload,
                        chat_id: chatID,
                        users: IDs};
@@ -118,7 +122,8 @@ export class APIChat extends APIClass implements IAPIChat {
 
   public async GetUsersForAdd(chatID: number, name: string): Promise<IAnswerError |  IChatUser[]> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
-    message.uri = this.getUsersForAddURL;
+    message.uri = this.invite + `?chat_id=${chatID}&name=${name}`;
+    message.type = "GET";
     message.payload = {...message.payload, chat_id: chatID, name};
     const answer: IAnswerError | {users: IAPIUsersForAdd[]} = await super.Send(message);
     if ((answer as IAnswerError).result !== "Error") {
@@ -196,21 +201,21 @@ export class APIChat extends APIClass implements IAPIChat {
   }
 
   public async GetUsersForDialog(name: string): Promise<IFolk[]> {
-    const message: IAPIClassCallProps = super.GetDefaultMessage();
-    message.uri = this.getUsersForDialogURL;
-    message.payload = {...message.payload, name};
-    const answer: IAnswerError | IAPIUsersForAdd[] = await super.Send(message);
-    if ((answer as IAnswerError).result !== "Error") {
-      return (answer as IAPIUsersForAdd[]).map((u): IFolk => {
-        return {
-          ID: u.id,
-          Login: u.login,
-          Name: u.name,
-        };
-      });
-    } else {
-      console.error(answer);
-    }
+    // const message: IAPIClassCallProps = super.GetDefaultMessage();
+    // message.uri = this.getUsersForDialogURL;
+    // message.payload = {...message.payload, name};
+    // const answer: IAnswerError | IAPIUsersForAdd[] = await super.Send(message);
+    // if ((answer as IAnswerError).result !== "Error") {
+    //   return (answer as IAPIUsersForAdd[]).map((u): IFolk => {
+    //     return {
+    //       ID: u.id,
+    //       Login: u.login,
+    //       Name: u.name,
+    //     };
+    //   });
+    // } else {
+    //   console.error(answer);
+    // }
     return [];
   }
 }

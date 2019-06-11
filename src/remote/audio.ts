@@ -16,10 +16,10 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
   constructor(data: IAPIData) {
     super(data);
     this.data = data;
-    this.uploadPath = "/api/file/uploadFile";
-    this.deletePath = "/api/file/deleteFile";
-    this.getAudioURL = "/api/file/getFile";
-    this.getLinkURL = "/api/file/getFileLink";
+    this.uploadPath = "/api/file/upload";
+    this.deletePath = "/api/file/delete";
+    this.getAudioURL = "/api/file/get";
+    this.getLinkURL = "/api/file/link";
     if (this.data.Imitation) {
       this.Upload = this.UploadTest;
       this.Delete = this.DeleteTest;
@@ -37,12 +37,12 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
   public async Get(fileID: number): Promise<{duration: number, blob: Blob} | {result: string}> {
       const xhr: XMLHttpRequest = new XMLHttpRequest();
       const body: string = JSON.stringify({
-        token: this.data.Token,
         file_id: fileID,
         min: false,
       });
       xhr.open("POST", this.data.URL + this.getAudioURL, true);
       xhr.responseType = "arraybuffer";
+      xhr.setRequestHeader("X-Auth-Token",  this.netData.Token);
       xhr.send(body);
       const result: {duration: number, blob: Blob} | {result: string} = await new Promise((resolve) => {
         xhr.onload = () => {
@@ -76,7 +76,8 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
     answer: (file: IAudioUpload, err: boolean) => void,
     progress: (uploadedSize: number) => void) {
       const xhr: XMLHttpRequest = new XMLHttpRequest();
-      const body = this.pack(file, this.data.Token, userID);
+
+      const body = this.pack(file, userID);
       xhr.upload.onprogress = (evt: ProgressEvent) => {
         progress(evt.loaded);
         if (this.data.Logs) {
@@ -85,6 +86,7 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
       };
 
       xhr.open("POST", this.data.URL + this.uploadPath, true);
+      xhr.setRequestHeader("X-Auth-Token",  this.netData.Token);
       xhr.send(body);
       file.abortLoad = function() {
         xhr.abort();
@@ -93,9 +95,9 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
       const error = await new Promise((resolve) => {
         xhr.onload = () => {
           if (xhr.readyState !== 4) {return; }
-          const data: {FileId: number, result: string} = JSON.parse(xhr.responseText);
+          const data: {file_id: number, result: string} = JSON.parse(xhr.responseText);
           if (data.result !== "Error") {
-              file.fileID = Number(data.FileId);
+              file.fileID = data.file_id;
               if (file.del) {answer(file, true); }
               answer(file, false);
               resolve(false);
@@ -117,7 +119,7 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
   public async Delete(file: IAudioUpload): Promise<boolean> {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", this.data.URL + this.deletePath, true);
-    xhr.send(JSON.stringify({Token: this.data.Token, FileID: file.fileID, FileLoadingKey: -1}));
+    xhr.send(JSON.stringify({file_id: file.fileID}));
     const answer: {result: string} = await new Promise((resolve, reject) => {
         xhr.onreadystatechange = () => {
           if (xhr.readyState !== 4) { return; }
@@ -140,7 +142,7 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
     userID: number,
     answer: (file: IAudioUpload, err: boolean) => void,
     progress: (uploadedSize: number) => void) {
-    const form = this.pack(file, this.data.Token, userID);
+    const form = this.pack(file, userID);
     if (this.data.Logs) {
       console.log("Audio message packed");
     }
@@ -183,12 +185,11 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
     // return newBlob;
   }
 
-  private pack(file: IAudioUpload, token: string, userID: number): FormData {
+  private pack(file: IAudioUpload, userID: number): FormData {
     const fileName = file.src.blob.size + "_" + file.chatID + "_" + userID + ".ogg";
     const formData = new FormData();
     formData.append("file", (file.src.blob as any), fileName);
     formData.append("name", fileName);
-    formData.append("token", token);
     formData.append("type", "audio/ogg");
     formData.append("ratio_size", (0 as any));
     formData.append("chat_id", (file.chatID as any));

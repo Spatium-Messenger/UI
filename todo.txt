@@ -8,12 +8,8 @@ Todo:
   + Redesign dialogs
   
   Escape from dialog (ESC press)
-  Online actions
   Fonts connect
-  Dialog creating, find users in chats menu
-  Dialog and channel view in chats menu
   Check name reducing in docs view
-  Snackbars for notification
 
   -----------------------------------
   + Audio message loading before sending
@@ -34,6 +30,8 @@ Todo:
   + Dont show "return to chat" if user was banned
   Save language choosen to server
   + After people invited close window and update details
+
+  Align "Exit form converstaion" button in one line with input el
 
   
 

@@ -4,7 +4,7 @@ import { IChat, IChatUser } from "src/models/chat";
 import { IAPI, IAnswerError } from "src/interfaces/api";
 import { ChatsTypes } from "src/interfaces/api/chat";
 import { IRootStore } from "../interfeces";
-import { IWebSocket, IServerActionOnlineUser } from "src/interfaces/web-socket";
+import { IWebSocket } from "src/interfaces/web-socket";
 import { IFolk } from "src/models/user";
 
 export default class ChatStoreModule implements IChatStore {
@@ -24,9 +24,9 @@ export default class ChatStoreModule implements IChatStore {
     this.bindCallbacks();
     this.chats = [];
     this.usersForDialog = [];
-    this.currentChatID = 1;
+    this.currentChatID = -1;
     this.users = new Map<number, IChatUser[]>();
-    this.loading = false;
+    this.loading = true;
 
   }
 

@@ -9,6 +9,7 @@ import { UserErrors } from "src/remote/errors";
 
 const TOKEN_COOKIE_NAME = "token";
 const LOGIN_COOKIE_NAME = "login";
+const LANG_COOCKIE_NAME = "language";
 
 export default class UserStoreModule implements IUserStore {
   @observable public data: IUser;
@@ -22,9 +23,9 @@ export default class UserStoreModule implements IUserStore {
 
   constructor(rootStore: IRootStore) {
     this.remoteAPI = rootStore.remoteAPI;
-    this.data = {token: "", login: "", ID: -1, lang: en.id, name: ""};
     this.rootStore = rootStore;
     this.cookie = rootStore.cookie;
+    this.data = {token: "", login: "", ID: -1, lang: (this.cookie.Get(LANG_COOCKIE_NAME) || en.id), name: ""};
     this.webScoketConnection = rootStore.webScoketConnection;
   }
 
@@ -66,7 +67,7 @@ export default class UserStoreModule implements IUserStore {
 
   @action
   public async saveSettings(name: string) {
-    const answer: {result: string, code?: number} = await this.remoteAPI.user.SetSettings(name);
+    const answer: {result: string, code?: number} = await this.remoteAPI.user.SetSettings(name, this.data.lang);
     if (answer.result !== "Error") {
       this.data.name = name;
     } else {
@@ -81,6 +82,8 @@ export default class UserStoreModule implements IUserStore {
 
   @action public setLang(lang: string) {
     this.data.lang = lang;
+    this.remoteAPI.user.SetSettings(this.data.name, this.data.lang);
+    this.cookie.Set(LANG_COOCKIE_NAME, this.data.lang);
   }
 
   @action
@@ -103,6 +106,9 @@ export default class UserStoreModule implements IUserStore {
     if (answer.result !== "Error") {
       this.data.ID = answer["id"];
       this.data.name = answer["name"];
+      if (answer["language"] !== "" && answer["language"] !== this.data.lang) {
+        this.setLang(answer["language"]);
+      }
     } else {
       if (answer.code === UserErrors.BasicErrors.WrongToken) {
         this.logout();
