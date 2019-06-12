@@ -48,6 +48,7 @@ export class APIChat extends APIClass implements IAPIChat {
   public async Get(): Promise<IAnswerError | IChat[]> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
     message.uri = this.getChatsURL;
+    message.type = "GET";
     const chatsAnswer: IAnswerError | IChatServer[] = await super.Send(message);
     const chats: IChat[] = [];
     if ((chatsAnswer as IAnswerError).result !== "Error") {
@@ -101,7 +102,7 @@ export class APIChat extends APIClass implements IAPIChat {
 
   public async GetUsers(chatID: number): Promise<IAnswerError | IChatUser[]> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
-    message.uri = this.getUsersURL;
+    message.uri =  this.getUsersURL;
     message.payload = {...message.payload,
                        chat_id: chatID};
     const answer: IAnswerError | IAPIChatsUser[]  = await super.Send(message);

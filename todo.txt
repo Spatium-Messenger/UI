@@ -1,17 +1,4 @@
 Todo:
-  + OGG encoding
-  + In and Up link in sing page
-  + Redesign language choose
-  + Redesign header in messenger window (Change box to icon, add online users, change options icon)
-  + Сhannel creating
-  + Auto open on wide screens chat-preferences
-  + Redesign dialogs
-  
-  Escape from dialog (ESC press)
-  Fonts connect
-  Check name reducing in docs view
-
-  -----------------------------------
   + Audio message loading before sending
   + Check file download
   + Audio message stop after 1 minute add time line!
@@ -21,17 +8,19 @@ Todo:
   + Users menu in chat menu
   + Delete from chat in chat menu
   + If user delete from chat, show "delete chat from list" and "recovery"
-  \/ Fix bug in invite people, after adding new user admin is show
   + Notifications about invitation and block in chat
   + Only admin should have access to user's menu in chat preferences
   + Disposabel link checking in audio message
   + Check online number change in chat header, WS recieve system messages but number doesnt change
   + Update after invite user
   + Dont show "return to chat" if user was banned
-  Save language choosen to server
+  + Save language choosen to server
   + After people invited close window and update details
-
-  Align "Exit form converstaion" button in one line with input el
+  + Align "Exit form converstaion" button in one line with input el
+  \/ Fix bug in invite people, after adding new user admin is show
+  Escape from dialog (ESC press)
+  Fonts connect
+  Check name reducing in docs view
 
   
 

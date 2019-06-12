@@ -88,27 +88,7 @@ export default class APIFile extends APIClass implements IAPIFile {
         file_id: file.id,
       };
       return  super.Send(message);
-
-      // const xhr = new XMLHttpRequest();
-
-      // xhr.open("POST", this.data.URL + this.deleteFileURL, true);
-      // xhr.send(JSON.stringify({token: this.data.Token, file_id: file.id, FileLoadingKey: file.loadKey}));
-      // const answer: {result: string} = await new Promise((resolve, reject) => {
-      //   xhr.onreadystatechange = () => {
-      //     if (xhr.readyState !== 4) { return; }
-      //     if (xhr.status === 200) {
-      //       const data: {result: string} = JSON.parse(xhr.responseText);
-      //       resolve(data);
-      //     } else {
-      //       if (this.data.Logs) {
-      //         console.log("Deleting file: " + file.src.name + " failed ");
-      //       }
-      //       resolve({result: "Error"});
-      //     }
-      //   };
-      // });
-      // return (answer.result !== "Error" ? true : false);
-    }
+  }
 
   public async DeleteTest(file: IDocumentUpload): Promise<IAnswerError> {
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -121,11 +101,11 @@ export default class APIFile extends APIClass implements IAPIFile {
   public async GetImage(fileID: number, extension: string): Promise<string> {
     const xhr: XMLHttpRequest = new XMLHttpRequest();
     const body: string = JSON.stringify({
-      token: this.data.Token,
       file_id: fileID,
       min: true,
     });
     xhr.open("POST", this.data.URL + this.getImageURL, true);
+    xhr.setRequestHeader("X-Auth-Token",  this.netData.Token);
     xhr.responseType = "arraybuffer";
     xhr.send(body);
 
