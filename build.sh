@@ -1,1 +1,1 @@
-./node_modules/.bin/webpack --config webpack.prod.js
+./node_modules/.bin/webpack -p --config webpack.prod.js
