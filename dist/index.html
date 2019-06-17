@@ -2,7 +2,7 @@
   <head>
     <title>Swap Messenger</title>
     <link rel="shortcut icon" href="/favicon.png">
-    <link href="/fonts/Roboto-Regular.ttf" rel="stylesheet">
+    <!-- <link href="/fonts/Roboto-Regular.ttf" rel="stylesheet"> -->
     <style>
       #root{
         width: 100vw;
@@ -62,6 +62,10 @@
           -webkit-transform: scale(1.0);
         }
       }
+      @font-face{
+        font-family: Roboto;
+        src: url('/fonts/Roboto-Regular.ttf')
+      }
     </style>
   </head>
   <body>
@@ -74,7 +78,7 @@
         </div>
       </div>
     </div>
-    <script src="bundle.js"></script>
+    <script src="/bundle.js"></script>
   </body>
   
 </html>

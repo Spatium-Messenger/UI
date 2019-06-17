@@ -93,16 +93,9 @@ module.exports = {
   ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      'PRODUCTION': false,
+      'PRODUCTION': true,
     }),
     new ForkTsCheckerWebpackPlugin(),
   ],
-  devServer: {
-    port: 8080,
-    contentBase: (__dirname, './dist'),
-    historyApiFallback: true,
-    compress: true
-  }
 };

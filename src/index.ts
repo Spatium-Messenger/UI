@@ -7,10 +7,13 @@ import WebSocketAPI from "./hard/web-socket";
 import { IWebSocket } from "./interfaces/web-socket";
 import { ILocalStorage } from "./interfaces/local-storage";
 import LocalStorage from "./hard/local-storage";
-// import { GenerateKeys, Test } from "./hard/crypto";
 import config from "./config";
 
-const URL = "https://192.168.1.38:3030";
+let URL = window.location.host;
+// PODUCTION defined in webpack.config/prod.js file, its variable change in compile time
+if (!PRODUCTION) {
+  URL = "https://192.168.1.38:3030";
+}
 const LOGS = true;
 const IMITATION = false;
 
