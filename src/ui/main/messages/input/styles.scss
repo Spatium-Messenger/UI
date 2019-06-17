@@ -1,0 +1,74 @@
+.window__input__wrapper,
+.window__input__wrapper-disable{
+  background: $white;
+  width: 100%;
+  //border-radius: 5px;
+  // display: flex;
+  flex-direction: column;
+  margin: auto;
+  //margin-bottom: 10px;
+  user-select: none;
+  // border-top: 1px solid $middle-gray;
+
+  // padding: 5px;
+}
+
+.window__input__main{
+  display: flex;
+  min-height: 45px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0px;
+}
+.window__input{
+  // min-height: 40px;
+  
+  
+}
+
+.window__input__buttons{
+  width: 40px;
+  // height: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.window__input__buttons>div{
+  // margin-right: 10px;
+  cursor: pointer;
+}
+
+.window__input__buttons>div:nth-child(2){
+  transform: rotate(180deg);
+}
+
+.window__input__buttons>div>svg{
+  width: 20px;
+  height: 20px;
+  fill:darken(#ffffff, 50%);
+}
+
+.window__input__buttons>div:hover>svg{
+  fill:darken(#ffffff, 30%);
+}
+
+.window__input__buttons>div:active>svg{
+  fill:darken(#ffffff, 60%);
+}
+
+
+.window__input__input{
+  width: calc(100% - 120px);
+  color: #ffffff;
+  height: 40px;
+  background: $gray;
+  border-style:solid;
+  border: none;
+  font-size: 14px;
+  margin-left: -10px;
+
+  &:focus {
+    outline: none;
+  }
+}
+

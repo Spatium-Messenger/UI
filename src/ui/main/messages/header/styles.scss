@@ -1,0 +1,110 @@
+.window__header{
+  min-height: 40px;
+  background: $white;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $middle-gray;
+}
+
+
+.window__header__back,
+.window__header__more{
+  width: 15px;
+  height: 15px;
+  margin: 0px 10px;
+  cursor: pointer;
+  user-select: none;
+  // transform: rotate(90deg);
+}
+
+.window__header__more>svg{
+
+}
+
+.window__header__back>svg,
+.window__header__more>svg{
+  fill: darken($gray,10);
+}
+
+.window__header__back:hover,
+.window__header__more:hover{
+  opacity: 0.8;
+}
+
+.window__header__back{
+  width: 0;
+  height: 15px;
+}
+
+.window__header__name{
+  height: 25px;
+  font-size: 12px;
+  color: $font_gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.window__header__name-icon-dialog,
+.window__header__name-icon-chat,
+.window__header__name-icon-channel{
+  font-size: 9px;
+  background: $primary-color;
+  width: 20px;
+  height: 20px;
+  color: $white;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg{
+    width: 12px;
+    height: 12px;
+    fill: #ffffff;
+  }
+}
+
+.window__header__name-icon-dialog{
+
+}
+
+.window__header__name-icon-channel{
+  background: $ultra_active;
+}
+
+
+.window__header__name-labels{
+  margin-left: 10px;
+  display: flex;
+
+  div:nth-child(1){
+    font-size: 14px;
+  }
+}
+
+.window__header__name-labels__online{
+  font-size: 12px;
+  display: flex;
+  color: $dark_gray;
+  margin-left: 5px; 
+  // justify-content: center
+  align-items: center;
+
+  div:nth-child(1){
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: $green;
+    margin-right: 5px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .window__header__more{
+    display: none;
+  }
+}

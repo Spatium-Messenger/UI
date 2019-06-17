@@ -1,0 +1,41 @@
+.voice-record__icon>svg{
+  width: 20px;
+  height: 20px;
+  fill:$dark_gray;
+}
+
+.voice-record__icon:hover>svg{
+  fill:darken($dark_gray, 30%);
+}
+
+.voice-record__icon:active>svg{
+  fill:darken($dark_gray, 60%);
+}
+
+.window__input__send{
+  cursor: pointer;
+  margin-right: 5px;
+}
+.window__input__send>svg{
+  width: 25px;
+  height: 25px;
+  fill: $ultra_active;
+  opacity: 0.8;
+}
+
+.window__input__send:hover>svg{
+  // fill: lighten($ultra_active, 20%);
+  opacity: 1;
+}
+
+.window__input__send:active>svg{
+  // fill: darken($ultra_active, 20%);
+  opacity: 0.6;
+}
+
+.sendWrapper{
+  cursor: pointer;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+}

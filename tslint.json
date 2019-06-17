@@ -1,6 +1,10 @@
 {
   "extends": ["tslint:latest", "tslint-react"],
   "rules": {
+    "jsx-no-lambda": false,
+    "no-string-literal": false,
+    "no-console": false,
+    "only-arrow-functions": false,
     "jsx-wrap-multiline": false,
     "object-literal-sort-keys": false,
     "no-var-requires": false,

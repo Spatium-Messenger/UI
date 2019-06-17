@@ -16,7 +16,7 @@ function getEntrySources(sources) {
 
 
 module.exports = {
-  entry: getEntrySources(['./src/index.tsx']),
+  entry: getEntrySources(['./src/index.ts']),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',

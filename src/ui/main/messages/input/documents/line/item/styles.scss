@@ -1,0 +1,93 @@
+.document{
+  display: flex;
+  width: 230px;
+  margin-bottom: 5px;
+  padding: 5px;
+  padding-bottom: 0px;
+  margin: 5px;
+}
+
+.document__info{
+  color: $font_gray;
+  margin-left: 10px;
+}
+
+.document__info>div:nth-child(1){
+  display: flex;
+  align-items: center;
+}
+
+.document__info__name{
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.document__info__load-progress{
+  font-size: 12px;
+  color: lighten($font_gray, 5%);
+  margin-top: 5px;
+}
+
+.document-preview-default{
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $primary-color;
+  border-radius: 50%;
+}
+
+.document-preview-default>svg{
+  width: 20px;
+  height: 20px;
+}
+
+
+.document-preview-img{
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+}
+
+.document-preview-loader{
+ 
+  position: absolute;
+  margin-top: -1px;
+  margin-left: -1px;
+}
+
+.document-preview-loader__circular>svg{
+  color:#ffffff;
+}
+
+.document-delete{
+  opacity: 0.8;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  background: $dark_gray;
+  border-radius: 50%;
+
+  svg{
+    width: 13px;
+    height: 13px;
+    fill: #ffffff;
+
+  }
+}
+
+.document-delete:hover{
+  opacity: 1;
+}
+
+.document-delete:active{
+  opacity: 0.6;
+}
+

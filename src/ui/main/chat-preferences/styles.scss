@@ -1,0 +1,97 @@
+
+// -loading
+.chat-preferences-open,
+.chat-preferences-close,
+.chat-preferences-open-loading,
+.chat-preferences-close-loading{
+  min-width: 250px;
+  height: 100%;
+  background: $gray;
+  user-select: none;
+  // transition: 0.3s margin ease-in-out;
+  border-left: 1px solid $gray;
+  margin-right: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-preferences-close,
+.chat-preferences-close-loading{
+  margin-right: -250px;
+}
+
+
+.chat-preferences-open-loading,
+.chat-preferences-close-loading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.chat-preferences-loader{
+  width: 30px;
+  height: 20px;
+}
+
+.chat-preferences__exit,
+.chat-preferences__return-to-chat,
+.chat-preferences__delete_from_list{
+  display: flex;
+  justify-content: left;
+  padding-left: 10px;
+  height: 55px;
+  align-items: center;
+  cursor: pointer;
+
+  &>div:nth-child(1){
+    display: inline-block;
+    &>svg{
+      width: 18px;
+      height: 18px;
+      fill: $red;
+    }
+  }
+
+  &>div:nth-child(2){
+    font-size: 12px;
+    margin-left: 10px;
+    display: inline-block;
+    color: $red;
+  }
+
+  &:hover>div:nth-child(2){
+    text-decoration: underline;
+  }
+}
+
+.chat-preferences__return-to-chat{
+  &>div:nth-child(1){
+    &>svg{
+      fill: $green;
+    }
+  }
+
+  &>div:nth-child(2){
+    color: $green;
+  }
+}
+
+.chat-preferences__delete_from_list{
+  &>div:nth-child(1){
+    &>svg{
+      fill: $ultra_active;
+    }
+  }
+
+  &>div:nth-child(2){
+    color: $ultra_active;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .chat-preferences-close,
+  .chat-preferences-close-loading{
+    margin-right: 0px;
+  }
+}

@@ -1,0 +1,18 @@
+.main-wrapper{
+  width: 100vw;
+  display: flex;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.main-wrapper__left{
+  width: calc(100% - 230px);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-wrapper__left__content{
+  display: flex;
+  //height:100%;
+  height: calc(100vh - 41px);
+}

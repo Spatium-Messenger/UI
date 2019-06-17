@@ -1,0 +1,26 @@
+.documents-upload__icon>svg{
+  width: 20px;
+  height: 20px;
+  fill:$dark_gray;
+}
+
+.documents-upload__voice-close>svg{
+  width: 15px;
+  height: 15px;
+  fill:$dark_gray;
+}
+
+.documents-upload__icon:hover>svg,
+.documents-upload__voice-close:hover>svg{
+  fill:darken($dark_gray, 30%);
+}
+
+.documents-upload__icon:active>svg,
+.documents-upload__voice-close:active>svg{
+  fill:darken($dark_gray, 60%);
+}
+
+.documents-upload__input,
+.documents-upload__form{
+  display: none;
+}

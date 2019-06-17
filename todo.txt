@@ -1,14 +1,27 @@
-Window:
-  Input:
-    + Resize textarea
-    Attach documents
-    Voice records
-  Content:
-    Show messages
-    Partly load messages
-    Show documents
-    Play voice messages
-  Header:
-    Open settings sidebar
-  Chat settings:
-    Rename
+Todo:
+  + Audio message loading before sending
+  + Check file download
+  + Audio message stop after 1 minute add time line!
+  + Auto websocket reconnect
+  + Change audio acrhitecture
+  + Spoiled token
+  + Users menu in chat menu
+  + Delete from chat in chat menu
+  + If user delete from chat, show "delete chat from list" and "recovery"
+  + Notifications about invitation and block in chat
+  + Only admin should have access to user's menu in chat preferences
+  + Disposabel link checking in audio message
+  + Check online number change in chat header, WS recieve system messages but number doesnt change
+  + Update after invite user
+  + Dont show "return to chat" if user was banned
+  + Save language choosen to server
+  + After people invited close window and update details
+  + Align "Exit form converstaion" button in one line with input el
+  + Check name reducing in docs view
+  Escape from dialog (ESC press)
+  Fonts connect
+  
+
+  
+
+  

@@ -1,0 +1,88 @@
+.message-audio{
+  height: 40px;
+  // background: $middle_gray;
+  padding: 5px;
+  width: calc(100% - 10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 0px;
+}
+
+
+.message-audio__pause-button,
+.message-audio__play-button,
+.message-audio__load-button{
+  cursor: pointer;
+  // border: 2px solid $white;
+  min-width: 25px;
+  height: 25px;
+  background: $primary-color;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg{
+    width: 11px;
+    height: 10px;
+    fill: $white;
+  }
+}
+
+.message-audio__load-button{
+  background: $middle_gray;
+  border: 3px solid;
+  min-width: 19px;
+  height: 19px;
+  position: relative;
+  // left: -3px;
+  border-color: $dark_gray transparent transparent;
+  animation: spin 1s ease-in-out infinite;
+
+  svg{
+    fill: rgba(0,0,0,0);
+  }
+}
+
+@keyframes spin{
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+.message-audio__play-button{
+  svg{
+    // fill: $primary-color;
+    position: relative;
+    left: 1px;
+  }
+}
+
+.message-audio__pause-button{
+  svg{
+    // fill: red;
+    position: relative;
+    left: 0px;
+  }
+}
+
+.message-audio__timeline{
+  cursor: pointer;
+  width: calc(100% - 50px);
+  height: 4px;
+  background: $middle_gray;
+  margin-left: 10px;
+}
+
+.message-audio__timeline-inner{
+  background:$primary-color;
+  height: 4px;
+}
+
+.message-audio__duration{
+  user-select: none;
+  font-size: 12px;
+  color: $font-gray;
+  margin-left: 10px;
+}

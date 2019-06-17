@@ -1,0 +1,31 @@
+.sidebar{
+  width: 230px;
+  height: 100vh;
+  background: $gray;
+  user-select: none;
+}
+
+.sidebar__items{
+  height: calc(100% - 40px);
+  // background: blue;
+  width: 100%;
+  overflow: auto;
+}
+
+.sidebar__items__notfound{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  height: 30px;
+  align-items: center;
+  font-size: 12px;
+  color: $font_gray;
+  user-select: none;
+}
+
+.sidebar__load-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
