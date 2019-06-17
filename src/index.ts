@@ -40,8 +40,3 @@ const start = async () => {
 };
 
 start();
-
-// GenerateKeys();
-// Test();
-
-// webSocketSystem.CreateConnection();

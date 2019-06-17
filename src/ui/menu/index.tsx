@@ -48,7 +48,6 @@ export default class UserMenu extends React.Component<IUserMenuProps> {
         <div className="user-menu__body">
         <MenuItem colorClassName={"menu-item-icon-white"} icon={backIcon} text={CL.back} click={this.close}/>
         <MenuItem colorClassName={"menu-item-icon-blue"} icon={messageIcon} text={CL.newChat} click={this.newChat}/>
-        <MenuItem colorClassName={"menu-item-icon-pink"} icon={cacheIcon} text={CL.cache} click={this.cache}/>
         <MenuItem colorClassName={"menu-item-icon-green"} icon={setIcon} text={CL.settings} click={this.settings}/>
         <MenuItem colorClassName={"menu-item-icon-purple"} icon={exitIcon} text={CL.logout} click={this.logout}/>
         </div>

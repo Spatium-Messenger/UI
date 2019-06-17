@@ -4,6 +4,7 @@ import { IAPIData, IAnswerError } from "src/interfaces/api";
 import {TESTUPLOADSPEED} from "./test.config";
 import APIClass, { IAPIClassCallProps } from "./remote.api.base";
 
+const base = "/api/file/";
 export default class APIFile extends APIClass implements IAPIFile {
 
   private data: IAPIData;
@@ -46,9 +47,9 @@ export default class APIFile extends APIClass implements IAPIFile {
 
       xhr.onload = () => {
           if (xhr.readyState !== 4) {return; }
-          const data: {FileId: number, result: string} = JSON.parse(xhr.responseText);
+          const data: {file_id: number, result: string} = JSON.parse(xhr.responseText);
           if (data.result !== "Error") {
-              file.id = Number(data.FileId);
+              file.id = Number(data.file_id);
               if (file.del) {answer(file, true); }
               answer(file, false);
             }
@@ -77,16 +78,17 @@ export default class APIFile extends APIClass implements IAPIFile {
         progress(i);
       }
       if (breakLoad) { return; }
-      file.id = Math.floor(Math.random() * (999 - 1 + 1)) + 1;
+      file.id = Math.floor(Math.random() * (999)) + 1;
       answer(file, false);
     }
 
   public async Delete(file: IDocumentUpload): Promise<IAnswerError> {
       const message = super.GetDefaultMessage();
-      message.uri = this.data.URL + this.deleteFileURL;
-      message.payload = {
-        file_id: file.id,
-      };
+      message.uri = this.data.URL + base + `${file.id}/delete`;
+      message.type = "DELETE";
+      // message.payload = {
+        // file_id: file.id,
+      // };
       return  super.Send(message);
   }
 
@@ -98,47 +100,49 @@ export default class APIFile extends APIClass implements IAPIFile {
     };
   }
 
-  public async GetImage(fileID: number, extension: string): Promise<string> {
-    const xhr: XMLHttpRequest = new XMLHttpRequest();
-    const body: string = JSON.stringify({
-      file_id: fileID,
-      min: true,
-    });
-    xhr.open("POST", this.data.URL + this.getImageURL, true);
-    xhr.setRequestHeader("X-Auth-Token",  this.netData.Token);
-    xhr.responseType = "arraybuffer";
-    xhr.send(body);
+  public GetImage(fileID: number): string {
+    // const body: string = JSON.stringify({
+      //   file_id: fileID,
+      //   min: true,
+      // });
+    return this.data.URL + base + `${fileID}?min=true`;
+    // const xhr: XMLHttpRequest = new XMLHttpRequest();
+    // xhr.open("GET", this.data.URL + base + `${fileID}?min=true`, true);
+    // xhr.setRequestHeader("X-Auth-Token",  this.netData.Token);
+    // xhr.responseType = "arraybuffer";
+    // xhr.send();
 
-    const imageBase64: string =  await new Promise((resolve) => {
-      xhr.onload = () => {
-        if (xhr.readyState !== 4) {return; }
-        try {
-          const response: {result: string} = JSON.parse(xhr.responseText);
-          if (response.result === "Error") {
-            resolve("Error");
-          }
-        } catch (e) {
-          const blob = this.getBlob(xhr.response, "image/" + extension);
-          const reader = new FileReader();
-          reader.onload = (event: ProgressEvent) => {
-            resolve((event.target as any).result);
-          };
-          reader.readAsDataURL(blob);
-        }
-      };
-      xhr.onerror = () => {
-        resolve("Error");
-      };
-    });
-    return imageBase64;
+    // const imageBase64: string =  await new Promise((resolve) => {
+    //   xhr.onload = () => {
+    //     if (xhr.readyState !== 4) {return; }
+    //     try {
+    //       const response: {result: string} = JSON.parse(xhr.responseText);
+    //       if (response.result === "Error") {
+    //         resolve("Error");
+    //       }
+    //     } catch (e) {
+    //       const blob = this.getBlob(xhr.response, "image/" + extension);
+    //       const reader = new FileReader();
+    //       reader.onload = (event: ProgressEvent) => {
+    //         resolve((event.target as any).result);
+    //       };
+    //       reader.readAsDataURL(blob);
+    //     }
+    //   };
+    //   xhr.onerror = () => {
+    //     resolve("Error");
+    //   };
+    // });
+    // return imageBase64;
   }
 
   public async Download(fileID: number): Promise<string> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
-    message.uri = this.getDownloadLink;
-    message.payload = {...message.payload,
-                       file_id: fileID,
-    };
+    message.uri =  base + `${fileID}/link`;
+    message.type = "GET";
+    // message.payload = {...message.payload,
+    //                    file_id: fileID,
+    // };
     const answer: IAnswerError | {link: string} = await super.Send(message);
     if ((answer as IAnswerError).result !== "Error") {
       return (answer as {link: string}).link;

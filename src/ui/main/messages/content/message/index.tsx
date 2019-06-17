@@ -9,7 +9,7 @@ interface IMessageUnitProps {
   userID: number;
   lastAuthorID: number;
   audioBuffers: Map<string, {el: HTMLAudioElement, timeoff: Date}>;
-  getImage: (fileID: number, ext: string) => Promise<string>;
+  getImage: (fileID: number) => string;
   downloadFile: (fileID: number,  name: string) => void;
   messageLang: ILanguageMessagesWindow;
   getAudio(fileID: number): Promise<{link: string, timeoff: Date} | {result: string}>;

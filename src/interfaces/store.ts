@@ -34,7 +34,7 @@ export interface IAppStore {
 export interface IFileStore {
   audioBuffers: Map<string, {el: HTMLAudioElement, timeoff: Date}>;
   getAudio: (fileID: number) => Promise<{duration: number, blob: Blob} | {result: string}>;
-  getImage: (fileID: number, ext: string) => Promise<string>;
+  getImage: (fileID: number) => string;
   downloadFile: (fileID: number,  name: string) => void;
   getCacheSize: () => string;
   clearCache: () => void;

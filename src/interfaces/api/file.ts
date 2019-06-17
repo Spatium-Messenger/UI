@@ -9,6 +9,6 @@ export interface IAPIFile {
   ) => void;
 
   Delete: (file: IDocumentUpload) => Promise<IAnswerError>;
-  GetImage: (fileID: number, extension: string) => Promise<string>;
+  GetImage: (fileID: number) => string;
   Download: (fileID: number) => Promise<string>;
 }

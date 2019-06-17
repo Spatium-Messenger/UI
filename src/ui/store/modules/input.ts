@@ -51,6 +51,7 @@ export default class InputStoreModule implements IInputStore {
           v.id = file.id;
         }
       });
+      // console.log(data);
       this.chatsInputData.set(file.chatID, data);
     };
 
@@ -134,7 +135,6 @@ export default class InputStoreModule implements IInputStore {
         ID: -1,
         Time: -1,
       };
-
       this.webSocketConnect.SendMessage(message);
       this.chatsInputData.set(chatID, {
         documents: [],

@@ -4,22 +4,19 @@ import { IAPIData, IAnswerError } from "src/interfaces/api";
 import { IMessage, IMessageType, IMessageContentDoc } from "src/models/message";
 import { IIMessageServer } from "./interfaces";
 
+const base = "/api/messages/";
 export default class APIMessages extends APIClass implements IAPIMessages {
-  private getMessagesURL: string;
   constructor(data: IAPIData) {
     super(data);
-    const p: string = "/api/messages/";
-    this.getMessagesURL = p + "messages";
   }
 
   public async Get(lastID: number, chatID: number): Promise<IAnswerError | IMessage[]> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
-    message.uri = this.getMessagesURL;
-    message.payload = {
-      ...message.payload,
-      last_index: lastID,
-      chat_id: chatID,
-    };
+    message.uri = `${base}?chat=${chatID}`;
+    if (lastID === -1) {
+      message.uri += `&last=${lastID}`;
+    }
+    message.type = "GET";
     const messagesAnswer: IAnswerError | IIMessageServer[] = await super.Send(message);
     const messages: IMessage[] = [];
     if ((messagesAnswer as IAnswerError).result !== "Error") {

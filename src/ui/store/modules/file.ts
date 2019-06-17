@@ -32,21 +32,21 @@ export default class FileStoreModule implements IFileStore {
     return this.remoteApi.audio.Get(fileID);
   }
 
-  public async getImage(fileID: number, ext: string): Promise<string> {
-    let compressed = this.storage.Get(String(fileID));
-    if (compressed !== "" && compressed !== null) {
-      const decompressed = LZString.decompress(compressed);
-      return decompressed;
-    } else {
-      const decompressed = await this.remoteApi.file.GetImage(fileID, ext);
-      if (decompressed !== "Error" && decompressed !== "") {
-        compressed = LZString.compress(decompressed);
-        this.storage.Set(String(fileID), compressed);
-        return decompressed;
-      } else {
-        return "Error";
-      }
-    }
+  public getImage(fileID: number): string {
+    return this.remoteApi.file.GetImage(fileID);
+    // let compressed = this.storage.Get(String(fileID));
+    // if (compressed !== "" && compressed !== null) {
+    //   const decompressed = LZString.decompress(compressed);
+    //   return decompressed;
+    // } else {
+      // const decompressed = await this.remoteApi.file.GetImage(fileID, ext);
+      // if (decompressed !== "Error" && decompressed !== "") {
+      //   compressed = LZString.compress(decompressed);
+      //   this.storage.Set(String(fileID), compressed);
+      //   return decompressed;
+      // } else {
+      //   return "Error";
+      // }
   }
 
   public async downloadFile(fileID: number, name: string) {

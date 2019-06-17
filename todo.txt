@@ -17,10 +17,10 @@ Todo:
   + Save language choosen to server
   + After people invited close window and update details
   + Align "Exit form converstaion" button in one line with input el
-  \/ Fix bug in invite people, after adding new user admin is show
+  + Check name reducing in docs view
   Escape from dialog (ESC press)
   Fonts connect
-  Check name reducing in docs view
+  
 
   
 

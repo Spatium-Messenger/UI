@@ -2,7 +2,7 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import WindowsContent from "./content";
 import WindowsInput from "./input";
-import { IRootStore } from "src/store/interfeces";
+import { IRootStore } from "src/ui/store/interfeces";
 import { ILanguage } from "src/language/interface";
 import languages from "src/language";
 require("./styles.scss");

@@ -8,7 +8,7 @@ const FLOAT_POINT_IMAGE_SIZE = 2;
 
 interface IImageMessageProps {
   doc: IMessageContentDoc;
-  getImage: (fileID: number, ext: string) => Promise<string>;
+  getImage: (fileID: number) => string;
   downloadFile: (fileID: number,  name: string) => void;
 }
 
@@ -25,39 +25,41 @@ export default class ImageMessage extends React.Component<IImageMessageProps, II
     this.download = this.download.bind(this);
   }
 
-  public async componentWillMount() {
-    new Promise(async (r) => {
-      const data = await this.props.getImage(this.props.doc.ID, this.getExt(this.props.doc.Name));
-      r(data);
-    }).then((data) => {
-      this.setState({
-        body: (data as string),
-      });
-    });
-  }
+  // public async componentWillMount() {
+  //   new Promise(async (r) => {
+  //     const data = await this.props.getImage(this.props.doc.ID, this.getExt(this.props.doc.Name));
+  //     r(data);
+  //   }).then((data) => {
+  //     this.setState({
+  //       body: (data as string),
+  //     });
+  //   });
+  // }
 
   public download() {
     this.props.downloadFile(this.props.doc.ID, this.props.doc.Name);
   }
 
   public render() {
-    if (this.state.body === "") {
-      return(
-        <div className="message-image-loading">
-          <div className="message-image-loading__loader">
-            <Loader/>
-          </div>
-        </div>
-      );
-    }
+    // if (this.state.body === "") {
+    //   return(
+    //     <div className="message-image-loading">
+    //       <div className="message-image-loading__loader">
+    //         <Loader/>
+    //       </div>
+    //     </div>
+    //   );
+    // }
 
     const styles = {
-      background: "url('" + this.state.body + "') 0% 0% / cover",
+      background: "url('" + this.props.getImage(this.props.doc.ID) + "') 0% 0% / cover",
       width:  Math.floor(Number(this.props.doc.Ratio) * 180),
     };
 
     return(
       <div
+        // src={this.props.getImage(this.props.doc.ID)}
+        // alt="User's Message"
         className="message-image"
         style={styles}
       >
