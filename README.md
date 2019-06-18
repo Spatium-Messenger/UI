@@ -11,20 +11,20 @@
 Current application allows you all basic functions for [swap messenger server](https://github.com/alxarno/swap)
 
 ## Capabilities 
-* Sign In and Sign Up
-* 2 languages ([Russian](https://github.com/alxarno/swap-ui/blob/master/src/language/langs/ru.ts), [English](https://github.com/alxarno/swap-ui/blob/master/src/language/langs/en.ts))
-* Change nickname (not username)
-* Create chats
-* Invite people to the chat
-* Block people in the your chat
-* Leave chats
-* Instant Messaging
-* Upload docs
-* Image preview
-* Audio recording
-* Listen audio records
+* [Sign In and Sign Up](#singin)
+* [2 languages](#langs) ([Russian](https://github.com/alxarno/swap-ui/blob/master/src/language/langs/ru.ts), [English](https://github.com/alxarno/swap-ui/blob/master/src/language/langs/en.ts))
+* [Change nickname (not username)](#usersettings)
+* [Create chats](#newchat)
+* [Invite people to the chat](#search)
+* [Block people in the your chat](#ban)
+* [Leave chats](#leave)
+* [Instant Messaging](#messages)
+* [Upload docs](#docs)
+* [Image preview](#images)
+* [Audio recording](#record)
+* [Listen audio records](#listen)
 
-<img src="https://i.imgur.com/FvgzttD.gif"/>
+<img src="https://i.imgur.com/FvgzttD.gif" name="singin"/>
 
 ## Built With
 * [TypeScript](http://www.typescriptlang.org/)
@@ -59,17 +59,17 @@ You can execute build.sh to build
 Resulte will appear in `dist` folder
 
 ## Screens
-# <img src="https://i.imgur.com/Ck8ib85.png"/>
-# <img src="https://i.imgur.com/MqM0t3T.png"/>
-# <img src="https://i.imgur.com/7fHeDw6.png"/>
-# <img src="https://i.imgur.com/Os2RQLP.png"/>
-# <img src="https://i.imgur.com/gdXW1nj.png"/>
-# <img src="https://i.imgur.com/v2IE3pL.png"/>
-# <img src="https://i.imgur.com/NuAY857.png"/>
-# <img src="https://i.imgur.com/ZkYkwS9.png"/>
-# <img src="https://i.imgur.com/0AysHRQ.png"/>
-# <img src="https://i.imgur.com/K7IRjDz.png"/>
-# <img src="https://i.imgur.com/vtjWCQ4.png"/>
+# <img src="https://i.imgur.com/Ck8ib85.png" name="langs"/>
+# <img src="https://i.imgur.com/MqM0t3T.png" name="usersettings"/>
+# <img src="https://i.imgur.com/7fHeDw6.png" name="newchat"/>
+# <img src="https://i.imgur.com/Os2RQLP.png" name="search"/>
+# <img src="https://i.imgur.com/gdXW1nj.png" name="ban"/>
+# <img src="https://i.imgur.com/v2IE3pL.png" name="leave"/>
+# <img src="https://i.imgur.com/NuAY857.png" name="messages"/>
+# <img src="https://i.imgur.com/ZkYkwS9.png" name="docs"/>
+# <img src="https://i.imgur.com/0AysHRQ.png" name="images"/>
+# <img src="https://i.imgur.com/K7IRjDz.png" name="record"/>
+# <img src="https://i.imgur.com/vtjWCQ4.png" name="listen"/>
 
 License
 ----
