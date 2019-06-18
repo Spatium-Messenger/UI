@@ -9,7 +9,7 @@ import { ILocalStorage } from "./interfaces/local-storage";
 import LocalStorage from "./hard/local-storage";
 import config from "./config";
 
-let URL = window.location.host;
+let URL = "https://" + window.location.host;
 // PODUCTION defined in webpack.config/prod.js file, its variable change in compile time
 if (!PRODUCTION) {
   URL = "https://192.168.1.38:3030";

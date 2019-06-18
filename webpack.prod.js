@@ -3,18 +3,8 @@ const webpack = require('webpack');
 var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 // const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 // const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
-
-function getEntrySources(sources) {
-  if (process.env.NODE_ENV !== 'production') {
-      sources.push('webpack-dev-server/client?http://localhost:8080');
-      sources.push('webpack/hot/only-dev-server');
-  }
-
-  return sources;
-}
-
 module.exports = {
-  entry: getEntrySources(['./src/index.ts']),
+  entry: ['./src/index.ts'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',

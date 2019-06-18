@@ -98,10 +98,10 @@ export default class AudioMessage extends React.Component<IAudioMessageProps, IA
       this.audio.pause();
     } else {
       if (LAST_CURRENT_PLAY_POSITION === "-1") {
-        this.audio.currentTime = 0;
-        this.setState({
-          current: 0,
-        });
+        // this.audio.currentTime = 0;
+        // this.setState({
+        //   current: 0,
+        // });
       }
       if (this.state.timeoff <= new Date()) {
         AUTO_PLAY = true;
