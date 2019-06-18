@@ -5,6 +5,8 @@ import { IAPIData } from "src/interfaces/api";
 import {TESTUPLOADSPEED} from "./test.config";
 import APIClass, { IAPIClassCallProps } from "./remote.api.base";
 
+const base = "/api/file/";
+
 export default class APIAudio  extends APIClass implements IAPIAudio {
   private data: IAPIData;
   private uploadPath: string;
@@ -28,9 +30,11 @@ export default class APIAudio  extends APIClass implements IAPIAudio {
 
   public async GetLink(fileID: number): Promise<{link: string, timeoff: number} | {result: string}> {
     const message: IAPIClassCallProps = super.GetDefaultMessage();
-    message.uri = this.getLinkURL;
-    message.payload = {...message.payload,
-                       file_id: fileID};
+    message.uri =  base + `${fileID}/link`;
+    message.type = "GET";
+    // message.uri = this.getLinkURL;
+    // message.payload = {...message.payload,
+    //                    file_id: fileID};
     return super.Send(message);
   }
 
